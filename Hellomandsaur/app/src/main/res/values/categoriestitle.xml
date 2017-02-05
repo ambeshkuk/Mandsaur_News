@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="categoriesTitle">
+
+        <item>मुख्य समाचार</item>
+        <item>मन्‍दसौर हलचल</item>
+        <item>मन्‍दसौर विविध</item>
+        <item>>व्यापार </item>
+        <item>सम्‍पादकीय </item>
+        <item>अन्‍य खबरे </item>
+        <item>विडियो खबरें </item>
+        <item>हमारा मन्‍दसौर पोर्टल </item>
+        <item>>बिज़नेस पोर्टल </item>
+
+
+    </string-array>
+
+    <array name="categoriesIconImages">
+        <item>@drawable/arrow</item>
+        <item>@drawable/arrow</item>
+        <item>@drawable/arrow</item>
+        <item>@drawable/arrow</item>
+        <item>@drawable/arrow</item>
+        <item>@drawable/arrow</item>
+        <item>@drawable/arrow</item>
+        <item>@drawable/arrow</item>
+        <item>@drawable/arrow</item>
+    </array>
+</resources>

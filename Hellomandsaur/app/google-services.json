@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "581502291739",
+    "firebase_url": "https://innovatesmind-cell-472.firebaseio.com",
+    "project_id": "innovatesmind-cell-472",
+    "storage_bucket": "innovatesmind-cell-472.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581502291739:android:7085d125c2d04402",
+        "android_client_info": {
+          "package_name": "clients.innovatesmind.hellomandsaur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581502291739-mmt7nac1q354l9f6hoq8gbg4okrd3g3q.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "581502291739-ev4melaq1uauad5o7jdbevstch0gf096.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkdmzsP5RN_PxyrlbShWo8YQ6KtdNeV0E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

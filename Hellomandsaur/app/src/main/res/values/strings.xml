@@ -1,0 +1,32 @@
+
+    <resources>
+        <string name="app_name">Hello Mandsaur</string>
+
+        <string name="hello_world">Hello </string>
+        <string name="action_settings">Settings</string>
+        <string name="imgdesc">imgdesc</string>
+        <string name="really_long_string">"I'm not committing not to run. I'm not committing to anything. I learned a long time ago, fate has a strange way of intervening,'' the departing US Vice-President said. </string>
+
+        <string-array name="titles">
+            <item>Home</item>
+            <item>Tutorials</item>
+            <item>My Apps</item>
+            <item>OS Versions</item>
+            <item>Tools</item>
+            <item>About Us</item>
+        </string-array>
+
+        <array name="icons">
+            <item>@drawable/bin</item>
+            <item>@drawable/compose</item>
+            <item>@drawable/connect</item>
+            <item>@drawable/draft</item>
+            <item>@drawable/gallery</item>
+            <item>@drawable/help</item>
+        </array>
+        <string name="title_activity_detail">HeLLo MANDSAUR</string>
+    <string name="title_activity_news_base_actiivty">NewsBaseActiivty</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    </resources>
