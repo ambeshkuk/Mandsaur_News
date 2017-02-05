@@ -23,16 +23,17 @@ public interface NewsDrawerContract {
 
     interface NewsView extends BaseView<NewsPresenter>{
         void setLoadingIndicator();
-        void showNewsByCategory(ArrayList<NewsBean> newsBeans);
+
         void showCategories(ArrayList<Category> categories);
         void showNewsDetail(String newsId);
         void showNetworkNotAvaliable();
         void showCommingSoonToast();
-        void openCategory(String categoryId);
+        void openCategory(int categoryId);
 
     }
     interface DrawerView extends BaseView<NewsPresenter>{
         void showCategoriesOnSidePanel(ArrayList<Category> categories);
+
     }
     interface NewsPresenter extends BasePresenter{
 
@@ -40,6 +41,7 @@ public interface NewsDrawerContract {
 
         void result(int requestCode,int resultCode);
         void loadCategories();
+        void openCategory(int categroyId);
         void openNewsDetails(@NonNull News newsId);
         void checkIfCategoryImplmeneted(@NonNull Category category);
 

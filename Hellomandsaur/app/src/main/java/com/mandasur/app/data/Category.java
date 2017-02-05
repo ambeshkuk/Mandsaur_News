@@ -7,7 +7,7 @@ public class Category {
 
     private int imageId;
     private String categoryTitle;
-    private String categoryId;
+    private int categoryId;
 
     public int getImageId() {
         return imageId;
@@ -25,11 +25,11 @@ public class Category {
         this.categoryTitle = categoryTitle;
     }
 
-    public String getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 }

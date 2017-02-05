@@ -1,5 +1,6 @@
 package com.mandasur.app.news;
 
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mandasur.app.Injector;
@@ -27,7 +30,7 @@ public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerCon
     private ListView categorylv;
     private NewsListPresenter newsListPresenter;
     private ArrayList<Category> categories=new ArrayList<>();
-
+    private NavigationView nav_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +43,7 @@ public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerCon
         ab.setDisplayHomeAsUpEnabled(true);
         mDrawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setStatusBarBackground(R.color.red);
-
+        nav_view= (NavigationView) findViewById(R.id.nav_view);
 
         categorylv = (ListView) findViewById(R.id.categorylv);
         BaseNewsFragment baseNewsFragment =
@@ -75,6 +78,21 @@ public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerCon
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        switch (id){
+            case android.R.id.home:
+
+
+
+
+                if (mDrawerLayout.isDrawerOpen(nav_view)){
+                    mDrawerLayout.closeDrawer(nav_view);
+                }
+                else{
+                    mDrawerLayout.openDrawer(nav_view);
+                }
+
+                break;
+        }
         //noinspection SimplifiableIfStatement
 
 
@@ -89,11 +107,26 @@ public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerCon
 
 
         categorylv.setAdapter(drawerAdpater);
+        categorylv.setOnItemClickListener(onItemClickListener);
 
 
     }
 
 
+
+
+
+
+
+    private AdapterView.OnItemClickListener onItemClickListener=new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.setSelected(true);
+             Category category= (Category) parent.getAdapter().getItem(position);
+             newsListPresenter.openCategory(category.getCategoryId());
+                mDrawerLayout.closeDrawer(nav_view);
+        }
+    };
 
 
     @Override

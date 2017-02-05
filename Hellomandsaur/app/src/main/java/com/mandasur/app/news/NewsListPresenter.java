@@ -72,6 +72,12 @@ public class NewsListPresenter implements NewsDrawerContract.NewsPresenter {
     }
 
     @Override
+    public void openCategory(int categroyId) {
+
+        baseNewsFragment.openCategory(categroyId);
+    }
+
+    @Override
     public void openNewsDetails(@NonNull News newsId) {
 
     }

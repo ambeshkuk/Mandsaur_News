@@ -129,11 +129,6 @@ public class BaseNewsFragment extends Fragment implements NewsDrawerContract.New
 
     }
 
-    @Override
-    public void showNewsByCategory(ArrayList<NewsBean> newsBeans) {
-
-
-    }
 
     @Override
     public void showCategories(ArrayList<Category> categories) {
@@ -149,6 +144,8 @@ public class BaseNewsFragment extends Fragment implements NewsDrawerContract.New
     @Override
     public void showNewsDetail(String newsId) {
 
+
+
     }
 
     @Override
@@ -162,7 +159,10 @@ public class BaseNewsFragment extends Fragment implements NewsDrawerContract.New
     }
 
     @Override
-    public void openCategory(String categoryId) {
+    public void openCategory(int categoryId) {
+
+        baseNewsVp.setCurrentItem(categoryId);
+
 
     }
 

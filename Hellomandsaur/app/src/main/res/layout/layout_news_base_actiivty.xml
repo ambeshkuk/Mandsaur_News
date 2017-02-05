@@ -54,7 +54,7 @@
             android:id="@+id/categorylv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/drwaer_layout_list_item"
+            android:listSelector="@drawable/drwaer_layout_list_item"
 
             />
     </android.support.design.widget.NavigationView>

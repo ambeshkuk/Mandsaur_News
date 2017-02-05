@@ -41,6 +41,7 @@ public class CategoriesDataSource  {
             category.setImageId(iconArray.getResourceId(i,-1));
 
             category.setCategoryTitle(categoriesTitle[i]);
+            category.setCategoryId(i);
             categories.add(category);
         }
 

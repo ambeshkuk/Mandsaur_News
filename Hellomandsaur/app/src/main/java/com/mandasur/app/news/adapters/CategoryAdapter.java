@@ -30,6 +30,7 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
         return categories.get(position).getCategoryTitle();
     }
 
+
     @Override
     public Fragment getItem(int position) {
         return NewsListFragment.newInstance("","");
