@@ -2,11 +2,10 @@ package com.mandasur.app.data.source;
 
 import android.support.annotation.NonNull;
 
-import com.mandasur.app.data.Category;
+import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dataxml.CategoriesDataSource;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Concrete implemtation to load the category from data xml.

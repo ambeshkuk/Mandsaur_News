@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.mandasur.app.data.Category;
+import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.news.NewsListFragment;
 
 import java.util.ArrayList;

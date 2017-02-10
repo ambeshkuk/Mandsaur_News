@@ -1,10 +1,9 @@
 package com.mandasur.app.news;
 
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 
 import com.mandasur.app.UseCase;
-import com.mandasur.app.data.Category;
+import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.News;
 import com.mandasur.app.news.usecase.GetCategories;
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 
 import com.mandasur.app.R;
-import com.mandasur.app.data.Category;
+import com.mandasur.app.data.source.dao.Category;
 
 import java.util.ArrayList;
 

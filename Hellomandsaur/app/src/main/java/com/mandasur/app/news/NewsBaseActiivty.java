@@ -5,8 +5,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +14,7 @@ import android.widget.ListView;
 
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
-import com.mandasur.app.data.Category;
+import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.news.adapters.DrawerAdpater;
 import com.mandasur.app.util.ActivityUtil;
 

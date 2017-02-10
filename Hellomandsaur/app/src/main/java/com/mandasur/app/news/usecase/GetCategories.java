@@ -3,11 +3,10 @@ package com.mandasur.app.news.usecase;
 import android.support.annotation.NonNull;
 
 import com.mandasur.app.UseCase;
-import com.mandasur.app.data.Category;
+import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.CategoryDataRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Helper use case to intiate the Get Categories operation from data xml.

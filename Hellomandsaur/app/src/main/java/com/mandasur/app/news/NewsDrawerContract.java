@@ -4,13 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.mandasur.app.BasePresenter;
 import com.mandasur.app.BaseView;
-import com.mandasur.app.data.Category;
-import com.mandasur.app.data.NewsBean;
+import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.News;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 
 /**

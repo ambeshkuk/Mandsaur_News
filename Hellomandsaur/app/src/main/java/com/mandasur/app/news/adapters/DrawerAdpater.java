@@ -1,7 +1,6 @@
 package com.mandasur.app.news.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.mandasur.app.R;
-import com.mandasur.app.data.Category;
+import com.mandasur.app.data.source.dao.Category;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
