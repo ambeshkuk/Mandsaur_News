@@ -1,5 +1,6 @@
 package com.mandasur.app.news;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,6 +18,7 @@ import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.news.adapters.DrawerAdpater;
 import com.mandasur.app.util.ActivityUtil;
+import com.mandasur.app.util.MandsaurNewsTextView;
 
 import java.util.ArrayList;
 
@@ -29,16 +31,22 @@ public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerCon
     private NewsListPresenter newsListPresenter;
     private ArrayList<Category> categories=new ArrayList<>();
     private NavigationView nav_view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_news_base_actiivty);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
-        ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.navigation_icon);
-        ab.setDisplayHomeAsUpEnabled(true);
+
+        View view=getLayoutInflater().inflate(R.layout.layout_custom_tool_bar_layout,null);
+        toolbar.addView(view);
+        MandsaurNewsTextView filtericonTv= (MandsaurNewsTextView) view.findViewById(R.id.filtericonTv);
+        MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView) view.findViewById(R.id.homeAsUpIcon);
+        filtericonTv.setOnClickListener(onClickListener);
+        homeAsUpIcon.setOnClickListener(onClickListener);
         mDrawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setStatusBarBackground(R.color.red);
         nav_view= (NavigationView) findViewById(R.id.nav_view);
@@ -62,6 +70,28 @@ public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerCon
     }
 
 
+    private View.OnClickListener onClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            switch (v.getId()){
+                case R.id.filtericonTv:
+
+
+                    Intent intent=new Intent(NewsBaseActiivty.this,NewsFilterActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.homeAsUpIcon:
+                    if (mDrawerLayout.isDrawerOpen(nav_view)){
+                        mDrawerLayout.closeDrawer(nav_view);
+                    }
+                    else{
+                        mDrawerLayout.openDrawer(nav_view);
+                    }
+                    break;
+            }
+        }
+    };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -69,33 +99,7 @@ public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerCon
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        switch (id){
-            case android.R.id.home:
-
-
-
-
-                if (mDrawerLayout.isDrawerOpen(nav_view)){
-                    mDrawerLayout.closeDrawer(nav_view);
-                }
-                else{
-                    mDrawerLayout.openDrawer(nav_view);
-                }
-
-                break;
-        }
-        //noinspection SimplifiableIfStatement
-
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
     @Override

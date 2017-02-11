@@ -16,6 +16,8 @@
 
 package com.mandasur.app.util;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,4 +42,11 @@ public class ActivityUtil {
         transaction.commit();
     }
 
+    public static Typeface getFontAwesomeTypeFace(Context context){
+
+
+
+
+        return Typeface.createFromAsset(context.getAssets(),"fontawesome-webfont.ttf");
+    }
 }

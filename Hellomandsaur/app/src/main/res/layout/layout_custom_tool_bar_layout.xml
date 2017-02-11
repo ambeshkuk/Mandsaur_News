@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:background="@android:color/transparent"
+    android:layout_height="wrap_content">
+
+
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/homeAsUpIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:padding="@dimen/metrics_5dp"
+        android:layout_gravity="center_vertical"
+        android:text="@string/textDrawerlayout"
+        />
+
+    <com.mandasur.app.util.MandsaurNewsTextView
+            android:id="@+id/titleTv"
+            android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+
+        android:textAppearance="?android:attr/textAppearanceMedium"
+
+        />
+
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/filtericonTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+
+        android:textColor="@color/white"
+        android:text="@string/textFilterIcon"
+        android:padding="@dimen/metrics_5dp"
+
+        android:textAppearance="?android:attr/textAppearanceMedium"
+         />
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sub_categories_name">
+        <item>&#xf061; Prashanik</item>
+        <item>&#xf061; Rajnatik</item>
+        <item>&#xf061; Samajik</item>
+        <item>&#xf061; AssPass</item>
+        <item>&#xf061; Apradh</item>
+        <item>&#xf061; Awaz</item>
+        <item>&#xf061; Yojna</item>
+        <item>&#xf061; Ayojan</item>
+        <item>&#xf061; Khel</item>
+        <item>&#xf061; Poll</item>
+        <item>&#xf061; Vichar</item>
+        <item>&#xf061; Sehat</item>
+        <item>&#xf061; Manoranjan</item>
+        <item>&#xf061; Technology</item>
+        <item>&#xf061; Dharam</item>
+        <item>&#xf061; Rahan Sahan</item>
+        <item>&#xf061; Jyotish</item>
+        <item>&#xf061; Rochak</item>
+        <item>&#xf061; Socail Media </item>
+    </string-array>
+</resources>
