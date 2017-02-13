@@ -1,54 +1,88 @@
 package com.mandasur.app.news;
 
-import android.support.annotation.NonNull;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.mandasur.app.UseCase;
-import com.mandasur.app.data.source.dao.Category;
-import com.mandasur.app.data.source.dao.News;
-import com.mandasur.app.news.usecase.GetCategories;
+import com.mandasur.app.data.source.NewsDataRepository;
+import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
+import com.mandasur.app.news.NewsList.NewsListFragment;
+import com.mandasur.app.news.usecase.GetNewsListByCategory;
 
-
+import okhttp3.internal.Util;
 
 /**
- * Created by ambesh on 30-01-2017.
+ * Created by ambesh on 12-02-2017.
  */
-public class NewsListPresenter implements NewsDrawerContract.NewsPresenter {
+public class NewsListPresenter implements NewsListContract.NewsListPresenter {
 
 
 
+    private GetNewsListByCategory getNewsListByCategory;
+    private NewsListFragment newsListFragment;
 
-    private GetCategories getCategories;
-    private BaseNewsFragment baseNewsFragment;
-    private NewsBaseActiivty newsBaseActiivty;
-
-
-    public NewsListPresenter(@NonNull GetCategories getCategories,
-                             @NonNull BaseNewsFragment baseNewsFragment, NewsBaseActiivty newsBaseActiivty){
-
-        this.getCategories=getCategories;
-        this.baseNewsFragment=baseNewsFragment;
-
-
-        this.newsBaseActiivty=newsBaseActiivty;
-        this.baseNewsFragment.setPresenter(this);
-    }
-
-
-    @Override
-    public void result(int requestCode, int resultCode) {
-
+    private String categroyName;
+    public NewsListPresenter(GetNewsListByCategory getNewsListByCategory, NewsListFragment newsListFragment,String categroyName) {
+        this.getNewsListByCategory = getNewsListByCategory;
+        this.newsListFragment = newsListFragment;
+        this.categroyName=categroyName;
+        newsListFragment.setPresenter(this);
     }
 
     @Override
-    public void loadCategories() {
+    public boolean checkIfNetworkIsAvalible(Context context) {
+        boolean isNetwokAvailable = false;
+        ConnectivityManager connectionManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiInfo = connectionManager
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobileInfo = connectionManager
+                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if (wifiInfo != null && wifiInfo.isConnected()) {
+            isNetwokAvailable = true;
+        } else if (mobileInfo != null && mobileInfo.isConnected()) {
+            isNetwokAvailable = true;
+        } else {
+
+            isNetwokAvailable = false;
+        }
+
+        if(!isNetwokAvailable) {
 
 
-        getCategories.setUseCaseCallback(new UseCase.UseCaseCallback<GetCategories.ResponseValue>() {
+           newsListFragment.showNetworkNotAvailbel();
+
+        }
+        return isNetwokAvailable;
+
+
+    }
+
+    @Override
+    public void fetchNewsFromServerBasedOnFiltre(String filterArray) {
+
+
+        Log.i(this.getClass().getSimpleName(), "I am still in the presnter yipee");
+
+
+        NewsFromMainCategoryRequest newsFromMainCategoryRequest=new NewsFromMainCategoryRequest();
+
+
+        newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,"http://www.hellomandsaur.com/webapi/mainnews_Fromall_Cat.php");
+        newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CAT,"Main News");
+        newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.SUB_CAT, "sports,socal,govt,political,near,crime,awaz,scheme,programme");
+
+        GetNewsListByCategory.RequestValues requestValues=new GetNewsListByCategory.RequestValues();
+        requestValues.setNewsFromMainCategoryRequest(newsFromMainCategoryRequest);
+        getNewsListByCategory.setUseCaseCallback(new UseCase.UseCaseCallback<GetNewsListByCategory.ResponseValue>() {
             @Override
-            public void onSuccess(GetCategories.ResponseValue response) {
+            public void onSuccess(GetNewsListByCategory.ResponseValue response) {
 
-                baseNewsFragment.showCategories(response.getCategories());
-                newsBaseActiivty.showCategoriesOnSidePanel(response.getCategories());
+                newsListFragment.showNewsListingBasedOnFilter(response.getNewsFromMainCategoryResponse());
+
             }
 
             @Override
@@ -56,39 +90,14 @@ public class NewsListPresenter implements NewsDrawerContract.NewsPresenter {
 
             }
         });
-
-
-
-
-
-        getCategories.executeUseCase(new GetCategories.RequestValues());
-
-
-
-
-
-
-    }
-
-    @Override
-    public void openCategory(int categroyId) {
-
-        baseNewsFragment.openCategory(categroyId);
-    }
-
-    @Override
-    public void openNewsDetails(@NonNull News newsId) {
-
-    }
-
-    @Override
-    public void checkIfCategoryImplmeneted(@NonNull Category category) {
+        getNewsListByCategory.executeUseCase(requestValues);
 
     }
 
     @Override
     public void start() {
 
-        loadCategories();
+        fetchNewsFromServerBasedOnFiltre("all");
+
     }
 }

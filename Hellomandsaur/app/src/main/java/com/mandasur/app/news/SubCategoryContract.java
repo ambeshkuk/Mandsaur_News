@@ -1,10 +1,7 @@
 package com.mandasur.app.news;
 
-import android.support.annotation.NonNull;
-
 import com.mandasur.app.BasePresenter;
 import com.mandasur.app.BaseView;
-import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.News;
 import com.mandasur.app.data.source.dao.SubCategories;
 

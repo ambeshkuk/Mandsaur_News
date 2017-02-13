@@ -9,6 +9,7 @@
         <string name="imgdesc">imgdesc</string>
         <string name="really_long_string">"I'm not committing not to run. I'm not committing to anything. I learned a long time ago, fate has a strange way of intervening,'' the departing US Vice-President said. </string>
 
+        <string name="textPuraDekiye">Pura Dekhie</string>
         <string-array name="titles">
             <item>Home</item>
             <item>Tutorials</item>

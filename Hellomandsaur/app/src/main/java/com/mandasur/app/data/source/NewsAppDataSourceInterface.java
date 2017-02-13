@@ -1,6 +1,8 @@
 package com.mandasur.app.data.source;
 
 import com.mandasur.app.data.source.dao.News;
+import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
+import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.data.source.dao.requestdao.Request;
 import com.mandasur.app.data.source.dao.requestdao.Response;
 
@@ -21,7 +23,7 @@ public interface NewsAppDataSourceInterface {
         public boolean onDataLoadingUnsuccessful();
     }
 
-    public <T extends Request> void getNewsListOnMainTabs(T request,LoadNewsCallBack loadNewsCallBack);
+    public NewsFromMainCategoryResponse getNewsListOnMainTabs(NewsFromMainCategoryRequest request);
     public <T extends Request> void getNewsListOnSubCategories(T request,LoadNewsCallBack loadNewsCallBack);
     public <T extends Request> void getNewsDetailsFromId(T request,GetNewsDetailsOfNews getNewsDetailsOfNews);
 

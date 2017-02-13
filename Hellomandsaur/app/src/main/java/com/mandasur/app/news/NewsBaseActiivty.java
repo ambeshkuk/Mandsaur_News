@@ -3,12 +3,10 @@ package com.mandasur.app.news;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,11 +22,11 @@ import java.util.ArrayList;
 
 
 
-public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerContract.DrawerView {
+public class NewsBaseActiivty extends AppCompatActivity implements DrawerContract.DrawerView {
 
     private DrawerLayout mDrawerLayout;
     private ListView categorylv;
-    private NewsListPresenter newsListPresenter;
+    private CategoryTabsAndDrawerPresenter categoryTabsAndDrawerPresenter;
     private ArrayList<Category> categories=new ArrayList<>();
     private NavigationView nav_view;
 
@@ -52,16 +50,16 @@ public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerCon
         nav_view= (NavigationView) findViewById(R.id.nav_view);
 
         categorylv = (ListView) findViewById(R.id.categorylv);
-        BaseNewsFragment baseNewsFragment =
-                (BaseNewsFragment) getSupportFragmentManager().findFragmentByTag(BaseNewsFragment.class.getSimpleName());
+        BaseCategoryFragment baseNewsFragment =
+                (BaseCategoryFragment) getSupportFragmentManager().findFragmentByTag(BaseCategoryFragment.class.getSimpleName());
 
         if (baseNewsFragment == null) {
             // Create the fragment
-            baseNewsFragment = BaseNewsFragment.newInstance("","");
-            newsListPresenter =new NewsListPresenter(Injector.getCategoriesUseCase(this),baseNewsFragment,this);
+            baseNewsFragment = BaseCategoryFragment.newInstance("", "");
+            categoryTabsAndDrawerPresenter =new CategoryTabsAndDrawerPresenter(Injector.getCategoriesUseCase(this),baseNewsFragment,this);
 
             ActivityUtil.addFragmentToActivity(R.id.content_frame,
-                    getSupportFragmentManager(), baseNewsFragment, BaseNewsFragment.class.getSimpleName());
+                    getSupportFragmentManager(), baseNewsFragment, BaseCategoryFragment.class.getSimpleName());
         }
 
 
@@ -125,14 +123,14 @@ public class NewsBaseActiivty extends AppCompatActivity implements NewsDrawerCon
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 view.setSelected(true);
              Category category= (Category) parent.getAdapter().getItem(position);
-             newsListPresenter.openCategory(category.getCategoryId());
+             categoryTabsAndDrawerPresenter.openCategory(category.getCategoryId());
                 mDrawerLayout.closeDrawer(nav_view);
         }
     };
 
 
     @Override
-    public void setPresenter(NewsDrawerContract.NewsPresenter presenter) {
+    public void setPresenter(DrawerContract.CategroyPresenter presenter) {
 
 
     }

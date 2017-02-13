@@ -16,7 +16,7 @@
     <dimen name="metrics_20dp">20dp</dimen>
     <dimen name="metrics_5dp">5dp</dimen>
     <dimen name="metrics_50dp">50dp</dimen>
-
+    <dimen name="metrics_200dp">200dp</dimen>
 
 
 

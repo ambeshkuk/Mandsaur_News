@@ -8,6 +8,18 @@ public class Category {
     private int imageId;
     private String categoryTitle;
     private int categoryId;
+    private String categoryIdentifier;
+
+    public String getCategoryIdentifier() {
+        return categoryIdentifier;
+    }
+
+    public void setCategoryIdentifier(String categoryIdentifier) {
+        this.categoryIdentifier = categoryIdentifier;
+    }
+
+
+
 
     public int getImageId() {
         return imageId;

@@ -1,5 +1,6 @@
 package com.mandasur.app.news.usecase;
 
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.mandasur.app.UseCase;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.RequestValues,GetNewsListByCategory.ResponseValue> {
 
     private NewsDataRepository newsDataRepository;
+    private FetchNewsFromCategory fetchNewsFromCategory;
     public GetNewsListByCategory(NewsDataRepository newsDataRepository){
 
         this.newsDataRepository=newsDataRepository;
@@ -26,27 +28,13 @@ public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.Request
     @Override
     public void executeUseCase(RequestValues requestValues) {
 
+        fetchNewsFromCategory=new FetchNewsFromCategory();
+        fetchNewsFromCategory.execute(requestValues);
 
-        newsDataRepository.getNewsListOnMainTabs(requestValues.getNewsFromMainCategoryRequest(),loadNewsCallBack);
 
     }
 
-    private NewsDataRepository.LoadNewsCallBack<NewsFromMainCategoryResponse> loadNewsCallBack=new NewsAppDataSourceInterface.LoadNewsCallBack<NewsFromMainCategoryResponse>() {
-        @Override
-        public void onNewsLoadedSuccesfully(NewsFromMainCategoryResponse response) {
 
-            ResponseValue responseValue=new ResponseValue();
-            responseValue.setNewsFromMainCategoryResponse(response);
-            getUseCaseCallback().onSuccess(responseValue);
-
-        }
-
-        @Override
-        public boolean onDataLoadingUnsuccessful() {
-            getUseCaseCallback().onError();
-            return false;
-        }
-    };
     public static final class RequestValues implements UseCase.RequestValues {
 
 
@@ -76,6 +64,35 @@ public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.Request
 
         public void setNewsFromMainCategoryResponse(NewsFromMainCategoryResponse newsFromMainCategoryResponse) {
             this.newsFromMainCategoryResponse = newsFromMainCategoryResponse;
+        }
+    }
+
+
+    /****
+     * Async task to fetch the news by category.
+     */
+
+    private class FetchNewsFromCategory extends AsyncTask<GetNewsListByCategory.RequestValues,Void,GetNewsListByCategory.ResponseValue>{
+
+
+        @Override
+        protected GetNewsListByCategory.ResponseValue doInBackground(GetNewsListByCategory.RequestValues... params) {
+            GetNewsListByCategory.ResponseValue responseValue=new ResponseValue();
+
+
+
+
+
+            NewsFromMainCategoryResponse newsFromMainCategoryResponse=newsDataRepository.getNewsListOnMainTabs(params[0].getNewsFromMainCategoryRequest());
+            responseValue.setNewsFromMainCategoryResponse(newsFromMainCategoryResponse);
+            return responseValue;
+        }
+
+        @Override
+        protected void onPostExecute(ResponseValue responseValue) {
+            super.onPostExecute(responseValue);
+
+            getUseCaseCallback().onSuccess(responseValue);
         }
     }
 }
