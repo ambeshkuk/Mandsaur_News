@@ -2,7 +2,7 @@ package com.mandasur.app.news;
 
 import com.mandasur.app.BasePresenter;
 import com.mandasur.app.BaseView;
-import com.mandasur.app.data.source.dao.News;
+
 import com.mandasur.app.data.source.dao.SubCategories;
 
 import java.util.ArrayList;

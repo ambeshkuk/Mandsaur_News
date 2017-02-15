@@ -2,6 +2,7 @@ package com.mandasur.app.news.usecase;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.mandasur.app.UseCase;
 import com.mandasur.app.data.source.NewsAppDataSourceInterface;
@@ -10,6 +11,7 @@ import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.data.source.dao.requestdao.Response;
+import com.mandasur.app.news.NewsListContract;
 
 import java.util.ArrayList;
 
@@ -75,8 +77,11 @@ public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.Request
     private class FetchNewsFromCategory extends AsyncTask<GetNewsListByCategory.RequestValues,Void,GetNewsListByCategory.ResponseValue>{
 
 
+
+
         @Override
         protected GetNewsListByCategory.ResponseValue doInBackground(GetNewsListByCategory.RequestValues... params) {
+            Log.i(FetchNewsFromCategory.class.getSimpleName(), "doInBackground");
             GetNewsListByCategory.ResponseValue responseValue=new ResponseValue();
 
 
@@ -91,7 +96,7 @@ public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.Request
         @Override
         protected void onPostExecute(ResponseValue responseValue) {
             super.onPostExecute(responseValue);
-
+            Log.i(FetchNewsFromCategory.class.getSimpleName(), "onPostExecute");
             getUseCaseCallback().onSuccess(responseValue);
         }
     }

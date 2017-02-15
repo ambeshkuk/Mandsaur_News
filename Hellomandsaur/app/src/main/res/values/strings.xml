@@ -4,6 +4,13 @@
         <string name="textArrowIcon">&#xf060;</string>
         <string name="app_name">Hello Mandsaur</string>
 
+
+        /,
+
+
+
+        <string name="db_name">mandsaurappdb</string>
+        <integer name="db_version">1</integer>
         <string name="hello_world">Hello </string>
         <string name="action_settings">Settings</string>
         <string name="imgdesc">imgdesc</string>

@@ -1,6 +1,6 @@
 package com.mandasur.app.data.source;
 
-import com.mandasur.app.data.source.dao.News;
+
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.data.source.dao.requestdao.Request;

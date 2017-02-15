@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.SubCategories;
+import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,10 @@ public class SubCategoryDataSource {
 
     public SubCategoryDataSource(Context context){
         this.context=context;
+
+
+
+
     }
 
 
@@ -26,6 +31,7 @@ public class SubCategoryDataSource {
 
     public ArrayList<SubCategories> getAllSubCategoriesFromFromDataXml(){
 
+//        if (DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable().)
         ArrayList<SubCategories> categories=new ArrayList<>();
 
         String[] categoriesTitle= context.getResources().getStringArray(R.array.sub_categories_name);

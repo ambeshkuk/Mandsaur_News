@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import okhttp3.FormBody;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -27,13 +28,21 @@ public class OkHttpClientUtils {
 
         Response response=null;
         String jsonResponse=null;
-        FormBody.Builder formBodybuilder=getInstanceOfFormBodyBuilder();
+        MultipartBody.Builder  formBodybuilder=getInstanceOfFormBodyBuilder();
+
+
+
+
+
         for (String key:requestParam.keySet()){
-            formBodybuilder.add(key,requestParam.get(key));
+            if (!key.equals(com.mandasur.app.data.source.dao.requestdao.Request.REQUEST_URL)){
+                formBodybuilder.addFormDataPart(key, requestParam.get(key));
+            }
+
         }
 
-        FormBody formBody=formBodybuilder.build();
-        Request request=getInstanceOfRequestBuilder().url(requestUrl).put(formBody)
+        MultipartBody formBody=formBodybuilder.build();
+        Request request=getInstanceOfRequestBuilder().url(requestUrl).post(formBody)
                 .build();
 
 
@@ -48,15 +57,27 @@ public class OkHttpClientUtils {
     }
 
 
-    private synchronized  static FormBody.Builder getInstanceOfFormBodyBuilder(){
+//    private synchronized  static FormBody.Builder getInstanceOfFormBodyBuilder(){
+//
+//        if (formBody==null){
+//
+//            formBody=new FormBody.Builder();
+//        }
+//
+//
+//        return formBody;
+//    }
 
-        if (formBody==null){
+    private synchronized  static MultipartBody.Builder getInstanceOfFormBodyBuilder(){
 
-            formBody=new FormBody.Builder();
-        }
-
-
-        return formBody;
+        return new MultipartBody.Builder().setType(MultipartBody.FORM);
+//        if (formBody==null){
+//
+//            formBody=new FormBody.Builder();
+//        }
+//
+//
+//        return formBody;
     }
 
     private synchronized static Request.Builder getInstanceOfRequestBuilder(){

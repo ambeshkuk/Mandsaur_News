@@ -3,7 +3,7 @@ package com.mandasur.app.news;
 import android.support.annotation.NonNull;
 
 import com.mandasur.app.UseCase;
-import com.mandasur.app.data.source.dao.News;
+
 import com.mandasur.app.data.source.dao.SubCategories;
 import com.mandasur.app.news.usecase.GetSubCategory;
 import com.mandasur.app.news.usecase.SubCateorySelected;

@@ -65,7 +65,7 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
     public void fetchNewsFromServerBasedOnFiltre(String filterArray) {
 
 
-        Log.i(this.getClass().getSimpleName(), "I am still in the presnter yipee");
+        Log.i(NewsListContract.NewsListPresenter.class.getSimpleName(),"fetchNewsFromServerBasedOnFiltre");
 
 
         NewsFromMainCategoryRequest newsFromMainCategoryRequest=new NewsFromMainCategoryRequest();

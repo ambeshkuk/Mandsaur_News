@@ -5,8 +5,27 @@ package com.mandasur.app.data.source.dao;
  */
 public class SubCategories
 {
+
+
+
+
+
+    public static final String SUBCATEGORY_NAME ="subCategoryName";
+    public static final String SUBCATEGORY_ID ="subCategoryId";
+    public static final String SUBCATEGORY_INDICATOR ="subCategoryIndicator";
+    public static final String IS_ITEM_CHECKED ="isItemChecked";
     private String subCategoryName;
     private String subCategoryId;
+
+    public String getSubCategoryIndicator() {
+        return subCategoryIndicator;
+    }
+
+    public void setSubCategoryIndicator(String subCategoryIndicator) {
+        this.subCategoryIndicator = subCategoryIndicator;
+    }
+
+    private String subCategoryIndicator;
 
     public boolean isItemChecked() {
         return isItemChecked;

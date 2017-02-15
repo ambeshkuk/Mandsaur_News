@@ -125,6 +125,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
     @Override
     public void showNewsListingBasedOnFilter(NewsFromMainCategoryResponse newsFromMainCategoryResponse) {
 
+        Log.i(NewsListFragment.class.getSimpleName(),"showNewsListingBasedOnFilter");
         NewsListAdapterWithSubCateories newsListAdapterWithSubCateories=
                 new NewsListAdapterWithSubCateories(newsFromMainCategoryResponse.getData().getNewsList());
 

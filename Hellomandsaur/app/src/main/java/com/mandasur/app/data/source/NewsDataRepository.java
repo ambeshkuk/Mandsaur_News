@@ -1,5 +1,8 @@
 package com.mandasur.app.data.source;
 
+import android.text.Html;
+import android.text.TextUtils;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -125,8 +128,10 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                 }
 
 
-                                news.setTitle(newsJson.get("title").getAsString());
-                                news.setImage(newsJson.get("image").getAsString());
+                                news.setTitle(Html.fromHtml(newsJson.get("title").getAsString()).toString());
+                                if (newsJson.get("image")!=null&&newsJson.get("image").isJsonPrimitive())
+                                  news.setImage(newsJson.get("image").getAsString());
+
                                 newsArrayList.add(news);
                             }
 
