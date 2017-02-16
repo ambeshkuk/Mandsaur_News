@@ -1,6 +1,7 @@
 package com.mandasur.app.data.source.database;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 /**
  * Created by ambesh on 09-02-2017.
@@ -22,4 +23,6 @@ public class DatabaseNewsDataSource {
 
         return mandsaurDataBaseHelper;
     }
+
+
 }

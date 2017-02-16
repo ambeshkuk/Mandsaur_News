@@ -44,6 +44,10 @@ public class SubCategoryDataRepository {
     }
     public void getCategories(@NonNull LoadSubCategoriesCallBack loadCategoriesCallBack) {
 
+
+
+
+
         ArrayList<SubCategories> categories = subCategoryDataSource.getAllSubCategoriesFromFromDataXml();
 
         if (categories != null && !categories.isEmpty()) {

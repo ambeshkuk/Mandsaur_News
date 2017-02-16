@@ -72,6 +72,15 @@ public class SubCategoriesTable {
 
     }
 
+    public long insertSubCateoriesToDb(SQLiteDatabase sqLiteDatabase,SubCategories subCategorie){
+
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(SubCategories.SUBCATEGORY_ID,subCategorie.getSubCategoryId());
+        contentValues.put(SubCategories.SUBCATEGORY_NAME,subCategorie.getSubCategoryName());
+        contentValues.put(SubCategories.SUBCATEGORY_INDICATOR,subCategorie.getSubCategoryIndicator());
+        contentValues.put(SubCategories.IS_ITEM_CHECKED,subCategorie.isItemChecked()?1:0);
+       return sqLiteDatabase.insert(SUBCATEGORY_TABLE,null,contentValues);
+    }
     public int insertSubCateoriesToDb(SQLiteDatabase sqLiteDatabase,ArrayList<SubCategories>  subCategories){
 
         int subCategoryCount=0;
@@ -110,7 +119,34 @@ public class SubCategoriesTable {
 
     }
 
-    
+    public int getRowCount(SQLiteDatabase sqLiteDatabase){
+        int i=0;
+        Cursor cursor=sqLiteDatabase.rawQuery("Select count("+SubCategories.SUBCATEGORY_ID+") From "+SUBCATEGORY_TABLE,null);
+
+        if (cursor.moveToFirst()){
+            i=cursor.getInt(0);
+        }
+        return i;
+    }
+    public ArrayList<SubCategories> getSubCategoiesFromDb(SQLiteDatabase sqLiteDatabase){
+
+        ArrayList<SubCategories> subCategories=new ArrayList<>();
+
+        String[] columns={SubCategories.SUBCATEGORY_ID,SubCategories.SUBCATEGORY_NAME,SubCategories.SUBCATEGORY_INDICATOR,SubCategories.IS_ITEM_CHECKED};
+
+        Cursor cursor=sqLiteDatabase.query(SUBCATEGORY_TABLE,columns,null,null,null,null,null);
+        while (cursor.moveToNext()){
+            SubCategories subCategories1=new SubCategories();
+            subCategories1.setIsItemChecked(cursor.getInt(cursor.getColumnIndex(SubCategories.IS_ITEM_CHECKED))>0?true:false);
+            subCategories1.setSubCategoryId(cursor.getString(cursor.getColumnIndex(SubCategories.SUBCATEGORY_ID)));
+            subCategories1.setSubCategoryName(cursor.getString(cursor.getColumnIndex(SubCategories.SUBCATEGORY_NAME)));
+            subCategories1.setSubCategoryIndicator(cursor.getString(cursor.getColumnIndex(SubCategories.SUBCATEGORY_INDICATOR)));
+            subCategories.add(subCategories1);
+        }
+
+        cursor.close();
+        return subCategories;
+    }
 }
 
 

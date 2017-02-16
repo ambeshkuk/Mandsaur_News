@@ -18,12 +18,12 @@
 
     <string-array name="categoryIdentifier">
         <item>Main News</item>
+        <item>mds</item>
+        <item>mini_mds</item>
+        <item>>business</item>
+        <item>editorial</item>
         <item>Main News</item>
-        <item>Main News</item>
-        <item>>Main News </item>
-        <item>Main News</item>
-        <item>Main News</item>
-        <item>Main News</item>
+        <item>video</item>
         <item>Main News</item>
         <item>Main News</item>
     </string-array>

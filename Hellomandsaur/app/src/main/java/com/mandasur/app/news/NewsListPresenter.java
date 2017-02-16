@@ -5,9 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.mandasur.app.R;
 import com.mandasur.app.UseCase;
 import com.mandasur.app.data.source.NewsDataRepository;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
+import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.news.NewsList.NewsListFragment;
 import com.mandasur.app.news.usecase.GetNewsListByCategory;
 
@@ -65,15 +67,27 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
     public void fetchNewsFromServerBasedOnFiltre(String filterArray) {
 
 
-        Log.i(NewsListContract.NewsListPresenter.class.getSimpleName(),"fetchNewsFromServerBasedOnFiltre");
+
 
 
         NewsFromMainCategoryRequest newsFromMainCategoryRequest=new NewsFromMainCategoryRequest();
 
 
-        newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,"http://www.hellomandsaur.com/webapi/mainnews_Fromall_Cat.php");
-        newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CAT,"Main News");
-        newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.SUB_CAT, "sports,socal,govt,political,near,crime,awaz,scheme,programme");
+        if (categroyName.equals("Main News")){
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,newsListFragment.getString(R.string.baseUrl)
+                    +newsListFragment.getString(R.string.mainNews));
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CAT,categroyName);
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.SUB_CAT
+                    , DatabaseNewsDataSource.getInstance(newsListFragment.getActivity())
+                    .getSubCategoriesTable().
+                            getStringArrayIfSelectedSubCategory(DatabaseNewsDataSource.getInstance(newsListFragment.getActivity())
+                                    .getSqLiteDatabase()));
+        }
+        else{
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,newsListFragment.getString(R.string.baseUrl)+newsListFragment.getString(R.string.anyNews));
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CATEGORY,categroyName);
+        }
+
 
         GetNewsListByCategory.RequestValues requestValues=new GetNewsListByCategory.RequestValues();
         requestValues.setNewsFromMainCategoryRequest(newsFromMainCategoryRequest);

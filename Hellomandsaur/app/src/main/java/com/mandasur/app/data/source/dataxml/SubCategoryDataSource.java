@@ -18,32 +18,38 @@ public class SubCategoryDataSource {
 
     private Context context;
 
-    public SubCategoryDataSource(Context context){
-        this.context=context;
-
-
+    public SubCategoryDataSource(Context context) {
+        this.context = context;
 
 
     }
 
 
+    public ArrayList<SubCategories> getAllSubCategoriesFromFromDataXml() {
+
+        ArrayList<SubCategories> categories = new ArrayList<>();
+        if (DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable().getRowCount(DatabaseNewsDataSource.getInstance(context).getSqLiteDatabase()) != 0) {
 
 
-    public ArrayList<SubCategories> getAllSubCategoriesFromFromDataXml(){
+            return DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable()
+                    .getSubCategoiesFromDb(DatabaseNewsDataSource.getInstance(context).getSqLiteDatabase());
 
-//        if (DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable().)
-        ArrayList<SubCategories> categories=new ArrayList<>();
-
-        String[] categoriesTitle= context.getResources().getStringArray(R.array.sub_categories_name);
+        }
 
 
-        for (int i=0;i<categoriesTitle.length;i++){
+        String[] categoriesTitle = context.getResources().getStringArray(R.array.sub_categories_name);
+String[] subCategoriesIndicator=context.getResources().getStringArray(R.array.subcategoires_indicator);
 
-            SubCategories subCategories=new SubCategories();
+        for (int i = 0; i < categoriesTitle.length; i++) {
+
+            SubCategories subCategories = new SubCategories();
 
             subCategories.setSubCategoryName(categoriesTitle[i]);
             subCategories.setSubCategoryId(i + "");
             subCategories.setIsItemChecked(true);
+            subCategories.setSubCategoryIndicator(subCategoriesIndicator[i]);
+            DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable()
+                    .insertSubCateoriesToDb(DatabaseNewsDataSource.getInstance(context).getSqLiteDatabase(), subCategories);
             categories.add(subCategories);
         }
 

@@ -20,5 +20,34 @@
         <item>&#xf061; Jyotish</item>
         <item>&#xf061; Rochak</item>
         <item>&#xf061; Socail Media </item>
+        <item>&#xf061; Carrer</item>
+        <item>&#xf061; Others</item>
+    </string-array>
+
+    <string-array name="subcategoires_indicator">
+        <item>govt</item>
+        <item>political</item>
+        <item>socal</item>
+        <item>near</item>
+        <item>crime</item>
+        <item>awaz</item>
+        <item>scheme</item>
+        <item>programme</item>
+        <item>sports</item>
+        <item>poll</item>
+        <item>vichar</item>
+        <item>health</item>
+        <item>entertainment</item>
+        <item>tech</item>
+        <item>religion</item>
+        <item>life_style</item>
+        <item>jyotish</item>
+        <item>flicker</item>
+        <item>whatsapp</item>
+        <item>career</item>
+        <item>others</item>
+
+
+
     </string-array>
 </resources>

@@ -69,7 +69,10 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
 
 
-                    newsFromMainCategoryResponse= GsonUtil.getGsonInstance().fromJson(jsonData, com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse.class);
+
+                    newsFromMainCategoryResponse= GsonUtil.getGsonInstance().
+                            fromJson(jsonData,
+                                    com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse.class);
 
                     
                 } catch (IOException e) {

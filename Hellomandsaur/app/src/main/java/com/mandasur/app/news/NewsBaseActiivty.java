@@ -40,7 +40,7 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         setSupportActionBar(toolbar);
 
         View view=getLayoutInflater().inflate(R.layout.layout_custom_tool_bar_layout,null);
-        toolbar.addView(view);
+//        toolbar.addView(view);
         MandsaurNewsTextView filtericonTv= (MandsaurNewsTextView) view.findViewById(R.id.filtericonTv);
         MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView) view.findViewById(R.id.homeAsUpIcon);
         filtericonTv.setOnClickListener(onClickListener);

@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.SubCategories;
+import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.news.adapters.SubCategoriesAdapter;
 import com.mandasur.app.util.MandsaurNewsTextView;
 
@@ -50,6 +51,7 @@ public class NewsFilterActivity extends AppCompatActivity  implements SubCategor
 
 
         listViewSubCategories.setAdapter(subCategoriesAdapter);
+        listViewSubCategories.setOnItemClickListener(onItemClickListener);
     }
 
     private AdapterView.OnItemClickListener onItemClickListener=new AdapterView.OnItemClickListener() {
@@ -69,6 +71,10 @@ public class NewsFilterActivity extends AppCompatActivity  implements SubCategor
                     subCategories.setIsItemChecked(true);
                 }
 
+
+                DatabaseNewsDataSource.getInstance(NewsFilterActivity.this)
+                        .getSubCategoriesTable().updateIsItemCheckdOrNot(DatabaseNewsDataSource
+                        .getInstance(NewsFilterActivity.this).getSqLiteDatabase(),subCategories.getSubCategoryId(),subCategories.isItemChecked());
                 listViewSubCategories.notify();
 
             }

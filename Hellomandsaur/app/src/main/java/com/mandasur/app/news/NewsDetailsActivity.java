@@ -29,6 +29,6 @@ public class NewsDetailsActivity extends AppCompatActivity {
         MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView) view.findViewById(R.id.homeAsUpIcon);
 
         homeAsUpIcon.setText(getString(R.string.textArrowIcon));
-        toolbar.addView(view);
+//        toolbar.addView(view);
     }
 }
