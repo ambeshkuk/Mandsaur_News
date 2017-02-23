@@ -37,10 +37,18 @@
             <item>@drawable/gallery</item>
             <item>@drawable/help</item>
         </array>
-        <string name="title_activity_detail">HeLLo MANDSAUR</string>
+        <string name="title_activity_detail">हैलो मंदसौर</string>
     <string name="title_activity_news_base_actiivty">NewsBaseActiivty</string>
+        <string name="textPuraKare">पूरा करे</string>
+
+
+
+
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textSubFilterHeader">Apne Home Screen ko dekhne ke liye shrenio ka chayan kare.</string>
+    <string name="title_activity_splash_screes">SplashScrees</string>
+        <string name="textNetworkNotAvaliable">नेटवर्क उपलब्ध नहीं है ।  पुन: प्रयास करने के लिए क्लिक करें</string>
+        <string name="textNoNewsFound">इस श्रेणी की कोई भी खबर मौजूद नहीं है</string>
     </resources>

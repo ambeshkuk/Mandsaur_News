@@ -12,6 +12,8 @@ import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.data.source.dao.requestdao.Response;
 import com.mandasur.app.news.NewsListContract;
+import com.mandasur.app.news.NewsListPresenter;
+import com.mandasur.app.util.ActivityUtil;
 
 import java.util.ArrayList;
 
@@ -81,7 +83,7 @@ public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.Request
 
         @Override
         protected GetNewsListByCategory.ResponseValue doInBackground(GetNewsListByCategory.RequestValues... params) {
-            Log.i(FetchNewsFromCategory.class.getSimpleName(), "doInBackground");
+
             GetNewsListByCategory.ResponseValue responseValue=new ResponseValue();
 
 
@@ -90,13 +92,14 @@ public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.Request
 
             NewsFromMainCategoryResponse newsFromMainCategoryResponse=newsDataRepository.getNewsListOnMainTabs(params[0].getNewsFromMainCategoryRequest());
             responseValue.setNewsFromMainCategoryResponse(newsFromMainCategoryResponse);
+            ActivityUtil.Log("Fetch News Category>>doInBackground", params[0].getNewsFromMainCategoryRequest().toString());
             return responseValue;
         }
 
         @Override
         protected void onPostExecute(ResponseValue responseValue) {
             super.onPostExecute(responseValue);
-            Log.i(FetchNewsFromCategory.class.getSimpleName(), "onPostExecute");
+
             getUseCaseCallback().onSuccess(responseValue);
         }
     }

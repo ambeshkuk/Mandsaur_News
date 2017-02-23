@@ -40,10 +40,14 @@ public class DrawerAdpater extends ArrayAdapter<Category> {
 
     }
 
+    private int position=-1;
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
             convertView=layoutInflater.inflate(R.layout.row_item,parent,false);
 
+        if (position==this.position){
+            convertView.setSelected(true);
+        }
             Category category=getItem(position);
             TextView categoryNameTv= (TextView) convertView.findViewById(R.id.categoryNameTv);
            categoryNameTv.setText(category.getCategoryTitle());
@@ -60,4 +64,7 @@ public class DrawerAdpater extends ArrayAdapter<Category> {
     }
 
 
+    public void setSelectedPosition(int position){
+this.position=position;
+    }
 }

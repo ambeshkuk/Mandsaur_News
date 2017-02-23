@@ -5,11 +5,13 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/metrics_10dp"
         android:textColor="@color/drawer_layout_list_item"
-    android:background="@drawable/drwaer_layout_list_item"
+            android:background="@android:color/transparent"
         android:id="@+id/categoryNameTv"
 
 
-    android:textAppearance="?android:attr/textAppearanceMedium"
+    fontPath="fonts/Proxima_Nova_Light.otf"
+
+    android:textAppearance="?android:attr/textAppearanceSmall"
 
     />
 

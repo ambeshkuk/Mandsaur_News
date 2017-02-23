@@ -17,7 +17,13 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/Toolbar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/layout_custom_tool_bar_layout"
+                />
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
     <TextView
@@ -39,4 +45,14 @@
     android:layout_height="0dp"
 
     />
+    <TextView
+        android:id="@+id/doneTv"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/metrics_20dp"
+        android:textColor="@color/white"
+        android:background="@color/backGreen"
+        android:text="@string/textPuraKare"
+        />
 </LinearLayout>

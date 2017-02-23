@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
+import android.util.Log;
 
 
 /**
@@ -48,5 +48,9 @@ public class ActivityUtil {
 
 
         return Typeface.createFromAsset(context.getAssets(),"fontawesome-webfont.ttf");
+    }
+
+    public static void Log(String tag,String test){
+        Log.i(tag,test);
     }
 }

@@ -5,8 +5,13 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mandasur.app.Injector;
+import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.news.NewsList.NewsListFragment;
 import com.mandasur.app.news.NewsListContract;
@@ -25,17 +30,22 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
 
     private Context context;
     public CategoryAdapter(FragmentManager fm,
-                           ArrayList<Category>  categories) {
+                           ArrayList<Category>  categories,Context context) {
         super(fm);
-
+        this.context=context;
         this.categories=categories;
     }
 
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return categories.get(position).getCategoryTitle();
+    public View getTabView(int position) {
+        // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
+        TextView v = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tab_textview, null);
+
+        v.setText(categories.get(position).getCategoryTitle());
+
+        return v;
     }
+
 
 
 
@@ -52,6 +62,7 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
 
         return newsListFragment;
     }
+
 
     @Override
     public int getCount() {

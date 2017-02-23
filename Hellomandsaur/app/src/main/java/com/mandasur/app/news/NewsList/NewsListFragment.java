@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.mandasur.app.BaseView;
 import com.mandasur.app.R;
@@ -37,6 +39,8 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
     // TODO: Rename and change types of parameters
     private String mainCategory;
     private String subCategory;
+    private ProgressBar progressBar;
+    private TextView networkNotAvalibleTv;
 
     private OnFragmentInteractionListener mListener;
 
@@ -86,6 +90,8 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
 
         View view=inflater.inflate(R.layout.fragment_news_list, container, false);;
         recyclerView= (RecyclerView) view.findViewById(R.id.recyclerView);
+        progressBar= (ProgressBar) view.findViewById(R.id.progressBar);
+        networkNotAvalibleTv= (TextView) view.findViewById(R.id.networkNotAvalibleTv);
         newsListPresenter.start();
 
         return view;
@@ -115,22 +121,40 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
     @Override
     public void showNetworkNotAvailbel() {
 
+        networkNotAvalibleTv.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
     }
 
     @Override
     public void showLoadingIndicator() {
-
+        networkNotAvalibleTv.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 
     @Override
     public void showNewsListingBasedOnFilter(NewsFromMainCategoryResponse newsFromMainCategoryResponse) {
 
-        Log.i(NewsListFragment.class.getSimpleName(),"showNewsListingBasedOnFilter");
-        NewsListAdapterWithSubCateories newsListAdapterWithSubCateories=
-                new NewsListAdapterWithSubCateories(newsFromMainCategoryResponse.getData().getNewsList());
+        Log.i(NewsListFragment.class.getSimpleName(), "showNewsListingBasedOnFilter");
+        if (newsFromMainCategoryResponse!=null&&newsFromMainCategoryResponse.getData()!=null){
+            networkNotAvalibleTv.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            NewsListAdapterWithSubCateories newsListAdapterWithSubCateories=
+                    new NewsListAdapterWithSubCateories(newsFromMainCategoryResponse.getData().getNewsList());
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(newsListAdapterWithSubCateories);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(newsListAdapterWithSubCateories);
+
+        }
+        else {
+            networkNotAvalibleTv.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+            networkNotAvalibleTv.setText(getString(R.string.textNoNewsFound));
+        }
+
 
 
     }

@@ -9,6 +9,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonReader;
 import com.mandasur.app.data.source.dao.requestdao.Data;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
@@ -17,12 +19,14 @@ import com.mandasur.app.data.source.dao.requestdao.Request;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.data.source.remote.OkHttpClientUtils;
 import com.mandasur.app.data.source.remote.RemoteNewsDataSource;
+import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.GsonUtil;
 
 
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Map;
@@ -69,13 +73,19 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
 
 
+                    ActivityUtil.Log("Response Data >>"+request.get(NewsFromMainCategoryRequest.CATEGORY),jsonData+"");
 
+                        JsonReader jsonReader=new JsonReader(new StringReader(jsonData));
+                        jsonReader.setLenient(true);
                     newsFromMainCategoryResponse= GsonUtil.getGsonInstance().
                             fromJson(jsonData,
                                     com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse.class);
 
                     
                 } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (JsonSyntaxException e){
                     e.printStackTrace();
                 }
 

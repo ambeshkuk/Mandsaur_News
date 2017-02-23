@@ -12,6 +12,7 @@ import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.news.NewsList.NewsListFragment;
 import com.mandasur.app.news.usecase.GetNewsListByCategory;
+import com.mandasur.app.util.ActivityUtil;
 
 import okhttp3.internal.Util;
 
@@ -66,7 +67,9 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
     @Override
     public void fetchNewsFromServerBasedOnFiltre(String filterArray) {
 
-
+            if (!checkIfNetworkIsAvalible(newsListFragment.getActivity())){
+             return;
+            }
 
 
 
@@ -94,7 +97,7 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
         getNewsListByCategory.setUseCaseCallback(new UseCase.UseCaseCallback<GetNewsListByCategory.ResponseValue>() {
             @Override
             public void onSuccess(GetNewsListByCategory.ResponseValue response) {
-
+                ActivityUtil.Log("News By Category>>",categroyName);
                 newsListFragment.showNewsListingBasedOnFilter(response.getNewsFromMainCategoryResponse());
 
             }
@@ -105,7 +108,7 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
             }
         });
         getNewsListByCategory.executeUseCase(requestValues);
-
+        newsListFragment.showLoadingIndicator();
     }
 
     @Override

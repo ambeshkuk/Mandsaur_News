@@ -22,6 +22,7 @@ public class GsonUtil {
         if (gson==null){
             GsonBuilder gsonBuilder=new GsonBuilder().serializeNulls();
             gsonBuilder.registerTypeAdapter(NewsFromMainCategoryResponse.class,new NewsDataRepository.NewsListDesireliser());
+
             gson=gsonBuilder.create();
 
         }

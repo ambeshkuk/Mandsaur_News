@@ -124,9 +124,15 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
     @Override
     public void showCategories(ArrayList<Category> categories) {
 
-        baseNewsVp.setAdapter(new CategoryAdapter(getChildFragmentManager(), categories));
+        CategoryAdapter categoryAdapter=new CategoryAdapter(getChildFragmentManager(), categories, getActivity());
+        baseNewsVp.setAdapter(categoryAdapter);
 
         newsTl.setupWithViewPager(baseNewsVp);
+
+        for (int i = 0; i < newsTl.getTabCount(); i++) {
+            TabLayout.Tab tab = newsTl.getTabAt(i);
+            tab.setCustomView(categoryAdapter.getTabView(i));
+        }
 
 
 

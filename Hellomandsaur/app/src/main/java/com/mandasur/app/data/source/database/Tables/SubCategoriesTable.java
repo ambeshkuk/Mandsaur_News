@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.util.DebugUtils;
 
 import com.mandasur.app.data.source.dao.SubCategories;
+import com.mandasur.app.util.ActivityUtil;
 
 import java.util.ArrayList;
 
@@ -58,6 +60,7 @@ public class SubCategoriesTable {
         }
 
         cursor.close();
+        ActivityUtil.Log(SubCategoriesTable.class.getSimpleName(),subCategoryArray.toString());
         return subCategoryArray.toString();
     }
 

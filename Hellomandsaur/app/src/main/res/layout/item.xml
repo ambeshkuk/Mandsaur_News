@@ -30,21 +30,10 @@
         android:textStyle="bold"
         android:layout_marginBottom="13dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="26dp"
+
 
         />
 
-    <com.daniribalbert.customfontlib.views.CustomFontTextView
-        android:id="@+id/testText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="मुख्य समाचार"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        app:font="ananda"
 
-    />
 
 </RelativeLayout>

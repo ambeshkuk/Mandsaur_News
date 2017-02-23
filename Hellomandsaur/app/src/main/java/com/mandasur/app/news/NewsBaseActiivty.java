@@ -1,5 +1,6 @@
 package com.mandasur.app.news;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.mandasur.app.Injector;
@@ -20,6 +22,7 @@ import com.mandasur.app.util.MandsaurNewsTextView;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class NewsBaseActiivty extends AppCompatActivity implements DrawerContract.DrawerView {
@@ -29,7 +32,8 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
     private CategoryTabsAndDrawerPresenter categoryTabsAndDrawerPresenter;
     private ArrayList<Category> categories=new ArrayList<>();
     private NavigationView nav_view;
-
+    private MandsaurNewsTextView homeAsUpIcon,titleTv;
+    private ImageView filtericonIv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +43,13 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
 
         setSupportActionBar(toolbar);
 
-        View view=getLayoutInflater().inflate(R.layout.layout_custom_tool_bar_layout,null);
+
 //        toolbar.addView(view);
-        MandsaurNewsTextView filtericonTv= (MandsaurNewsTextView) view.findViewById(R.id.filtericonTv);
-        MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView) view.findViewById(R.id.homeAsUpIcon);
-        filtericonTv.setOnClickListener(onClickListener);
+         filtericonIv= (ImageView) findViewById(R.id.filtericonIv);
+        homeAsUpIcon = (MandsaurNewsTextView) findViewById(R.id.homeAsUpIcon);
+         titleTv= (MandsaurNewsTextView) findViewById(R.id.titleTv);
+        titleTv.setText(getString(R.string.title_activity_detail));
+        filtericonIv.setOnClickListener(onClickListener);
         homeAsUpIcon.setOnClickListener(onClickListener);
         mDrawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setStatusBarBackground(R.color.red);
@@ -68,12 +74,17 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
     }
 
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     private View.OnClickListener onClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
             switch (v.getId()){
-                case R.id.filtericonTv:
+                case R.id.filtericonIv:
 
 
                     Intent intent=new Intent(NewsBaseActiivty.this,NewsFilterActivity.class);
@@ -107,6 +118,8 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
 
 
         categorylv.setAdapter(drawerAdpater);
+        drawerAdpater.setSelectedPosition(0);
+        drawerAdpater.notifyDataSetChanged();
         categorylv.setOnItemClickListener(onItemClickListener);
 
 
