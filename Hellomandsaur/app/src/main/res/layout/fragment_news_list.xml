@@ -3,15 +3,6 @@
     android:layout_height="match_parent" tools:context="com.mandasur.app.news.NewsList.NewsListFragment">
 
     <!-- Use Recycler View will help you a heck Cool Android-->
-
-
-
-
-
-
-
-
-
     <TextView
         android:id="@+id/networkNotAvalibleTv"
         android:layout_width="match_parent"
@@ -19,6 +10,7 @@
         android:gravity="center"
         android:text="@string/textNetworkNotAvaliable"
         android:visibility="gone"
+        android:textColor="@color/black"
         />
 
     <android.support.v7.widget.RecyclerView

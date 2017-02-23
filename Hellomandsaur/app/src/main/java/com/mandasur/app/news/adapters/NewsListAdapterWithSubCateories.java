@@ -46,7 +46,7 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
 
         News news=newsArrayList.get(position);
         if (news.isSubcategoryStart()){
-            if (!TextUtils.isEmpty(news.getSubCategoryName())&&(!news.getSubCategoryName().equals("news")))
+            if (!TextUtils.isEmpty(news.getSubCategoryName())&&(!news.getSubCategoryName().equals("news"))){}
             holder.newsHeader.setVisibility(View.VISIBLE);
             holder.subCategoryTitle.setText(news.getSubCategoryName());
 

@@ -73,11 +73,11 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
 
 
-                    ActivityUtil.Log("Response Data >>"+request.get(NewsFromMainCategoryRequest.CATEGORY),jsonData+"");
+
 
                         JsonReader jsonReader=new JsonReader(new StringReader(jsonData));
                         jsonReader.setLenient(true);
-                    newsFromMainCategoryResponse= GsonUtil.getGsonInstance().
+                            newsFromMainCategoryResponse= GsonUtil.getGsonInstance().
                             fromJson(jsonData,
                                     com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse.class);
 
