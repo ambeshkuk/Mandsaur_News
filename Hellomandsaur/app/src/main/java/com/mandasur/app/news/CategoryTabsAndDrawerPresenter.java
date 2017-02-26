@@ -33,6 +33,11 @@ public class CategoryTabsAndDrawerPresenter implements DrawerContract.CategroyPr
 
 
     @Override
+    public void updateTheSelectionOfDrawer(int position) {
+        newsBaseActiivty.setItemSelcetionOfDrawerView(position);
+    }
+
+    @Override
     public void loadCategories() {
 
 

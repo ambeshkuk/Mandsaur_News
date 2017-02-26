@@ -45,15 +45,15 @@ public class DrawerAdpater extends ArrayAdapter<Category> {
     public View getView(int position, View convertView, ViewGroup parent) {
             convertView=layoutInflater.inflate(R.layout.row_item,parent,false);
 
-        if (position==this.position){
-            convertView.setSelected(true);
-        }
+//        if (position==this.position){
+//            convertView.setSelected(true);
+//        }
             Category category=getItem(position);
             TextView categoryNameTv= (TextView) convertView.findViewById(R.id.categoryNameTv);
            categoryNameTv.setText(category.getCategoryTitle());
-            categoryNameTv.setCompoundDrawables(categoryNameTv
-                .getContext().getResources().getDrawable(category.getImageId())
-                ,null,null,null);
+//            categoryNameTv.setCompoundDrawables(categoryNameTv
+//                .getContext().getResources().getDrawable(category.getImageId())
+//                ,null,null,null);
                 return convertView;
     }
 

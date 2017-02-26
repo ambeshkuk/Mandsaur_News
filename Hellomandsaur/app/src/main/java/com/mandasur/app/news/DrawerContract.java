@@ -21,16 +21,20 @@ public interface DrawerContract {
 
         void openCategory(int categoryId);
 
+
     }
     interface DrawerView extends BaseView<CategroyPresenter>{
         void showCategoriesOnSidePanel(ArrayList<Category> categories);
+        void setTheVisibilityOfFilterActivity(boolean isFilterBeVisible);
+        void setItemSelcetionOfDrawerView(int position);
 
     }
     interface CategroyPresenter extends BasePresenter{
 
-
+        void updateTheSelectionOfDrawer(int position);
         void loadCategories();
         void openCategory(int categroyId);
+
 
 
     }

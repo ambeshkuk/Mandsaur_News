@@ -13,6 +13,8 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.mandasur.app.data.source.dao.requestdao.Data;
 import com.mandasur.app.data.source.dao.requestdao.News;
+import com.mandasur.app.data.source.dao.requestdao.NewsDetailFromIdRequest;
+import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.data.source.dao.requestdao.Request;
@@ -99,6 +101,57 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
        return newsFromMainCategoryResponse;
     }
 
+    @Override
+    public NewsDetailsFromResponse getNewsListOnSubCategories(NewsDetailFromIdRequest request) {
+        return null;
+    }
+
+    @Override
+    public NewsDetailsFromResponse getNewsDetailsFromId(NewsDetailFromIdRequest request) {
+        NewsDetailsFromResponse newsDetailsFromResponse=new NewsDetailsFromResponse();
+
+
+
+
+
+
+        Response response= OkHttpClientUtils.perfromHttpRequestForPostRequest(request, request.get(Request.REQUEST_URL));
+
+        if (response!=null){
+
+            if (response.isSuccessful()){
+                try {
+                    String jsonData=response.body().string();
+
+
+
+
+
+                    JsonReader jsonReader=new JsonReader(new StringReader(jsonData));
+                    jsonReader.setLenient(true);
+                    newsDetailsFromResponse= GsonUtil.getGsonInstance().
+                            fromJson(jsonData,
+                                    com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse.class);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (JsonSyntaxException e){
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+        else{
+
+        }
+
+        return newsDetailsFromResponse;
+    }
+
+
 
 
     public static class NewsListDesireliser implements JsonDeserializer<NewsFromMainCategoryResponse>{
@@ -165,13 +218,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
     }
 
 
-    @Override
-    public <T extends Request> void getNewsListOnSubCategories(T request, LoadNewsCallBack loadNewsCallBack) {
 
-    }
 
-    @Override
-    public <T extends Request> void getNewsDetailsFromId(T request, GetNewsDetailsOfNews getNewsDetailsOfNews) {
 
-    }
 }

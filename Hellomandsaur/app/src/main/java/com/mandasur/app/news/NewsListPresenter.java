@@ -31,8 +31,10 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
         this.getNewsListByCategory = getNewsListByCategory;
         this.newsListFragment = newsListFragment;
         this.categroyName=categroyName;
+
         newsListFragment.setPresenter(this);
     }
+
 
     @Override
     public boolean checkIfNetworkIsAvalible(Context context) {

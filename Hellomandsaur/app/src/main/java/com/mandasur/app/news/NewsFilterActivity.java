@@ -1,12 +1,14 @@
 package com.mandasur.app.news;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,6 +30,11 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class NewsFilterActivity extends AppCompatActivity  implements SubCategoryContract.SubCateogryFilterView{
 
+
+
+
+
+    public static final int REQUEST_CODE_FILTER_CHANGED=101;
     private SubCateoriesFilterPresenter subCateoriesFilterPresenter;
     private ListView listViewSubCategories;
     private TextView doneTv;
@@ -64,9 +71,12 @@ public class NewsFilterActivity extends AppCompatActivity  implements SubCategor
 
             switch (v.getId()){
                 case R.id.doneTv:
+                    setResult(RESULT_OK,new Intent());
+
                     finish();
                     break;
                 case R.id.homeAsUpIcon:
+                    setResult(RESULT_CANCELED);
                     finish();
                     break;
             }
@@ -75,11 +85,12 @@ public class NewsFilterActivity extends AppCompatActivity  implements SubCategor
     @Override
     public void showSubCatergories(ArrayList<SubCategories> subCategories) {
         SubCategoriesAdapter subCategoriesAdapter=new SubCategoriesAdapter(this,R.layout.layout_subcategories_list_item,subCategories);
-
+        subCategoriesAdapter.setOnItemCheckedListner(onItemCheckedListner);
 
 
         listViewSubCategories.setAdapter(subCategoriesAdapter);
-        listViewSubCategories.setOnItemClickListener(onItemClickListener);
+//        listViewSubCategories.setOnItemClickListener(onItemClickListener);
+
     }
 
     @Override
@@ -87,14 +98,24 @@ public class NewsFilterActivity extends AppCompatActivity  implements SubCategor
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private AdapterView.OnItemClickListener onItemClickListener=new AdapterView.OnItemClickListener() {
+
+
+    @Override
+    public void setPresenter(SubCateoriesFilterPresenter presenter) {
+        this.subCateoriesFilterPresenter=presenter;
+    }
+
+    private SubCategoriesAdapter.OnItemCheckedListner onItemCheckedListner=new SubCategoriesAdapter.OnItemCheckedListner() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemCheckedClicked(int position,ArrayAdapter arrayAdapter) {
+            if(arrayAdapter instanceof SubCategoriesAdapter){
 
-            if(parent.getAdapter() instanceof SubCategoriesAdapter){
 
+                SubCategories subCategories= (SubCategories) arrayAdapter.getItem(position);
 
-                SubCategories subCategories= (SubCategories) parent.getAdapter().getItem(position);
+                if (doneTv.getVisibility()!=View.VISIBLE){
+                    doneTv.setVisibility(View.VISIBLE);
+                }
 
                 if (subCategories.isItemChecked()){
                     subCategories.setIsItemChecked(false);
@@ -108,14 +129,10 @@ public class NewsFilterActivity extends AppCompatActivity  implements SubCategor
                 DatabaseNewsDataSource.getInstance(NewsFilterActivity.this)
                         .getSubCategoriesTable().updateIsItemCheckdOrNot(DatabaseNewsDataSource
                         .getInstance(NewsFilterActivity.this).getSqLiteDatabase(),subCategories.getSubCategoryId(),subCategories.isItemChecked());
-                listViewSubCategories.notify();
+                ((SubCategoriesAdapter) arrayAdapter).notifyDataSetChanged();
 
             }
-
         }
+
     };
-    @Override
-    public void setPresenter(SubCateoriesFilterPresenter presenter) {
-        this.subCateoriesFilterPresenter=presenter;
-    }
 }

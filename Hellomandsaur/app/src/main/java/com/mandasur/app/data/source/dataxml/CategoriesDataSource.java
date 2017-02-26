@@ -32,14 +32,13 @@ public class CategoriesDataSource  {
 
        String[] categoriesTitle= context.getResources().getStringArray(R.array.categoriesTitle);
         String[] categoryIdentifier=context.getResources().getStringArray(R.array.categoryIdentifier);
-        TypedArray iconArray=context.getResources().obtainTypedArray(R.array.categoriesIconImages);
+
 
         for (int i=0;i<categoriesTitle.length;i++){
 
             Category category=new Category();
 
 
-            category.setImageId(iconArray.getResourceId(i,-1));
 
             category.setCategoryTitle(categoriesTitle[i]);
             category.setCategoryIdentifier(categoryIdentifier[i]);

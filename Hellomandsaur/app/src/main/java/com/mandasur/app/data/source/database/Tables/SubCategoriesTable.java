@@ -69,9 +69,11 @@ public class SubCategoriesTable {
 
 
         ContentValues contentValues=new ContentValues();
-        contentValues.put(SubCategories.IS_ITEM_CHECKED, isItemChecked ? 1 : 0);
+        int itemCheck=isItemChecked ? 1 : 0;
+        contentValues.put(SubCategories.IS_ITEM_CHECKED, itemCheck);
 
-      return   sqLiteDatabase.update(SUBCATEGORY_TABLE, contentValues, SubCategories.SUBCATEGORY_ID + "'" + itemId + "'", null);
+      return   sqLiteDatabase.update(SUBCATEGORY_TABLE, contentValues
+              , SubCategories.SUBCATEGORY_ID + "='" + itemId + "'", null);
 
     }
 

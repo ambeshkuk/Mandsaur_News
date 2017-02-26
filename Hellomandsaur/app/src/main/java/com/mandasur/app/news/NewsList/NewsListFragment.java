@@ -1,6 +1,7 @@
 package com.mandasur.app.news.NewsList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -18,9 +19,11 @@ import com.mandasur.app.BaseView;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.news.CategoryTabsAndDrawerPresenter;
+import com.mandasur.app.news.NewsFilterActivity;
 import com.mandasur.app.news.NewsListContract;
 import com.mandasur.app.news.NewsListPresenter;
 import com.mandasur.app.news.adapters.NewsListAdapterWithSubCateories;
+import com.mandasur.app.util.MandsaurAppSharedPref;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -105,6 +108,25 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            MandsaurAppSharedPref.setCategoryName(getActivity(),mainCategory);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode== NewsFilterActivity.REQUEST_CODE_FILTER_CHANGED){
+
+            newsListPresenter.fetchNewsFromServerBasedOnFiltre("");
+
+        }
     }
 
     @Override

@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/red"
             android:layout_alignParentLeft="true"
+            fontPath="fonts/Proxima_Nova_Reg.otf"
+
             android:layout_centerVertical="true"
             />
 
@@ -29,6 +31,8 @@
             android:textColor="@color/colorGray"
             android:text="@string/textPuraDekiye"
             android:layout_alignParentRight="true"
+            fontPath="fonts/Proxima_Nova_Reg.otf"
+
             android:layout_centerVertical="true"
 
 
@@ -39,7 +43,7 @@
     android:id="@+id/newsListBackgroundLl"
     android:layout_width="match_parent"
 
-    android:layout_height="@dimen/metrics_400">
+    android:layout_height="@dimen/metrics_300">
 
 
 <ImageView
@@ -67,7 +71,10 @@
         android:layout_marginBottom="@dimen/metrics_20dp"
         android:maxLines="2"
         android:ellipsize="end"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white"
+            fontPath="fonts/Proxima_Nova_Reg.otf"
+
+            android:textAppearance="?android:attr/textAppearanceMedium"
     />
 
         <com.mandasur.app.util.MandsaurNewsTextView
@@ -76,6 +83,8 @@
         android:layout_width="match_parent"
             android:maxLines="1"
             android:ellipsize="end"
+            android:textColor="@color/white"
+            fontPath="fonts/Proxima_Nova_Reg.otf"
 
             android:textAppearance="?android:attr/textAppearanceSmall"
 

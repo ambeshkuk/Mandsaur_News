@@ -3,6 +3,7 @@ package com.mandasur.app.news;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -79,16 +80,37 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case NewsFilterActivity.REQUEST_CODE_FILTER_CHANGED:
+                    if (resultCode==RESULT_OK){
+
+
+                        Fragment baseCategoryFragment= getSupportFragmentManager().findFragmentByTag(BaseCategoryFragment.class.getSimpleName());
+
+                        if ((baseCategoryFragment!=null)&&(baseCategoryFragment instanceof BaseCategoryFragment)){
+                            ((BaseCategoryFragment)baseCategoryFragment).onActivityResult(requestCode, resultCode, data);
+                        }
+
+                    }
+                break;
+            default:
+                break;
+        }
+
+    }
+
     private View.OnClickListener onClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
             switch (v.getId()){
                 case R.id.filtericonIv:
-
-
-                    Intent intent=new Intent(NewsBaseActiivty.this,NewsFilterActivity.class);
-                    startActivity(intent);
+                     Intent intent=new Intent(NewsBaseActiivty.this,NewsFilterActivity.class);
+                    startActivityForResult(intent, NewsFilterActivity.REQUEST_CODE_FILTER_CHANGED);
                     break;
                 case R.id.homeAsUpIcon:
                     if (mDrawerLayout.isDrawerOpen(nav_view)){
@@ -108,41 +130,77 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         return true;
     }
 
-
+private DrawerAdpater drawerAdpater;
 
 
     @Override
     public void showCategoriesOnSidePanel(ArrayList<Category> categories) {
 
-        DrawerAdpater drawerAdpater=new DrawerAdpater(this,categories);
+        drawerAdpater =new DrawerAdpater(this,categories);
 
 
         categorylv.setAdapter(drawerAdpater);
-        drawerAdpater.setSelectedPosition(0);
-        drawerAdpater.notifyDataSetChanged();
+//        drawerAdpater.setSelectedPosition(0);
+//        drawerAdpater.notifyDataSetChanged();
+
         categorylv.setOnItemClickListener(onItemClickListener);
 
 
     }
 
+    @Override
+    public void setTheVisibilityOfFilterActivity(boolean isFilterBeVisible) {
+
+        if (isFilterBeVisible){
+            filtericonIv.setVisibility(View.VISIBLE);
+        }
+        else {
+            filtericonIv.setVisibility(View.GONE);
+        }
 
 
+    }
 
+    @Override
+    public void setItemSelcetionOfDrawerView(int position) {
 
+        if (drawerAdpater!=null){
+            categorylv.setItemChecked(position,true);
+
+            drawerAdpater.notifyDataSetChanged();
+        }
+
+        if (position==0){
+            setTheVisibilityOfFilterActivity(true);
+        }
+        else {
+            setTheVisibilityOfFilterActivity(false);
+        }
+
+    }
 
 
     private AdapterView.OnItemClickListener onItemClickListener=new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                view.setSelected(true);
+            view.setSelected(true);
              Category category= (Category) parent.getAdapter().getItem(position);
              categoryTabsAndDrawerPresenter.openCategory(category.getCategoryId());
                 mDrawerLayout.closeDrawer(nav_view);
+
+//            if (category.getCategoryIdentifier().equals("Main News")){
+//                setTheVisibilityOfFilterActivity(true);
+//            }
+//            else {
+//                setTheVisibilityOfFilterActivity(false);
+
+//            }
         }
     };
 
 
-    @Override
+    @
+            Override
     public void setPresenter(DrawerContract.CategroyPresenter presenter) {
 
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.mandasur.app.R;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class SubCategoriesAdapter extends ArrayAdapter<SubCategories> {
     LayoutInflater layoutInflater;
+    private OnItemCheckedListner onItemCheckedListner;
     public SubCategoriesAdapter(Context context, int resource, List<SubCategories> objects) {
         super(context, resource, objects);
 
@@ -32,7 +34,9 @@ public class SubCategoriesAdapter extends ArrayAdapter<SubCategories> {
 
 
 
-
+public void setOnItemCheckedListner(OnItemCheckedListner onItemCheckedListner){
+    this.onItemCheckedListner=onItemCheckedListner;
+}
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -40,7 +44,7 @@ public class SubCategoriesAdapter extends ArrayAdapter<SubCategories> {
         SubCategories subCategories=getItem(position);
         convertView=layoutInflater.inflate(R.layout.layout_subcategories_list_item,parent,false);
 
-        MandsaurNewsTextView subcategoryTv= (MandsaurNewsTextView) convertView.findViewById(R.id.subcategoryTv);
+//        MandsaurNewsTextView subcategoryTv= (MandsaurNewsTextView) convertView.findViewById(R.id.subcategoryTv);
         CheckBox subcategoryCb= (CheckBox) convertView.findViewById(R.id.subcategoryCb);
         if (subCategories.isItemChecked()){
             subcategoryCb.setChecked(true);
@@ -49,13 +53,23 @@ public class SubCategoriesAdapter extends ArrayAdapter<SubCategories> {
             subcategoryCb.setChecked(false);
         }
 
-        subcategoryTv.setText(subCategories.getSubCategoryName());
+        subcategoryCb.setText(subCategories.getSubCategoryName());
+        subcategoryCb.setOnCheckedChangeListener(onCheckedChangeListener);
 
-
+        subcategoryCb.setTag(position);
         return convertView;
 
     }
 
 
+    public interface OnItemCheckedListner{
+        public void onItemCheckedClicked(int position,ArrayAdapter arrayAdapter);
+    }
 
+    private CompoundButton.OnCheckedChangeListener onCheckedChangeListener=new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            onItemCheckedListner.onItemCheckedClicked((int)buttonView.getTag(),SubCategoriesAdapter.this);
+        }
+    };
 }

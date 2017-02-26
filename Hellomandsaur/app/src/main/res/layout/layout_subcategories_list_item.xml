@@ -3,23 +3,28 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:gravity="center_horizontal"
+    android:descendantFocusability="blocksDescendants"
 
     android:layout_height="wrap_content">
 
-    <com.mandasur.app.util.MandsaurNewsTextView
+    <!--<com.mandasur.app.util.MandsaurNewsTextView
         android:id="@+id/subcategoryTv"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:textColor="@color/white"
-        />
+        />-->
 
     <CheckBox
         android:id="@+id/subcategoryCb"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/metrics_10dp"
-        android:text=""
+        android:button="@null"
+        fontPath="fonts/Proxima_Nova_Reg.otf"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:background="@android:color/transparent"
+        android:textColor="@color/white"
         />
 </LinearLayout>

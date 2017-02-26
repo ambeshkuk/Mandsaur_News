@@ -47,7 +47,12 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="textSubFilterHeader">Apne Home Screen ko dekhne ke liye shrenio ka chayan kare.</string>
+
+
+
+
+
+    <string name="textSubFilterHeader">अपनी होम स्क्रीन को देखने के लिए श्रेणियो का चयन करिए | </string>
     <string name="title_activity_splash_screes">SplashScrees</string>
         <string name="textNetworkNotAvaliable">नेटवर्क उपलब्ध नहीं है ।  पुन: प्रयास करने के लिए क्लिक करें</string>
         <string name="textNoNewsFound">इस श्रेणी की कोई भी खबर मौजूद नहीं है</string>

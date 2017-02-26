@@ -1,6 +1,7 @@
 package com.mandasur.app.news;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,7 +14,9 @@ import android.view.ViewGroup;
 
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Category;
+import com.mandasur.app.news.NewsList.NewsListFragment;
 import com.mandasur.app.news.adapters.CategoryAdapter;
+import com.mandasur.app.util.MandsaurAppSharedPref;
 
 import java.util.ArrayList;
 
@@ -89,7 +92,7 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
         baseNewsVp= (ViewPager) view.findViewById(R.id.baseNewsVp);
 
         categoryTabsAndDrawerPresenter.start();
-
+        baseNewsVp.addOnPageChangeListener(onPageChangeListener);
         return  view;
     }
 
@@ -101,11 +104,20 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+            if (MandsaurAppSharedPref.getCategoryName(getActivity()).equals("Main News")){
+
+                Fragment currentFragment = categoryAdapter.getRegisteredFragment(baseNewsVp.getCurrentItem());
+                if (currentFragment!=null&&(currentFragment instanceof NewsListFragment)){
+                    ((NewsListFragment)currentFragment).onActivityResult(requestCode, resultCode, data);
+                }
+
+            }
+
     }
 
     @Override
@@ -124,7 +136,7 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
     @Override
     public void showCategories(ArrayList<Category> categories) {
 
-        CategoryAdapter categoryAdapter=new CategoryAdapter(getChildFragmentManager(), categories, getActivity());
+        categoryAdapter=new CategoryAdapter(getChildFragmentManager(), categories, getActivity());
         baseNewsVp.setAdapter(categoryAdapter);
 
         newsTl.setupWithViewPager(baseNewsVp);
@@ -146,6 +158,32 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
 
     }
 
+
+
+
+
+
+    private ViewPager.OnPageChangeListener onPageChangeListener=new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+            categoryTabsAndDrawerPresenter.updateTheSelectionOfDrawer(position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
+
+
+
     @Override
     public void setPresenter(DrawerContract.CategroyPresenter presenter) {
             this.categoryTabsAndDrawerPresenter = (CategoryTabsAndDrawerPresenter) presenter;
@@ -163,7 +201,7 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+
     }
 /***
  * Listenr Objects
@@ -171,7 +209,7 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
     private TabLayout.OnTabSelectedListener onTabSelectedListener=new TabLayout.OnTabSelectedListener() {
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-
+        categoryTabsAndDrawerPresenter.updateTheSelectionOfDrawer(tab.getPosition());
     }
 
     @Override
