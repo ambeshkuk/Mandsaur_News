@@ -18,6 +18,8 @@ package com.mandasur.app.util;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -50,6 +52,27 @@ public class ActivityUtil {
         return Typeface.createFromAsset(context.getAssets(),"fontawesome-webfont.ttf");
     }
 
+    public static boolean isNetworkAvaliable(Context context){
+        boolean isNetwokAvailable = false;
+        ConnectivityManager connectionManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiInfo = connectionManager
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobileInfo = connectionManager
+                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if (wifiInfo != null && wifiInfo.isConnected()) {
+            isNetwokAvailable = true;
+        } else if (mobileInfo != null && mobileInfo.isConnected()) {
+            isNetwokAvailable = true;
+        } else {
+
+            isNetwokAvailable = false;
+        }
+
+        return isNetwokAvailable;
+
+    }
     public static void Log(String tag,String test){
         Log.i(tag,test);
     }

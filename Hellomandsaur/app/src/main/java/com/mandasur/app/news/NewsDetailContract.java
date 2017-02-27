@@ -23,7 +23,7 @@ public interface NewsDetailContract {
 
 
 interface NewsDetailsPresenter extends BasePresenter{
-     void fetchNewsDetailsFromServer(String newsId);
+     void fetchNewsDetailsFromServer();
         void fetchNewsAdvertisingFromServer();
      boolean checkIfNetworkIsAvalible(Context context);
 }

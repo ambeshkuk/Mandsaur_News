@@ -23,6 +23,7 @@ import com.mandasur.app.news.NewsFilterActivity;
 import com.mandasur.app.news.NewsListContract;
 import com.mandasur.app.news.NewsListPresenter;
 import com.mandasur.app.news.adapters.NewsListAdapterWithSubCateories;
+import com.mandasur.app.util.DividerItemDecoration;
 import com.mandasur.app.util.MandsaurAppSharedPref;
 
 /**
@@ -166,7 +167,9 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
             NewsListAdapterWithSubCateories newsListAdapterWithSubCateories=
                     new NewsListAdapterWithSubCateories(newsFromMainCategoryResponse.getData().getNewsList());
 
+
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),R.drawable.divider_item_shape));
             recyclerView.setAdapter(newsListAdapterWithSubCateories);
 
         }

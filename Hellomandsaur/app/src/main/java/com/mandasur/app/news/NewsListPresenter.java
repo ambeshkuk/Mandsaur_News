@@ -38,32 +38,14 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
 
     @Override
     public boolean checkIfNetworkIsAvalible(Context context) {
-        boolean isNetwokAvailable = false;
-        ConnectivityManager connectionManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo wifiInfo = connectionManager
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo mobileInfo = connectionManager
-                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-        if (wifiInfo != null && wifiInfo.isConnected()) {
-            isNetwokAvailable = true;
-        } else if (mobileInfo != null && mobileInfo.isConnected()) {
-            isNetwokAvailable = true;
-        } else {
 
-            isNetwokAvailable = false;
+            boolean isNetworkAvalible=ActivityUtil.isNetworkAvaliable(context);
+
+        if (!isNetworkAvalible){
+            newsListFragment.showNetworkNotAvailbel();
         }
-
-        if(!isNetwokAvailable) {
-
-
-           newsListFragment.showNetworkNotAvailbel();
-
-        }
-        return isNetwokAvailable;
-
-
+        return  isNetworkAvalible;
     }
 
     @Override

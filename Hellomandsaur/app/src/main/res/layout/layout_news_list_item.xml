@@ -54,11 +54,11 @@
     android:src="@drawable/logo"
 
     />
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
+
+
         android:padding="@dimen/metrics_10dp"
 
         android:background="@color/backTransparentBlack"
@@ -68,27 +68,47 @@
         android:id="@+id/newsTitleTv"
          android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/metrics_20dp"
+        android:layout_marginBottom="@dimen/metrics_10dp"
         android:maxLines="2"
         android:ellipsize="end"
             android:textColor="@color/white"
-            fontPath="fonts/Proxima_Nova_Reg.otf"
-
+            fontPath="fonts/Proxima_Nova_Bold.otf"
+            android:layout_above="@+id/newsTimeTv"
             android:textAppearance="?android:attr/textAppearanceMedium"
     />
 
         <com.mandasur.app.util.MandsaurNewsTextView
         android:id="@+id/newsTimeTv"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/white"
-            fontPath="fonts/Proxima_Nova_Reg.otf"
+            fontPath="fonts/Proxima_Nova_Bold.otf"
 
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/metrics_20dp"
 
-        />
-    </LinearLayout>
+
+            />
+
+        <com.mandasur.app.util.MandsaurNewsTextView
+            android:id="@+id/newsReadCountTv"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/white"
+            fontPath="fonts/Proxima_Nova_Bold.otf"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/metrics_20dp"
+
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
 </FrameLayout>
     </LinearLayout>

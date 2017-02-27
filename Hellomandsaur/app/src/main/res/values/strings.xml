@@ -10,7 +10,7 @@
 
         <string name="mainNews">mainnews_Fromall_Cat.php</string>
         <string name="anyNews">newsFrom_uppertabs.php</string>
-
+        <string name="newsDetails">newsdetails.php</string>
 
         <string name="db_name">mandsaurappdb</string>
         <integer name="db_version">1</integer>
