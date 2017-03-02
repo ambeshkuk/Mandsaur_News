@@ -55,5 +55,12 @@
     <string name="textSubFilterHeader">अपनी होम स्क्रीन को देखने के लिए श्रेणियो का चयन करिए | </string>
     <string name="title_activity_splash_screes">SplashScrees</string>
         <string name="textNetworkNotAvaliable">नेटवर्क उपलब्ध नहीं है ।  पुन: प्रयास करने के लिए क्लिक करें</string>
+
+
+
+        <!--Error Messages-->
+        <string name="textCannotProcessYourRequest">हम आपकी रिक्वेस्ट को प्रोसेस नहीं कर सकते कृपया थोड़ी देर बाद कोशिश कीजिये  </string>
         <string name="textNoNewsFound">इस श्रेणी की कोई भी खबर मौजूद नहीं है</string>
+
+        <string name="textNewsDetailsNotFound">खबर विवरण उपलब्ध नहीं हैं </string>
     </resources>

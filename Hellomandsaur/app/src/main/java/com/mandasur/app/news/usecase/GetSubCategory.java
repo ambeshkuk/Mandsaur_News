@@ -32,7 +32,7 @@ public class GetSubCategory extends UseCase<GetSubCategory.RequestValues,GetSubC
 
             @Override
             public void onSubCategoriesNotAvaliable() {
-                getUseCaseCallback().onError();;
+                getUseCaseCallback().onError("");;
 
             }
         });

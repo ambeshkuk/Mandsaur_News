@@ -2,6 +2,7 @@ package com.mandasur.app.util;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -31,4 +32,13 @@ public class MandsaurNewsTextView extends TextView {
         Typeface typeface=ActivityUtil.getFontAwesomeTypeFace(getContext());
         super.setTypeface(typeface);
     }
+
+
+
+    public void setText(String text){
+        super.setText(Html.fromHtml(text));
+    }
+
+
+
 }

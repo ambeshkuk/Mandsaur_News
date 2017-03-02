@@ -11,6 +11,7 @@ import com.mandasur.app.data.source.dataxml.CategoriesDataSource;
 import com.mandasur.app.data.source.dataxml.SubCategoryDataSource;
 import com.mandasur.app.data.source.remote.RemoteNewsDataSource;
 import com.mandasur.app.news.usecase.GetCategories;
+import com.mandasur.app.news.usecase.GetNewsDetailsFromServer;
 import com.mandasur.app.news.usecase.GetNewsListByCategory;
 import com.mandasur.app.news.usecase.GetSubCategory;
 import com.mandasur.app.news.usecase.SubCateorySelected;
@@ -62,6 +63,11 @@ public class Injector {
 
     public static NewsDataRepository getNewsDataRepository(Context context){
 
-      return   new NewsDataRepository(new RemoteNewsDataSource(),new DatabaseNewsDataSource());
+      return   new NewsDataRepository(new RemoteNewsDataSource(),new DatabaseNewsDataSource(),context);
     }
+
+    public static GetNewsDetailsFromServer getNewsDetailsFromServer(@NonNull Context context){
+        return  new GetNewsDetailsFromServer(getNewsDataRepository(context));
+    }
+
 }

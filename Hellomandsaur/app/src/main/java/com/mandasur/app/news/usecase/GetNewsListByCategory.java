@@ -100,7 +100,19 @@ public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.Request
         protected void onPostExecute(ResponseValue responseValue) {
             super.onPostExecute(responseValue);
 
-            getUseCaseCallback().onSuccess(responseValue);
+
+
+
+
+
+            if (responseValue.getNewsFromMainCategoryResponse().isSuccessful()){
+                getUseCaseCallback().onSuccess(responseValue);
+
+            }
+            else {
+                getUseCaseCallback().onError(responseValue.getNewsFromMainCategoryResponse().getMsg());
+            }
+
         }
     }
 }

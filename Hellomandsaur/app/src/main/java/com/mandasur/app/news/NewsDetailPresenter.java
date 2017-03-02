@@ -7,6 +7,7 @@ import com.mandasur.app.UseCase;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailFromIdRequest;
 import com.mandasur.app.news.usecase.GetNewsDetailsFromServer;
 import com.mandasur.app.news.usecase.GetNewsListByCategory;
+import com.mandasur.app.util.ActivityUtil;
 
 /**
  * Created by ambesh on 25-02-2017.
@@ -49,15 +50,19 @@ public class NewsDetailPresenter implements NewsDetailContract.NewsDetailsPresen
             @Override
             public void onSuccess(GetNewsDetailsFromServer.ResponseValue response) {
 
-                newsDetailsActivity.showNewsDetailsToScreen();
+                newsDetailsActivity.showNewsDetailsToScreen(response.getNewsDetailsFromResponse());
             }
 
             @Override
-            public void onError() {
+            public void onError(String erroMessage) {
 
+
+
+                newsDetailsActivity.showErrorMessage(erroMessage);
             }
         });
         getNewsDetailsFromServer.executeUseCase(requestValues);
+        newsDetailsActivity.showProgressBar();
 
     }
 
@@ -68,7 +73,7 @@ public class NewsDetailPresenter implements NewsDetailContract.NewsDetailsPresen
 
     @Override
     public boolean checkIfNetworkIsAvalible(Context context) {
-        return false;
+        return ActivityUtil.isNetworkAvaliable(context);
     }
 
     @Override

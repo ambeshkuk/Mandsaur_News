@@ -84,7 +84,18 @@ public class GetNewsDetailsFromServer extends UseCase<GetNewsDetailsFromServer.R
         protected void onPostExecute(ResponseValue responseValue) {
             super.onPostExecute(responseValue);
 
-            getUseCaseCallback().onSuccess(responseValue);
+
+
+            if (responseValue.getNewsDetailsFromResponse().isSuccessful()){
+                getUseCaseCallback().onSuccess(responseValue);
+            }
+            else {
+                getUseCaseCallback().onError(responseValue.getNewsDetailsFromResponse().getMsg());
+            }
+
+
+
+
         }
     }
 }

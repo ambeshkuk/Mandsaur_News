@@ -33,7 +33,7 @@ public class GetCategories extends UseCase<GetCategories.RequestValues,GetCatego
             @Override
             public void onCategoriesNotAvaliable() {
 
-                getUseCaseCallback().onError();
+                getUseCaseCallback().onError("");
 
             }
         });

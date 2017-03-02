@@ -30,7 +30,7 @@ public class SubCateorySelected extends UseCase<SubCateorySelected.RequestValues
 
             @Override
             public void onDatabaseError() {
-                getUseCaseCallback().onError();
+                getUseCaseCallback().onError("");
             }
         });
 

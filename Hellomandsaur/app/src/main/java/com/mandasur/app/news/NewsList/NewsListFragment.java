@@ -19,6 +19,7 @@ import com.mandasur.app.BaseView;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.news.CategoryTabsAndDrawerPresenter;
+import com.mandasur.app.news.NewsDetailsActivity;
 import com.mandasur.app.news.NewsFilterActivity;
 import com.mandasur.app.news.NewsListContract;
 import com.mandasur.app.news.NewsListPresenter;
@@ -168,6 +169,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
                     new NewsListAdapterWithSubCateories(newsFromMainCategoryResponse.getData().getNewsList());
 
 
+            newsListAdapterWithSubCateories.setOnNewsItemSelected(onNewsItemSelected);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),R.drawable.divider_item_shape));
             recyclerView.setAdapter(newsListAdapterWithSubCateories);
@@ -186,7 +188,10 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
 
     @Override
     public void showErrorOccured(String errorMessage) {
-
+        networkNotAvalibleTv.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        networkNotAvalibleTv.setText(errorMessage);
     }
 
     @Override
@@ -210,4 +215,13 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         public void onFragmentInteraction(Uri uri);
     }
 
+    private NewsListAdapterWithSubCateories.OnNewsItemSelected onNewsItemSelected=new NewsListAdapterWithSubCateories.OnNewsItemSelected() {
+        @Override
+        public void openNewsItem(String newsId) {
+
+            Intent intent=new Intent(NewsListFragment.this.getActivity(), NewsDetailsActivity.class);
+            intent.putExtra(NewsDetailsActivity.NEWS_ID,newsId);
+            startActivity(intent);
+        }
+    };
 }

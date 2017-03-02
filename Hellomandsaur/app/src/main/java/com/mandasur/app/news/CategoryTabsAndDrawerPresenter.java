@@ -50,7 +50,7 @@ public class CategoryTabsAndDrawerPresenter implements DrawerContract.CategroyPr
             }
 
             @Override
-            public void onError() {
+            public void onError(String errorMessage) {
 
             }
         });

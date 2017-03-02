@@ -40,7 +40,7 @@ public class SubCateoriesFilterPresenter implements SubCategoryContract.SubCateo
             }
 
             @Override
-            public void onError() {
+            public void onError(String errorMessage) {
 
             }
         });
@@ -62,7 +62,7 @@ public class SubCateoriesFilterPresenter implements SubCategoryContract.SubCateo
         }
 
         @Override
-        public void onError() {
+        public void onError(String errorMessage) {
 
         }
     };

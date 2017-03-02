@@ -1,5 +1,6 @@
 package com.mandasur.app.data.source;
 
+import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
 
@@ -11,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
+import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.Data;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailFromIdRequest;
@@ -21,11 +23,14 @@ import com.mandasur.app.data.source.dao.requestdao.Request;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.data.source.remote.OkHttpClientUtils;
 import com.mandasur.app.data.source.remote.RemoteNewsDataSource;
+import com.mandasur.app.news.exceptions.ErrorMessageHandler;
+import com.mandasur.app.news.exceptions.ErrorRequestCode;
 import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.GsonUtil;
 
 
 import org.json.JSONObject;
+import org.xml.sax.ErrorHandler;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -47,10 +52,13 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
     private RemoteNewsDataSource remoteNewsDataSource;
     private DatabaseNewsDataSource databaseNewsDataSource;
 
-    public NewsDataRepository(RemoteNewsDataSource remoteNewsDataSource,DatabaseNewsDataSource databaseNewsDataSource){
+    private ErrorMessageHandler errorHandler;
+    public NewsDataRepository(RemoteNewsDataSource remoteNewsDataSource
+            ,DatabaseNewsDataSource databaseNewsDataSource,Context context){
 
         this.remoteNewsDataSource=remoteNewsDataSource;
         this.databaseNewsDataSource=databaseNewsDataSource;
+        errorHandler=ErrorMessageHandler.getInstance(context);
     }
 
 
@@ -73,30 +81,53 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                 try {
                     String jsonData=response.body().string();
 
-
-
-
-
-                        JsonReader jsonReader=new JsonReader(new StringReader(jsonData));
+                    JsonReader jsonReader=new JsonReader(new StringReader(jsonData));
                         jsonReader.setLenient(true);
                             newsFromMainCategoryResponse= GsonUtil.getGsonInstance().
                             fromJson(jsonData,
                                     com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse.class);
 
-                    
+
+                    if (newsFromMainCategoryResponse==null){
+                        newsFromMainCategoryResponse.setStatus("0");
+                        newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
+                    }
+                    else if (newsFromMainCategoryResponse.getData()==null){
+                        newsFromMainCategoryResponse.setStatus("0");
+                        newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_NEESLIST_NOT_FOUDN));
+                    }
+                    else if (newsFromMainCategoryResponse.getData().getNewsList()==null){
+
+                        newsFromMainCategoryResponse.setStatus("0");
+                        newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_NEESLIST_NOT_FOUDN));
+                    }
+                    else if (newsFromMainCategoryResponse.getData().getNewsList().isEmpty()){
+
+                        newsFromMainCategoryResponse.setStatus("0");
+                        newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_NEESLIST_NOT_FOUDN));
+                    }
+                    else {
+                        newsFromMainCategoryResponse.setStatus("1");
+                    }
+
+
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    newsFromMainCategoryResponse.setStatus("0");
+                    newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
                 }
                 catch (JsonSyntaxException e){
-                    e.printStackTrace();
+                    newsFromMainCategoryResponse.setStatus("0");
+                    newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
                 }
 
             }
+            else {
+                newsFromMainCategoryResponse.setStatus("0");
+                newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
+            }
 
         }
-        else{
 
-        }
 
        return newsFromMainCategoryResponse;
     }
@@ -134,19 +165,41 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                     com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse.class);
 
 
+                    if (newsDetailsFromResponse==null){
+                        newsDetailsFromResponse.setStatus("0");
+                        newsDetailsFromResponse.setMsg(errorHandler.getApiErrorMessage(0));
+                    }
+                    else if (newsDetailsFromResponse.getData()==null){
+                        newsDetailsFromResponse.setStatus("0");
+                        newsDetailsFromResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_DETAILS_NOT_FOUDN));
+                    }
+                    else if (newsDetailsFromResponse.getData().isEmpty()){
+
+                        newsDetailsFromResponse.setStatus("0");
+                        newsDetailsFromResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_DETAILS_NOT_FOUDN));
+                    }
+                    else {
+                        newsDetailsFromResponse.setStatus("1");
+                    }
+
+
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    newsDetailsFromResponse.setStatus("0");
+                    newsDetailsFromResponse.setMsg(errorHandler.getApiErrorMessage(0));
                 }
                 catch (JsonSyntaxException e){
-                    e.printStackTrace();
+                    newsDetailsFromResponse.setStatus("0");
+                    newsDetailsFromResponse.setMsg(errorHandler.getApiErrorMessage(0));
                 }
 
             }
+            else {
+                newsDetailsFromResponse.setStatus("0");
+                newsDetailsFromResponse.setMsg(errorHandler.getApiErrorMessage(0));
+            }
 
         }
-        else{
 
-        }
 
         return newsDetailsFromResponse;
     }

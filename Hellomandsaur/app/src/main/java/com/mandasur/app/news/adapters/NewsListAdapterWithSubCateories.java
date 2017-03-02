@@ -26,6 +26,9 @@ import java.util.ArrayList;
 public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsListAdapterWithSubCateories.NewsListViewHolder>{
 
 
+    public interface OnNewsItemSelected{
+        public void openNewsItem(String newsId);
+    }
 
 
     private ArrayList<News> newsArrayList;
@@ -45,6 +48,7 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
     public void onBindViewHolder(NewsListViewHolder holder, int position) {
 
         News news=newsArrayList.get(position);
+
         if (news.isSubcategoryStart()){
             if (!TextUtils.isEmpty(news.getSubCategoryName())&&(!news.getSubCategoryName().equals("news"))){}
             holder.newsHeader.setVisibility(View.VISIBLE);
@@ -55,8 +59,8 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
         {
             holder.newsHeader.setVisibility(View.GONE);
         }
-
-
+        holder.newsListBackgroundLl.setTag(news.getFid());
+        holder.newsListBackgroundLl.setOnClickListener(onClickListener);
         holder.newsTimeTv.setText(news.getDate());
         holder.newsTitleTv.setText(news.getTitle());
 
@@ -69,7 +73,14 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
 
 
 
+private View.OnClickListener onClickListener=new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
 
+        String fid= (String) v.getTag();
+        onNewsItemSelected.openNewsItem(fid);
+    }
+};
 
     @Override
     public int getItemCount() {
@@ -81,7 +92,8 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
 
         TextView subCategoryTitle,viewAllTv,newsTitleTv,newsTimeTv;
         ImageView newsImageIv;
-        RelativeLayout newsHeader;
+        RelativeLayout newsHeader,newsListBackgroundLl;
+        ;
 
         public NewsListViewHolder(View itemView) {
             super(itemView);
@@ -96,6 +108,13 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
             newsTimeTv= (TextView) itemView.findViewById(R.id.newsTimeTv);
             newsImageIv= (ImageView) itemView.findViewById(R.id.newsImageIv);
             newsHeader= (RelativeLayout) itemView.findViewById(R.id.newsHeader);
+            newsListBackgroundLl= (RelativeLayout) itemView.findViewById(R.id.newsListBackgroundLl);
         }
+    }
+
+    private  OnNewsItemSelected onNewsItemSelected;
+
+    public void setOnNewsItemSelected(OnNewsItemSelected onNewsItemSelected) {
+        this.onNewsItemSelected = onNewsItemSelected;
     }
 }

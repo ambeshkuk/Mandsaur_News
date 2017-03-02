@@ -87,8 +87,8 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
             }
 
             @Override
-            public void onError() {
-
+            public void onError(String errorMessage) {
+                newsListFragment.showErrorOccured(errorMessage);
             }
         });
         getNewsListByCategory.executeUseCase(requestValues);
