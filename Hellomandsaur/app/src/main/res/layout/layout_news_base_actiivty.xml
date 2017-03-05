@@ -59,7 +59,9 @@
             android:id="@+id/categorylv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:listSelector="@drawable/drwaer_layout_list_item"
+            android:dividerHeight="@dimen/metrics_10dp"
+            android:divider="@android:color/transparent"
+            android:listSelector="@drawable/drwaer_layout_list_selector"
 
             />
     </android.support.design.widget.NavigationView>

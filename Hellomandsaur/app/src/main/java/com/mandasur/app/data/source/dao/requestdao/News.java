@@ -36,6 +36,7 @@ public class News {
         return fid;
     }
 
+
     public void setFid(String fid) {
         this.fid = fid;
     }
@@ -71,5 +72,8 @@ public class News {
     public void setDate(String date) {
         this.date = date;
     }
+
+
+
 }
 

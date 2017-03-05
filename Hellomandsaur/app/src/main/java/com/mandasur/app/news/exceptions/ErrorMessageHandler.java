@@ -40,6 +40,9 @@ public class ErrorMessageHandler {
                 errorMessage=context.getString(R.string.textNewsDetailsNotFound);
                 break;
 
+            case ErrorRequestCode.API_DB_ERROR_REQUEST_CODE.ERROR_CODE_DB_ERROR:
+                errorMessage=context.getString(R.string.textNoSavedNewsPresent);
+                break;
             default:
                 errorMessage=context.getString(R.string.textCannotProcessYourRequest);
         }

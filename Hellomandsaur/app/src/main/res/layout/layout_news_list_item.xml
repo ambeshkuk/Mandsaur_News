@@ -8,15 +8,15 @@
     >
     <RelativeLayout
         android:id="@+id/newsHeader"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/metrics_10dp"
+        android:layout_height="@dimen/metrics_30dp"
+        android:padding="@dimen/metrics_5dp"
         android:background="@color/white"
         android:layout_width="match_parent">
 
         <com.mandasur.app.util.MandsaurNewsTextView
             android:id="@+id/subCategoryTitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/red"
             android:layout_alignParentLeft="true"
             fontPath="fonts/Proxima_Nova_Reg.otf"
@@ -27,7 +27,7 @@
         <com.mandasur.app.util.MandsaurNewsTextView
             android:id="@+id/viewAllTv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/colorGray"
             android:text="@string/textPuraDekiye"
             android:layout_alignParentRight="true"
@@ -111,4 +111,9 @@
 
     </RelativeLayout>
 </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        />
     </LinearLayout>

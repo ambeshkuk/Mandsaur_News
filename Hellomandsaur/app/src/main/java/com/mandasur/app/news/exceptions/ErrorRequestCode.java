@@ -14,4 +14,7 @@ public class ErrorRequestCode {
         public static final int ERRORCODE_DETAILS_NOT_FOUDN=102;
     }
 
+    public static class API_DB_ERROR_REQUEST_CODE{
+        public static final int ERROR_CODE_DB_ERROR=103;
+    }
 }

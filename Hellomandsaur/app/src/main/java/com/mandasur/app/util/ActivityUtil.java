@@ -76,4 +76,9 @@ public class ActivityUtil {
     public static void Log(String tag,String test){
         Log.i(tag,test);
     }
+
+
+    public static void printException(Exception e){
+        e.printStackTrace();
+    }
 }

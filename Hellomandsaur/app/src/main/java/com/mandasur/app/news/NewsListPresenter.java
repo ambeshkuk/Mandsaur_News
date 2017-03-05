@@ -51,7 +51,7 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
     @Override
     public void fetchNewsFromServerBasedOnFiltre(String filterArray) {
 
-            if (!checkIfNetworkIsAvalible(newsListFragment.getActivity())){
+            if (!checkIfNetworkIsAvalible(newsListFragment.getActivity())&&!categroyName.equals(newsListFragment.getString(R.string.bookMarkedNews))){
              return;
             }
 
@@ -70,9 +70,13 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
                             getStringArrayIfSelectedSubCategory(DatabaseNewsDataSource.getInstance(newsListFragment.getActivity())
                                     .getSqLiteDatabase()));
         }
+        else if (categroyName.equals("bookmarked")){
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL, newsListFragment.getString(R.string.bookMarkedNews));
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CATEGORY, categroyName);
+        }
         else{
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,newsListFragment.getString(R.string.baseUrl)+newsListFragment.getString(R.string.anyNews));
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CATEGORY,categroyName);
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL, newsListFragment.getString(R.string.baseUrl) + newsListFragment.getString(R.string.anyNews));
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CATEGORY, categroyName);
         }
 
 

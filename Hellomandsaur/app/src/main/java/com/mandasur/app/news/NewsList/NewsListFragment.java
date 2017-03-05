@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.mandasur.app.BaseView;
 import com.mandasur.app.R;
+import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.news.CategoryTabsAndDrawerPresenter;
 import com.mandasur.app.news.NewsDetailsActivity;
@@ -26,6 +28,8 @@ import com.mandasur.app.news.NewsListPresenter;
 import com.mandasur.app.news.adapters.NewsListAdapterWithSubCateories;
 import com.mandasur.app.util.DividerItemDecoration;
 import com.mandasur.app.util.MandsaurAppSharedPref;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,15 +45,20 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
     private static final String MAIN_CATEOGRY_STRING = "main_category";
     private static final String SUBCATEGORY_STING = "sub_category";
 
+    private static final String MAIN_CATEGORY_NAME="manin_category_name";
     // TODO: Rename and change types of parameters
     private String mainCategory;
     private String subCategory;
     private ProgressBar progressBar;
     private TextView networkNotAvalibleTv;
+    private String categoryName;
 
+    private SwipeRefreshLayout swipeToRefreshLayout;
     private OnFragmentInteractionListener mListener;
-
+    private NewsListAdapterWithSubCateories newsListAdapterWithSubCateories;
+    private ArrayList<News> newsArrayList;
     private NewsListContract.NewsListPresenter newsListPresenter;
+    private boolean toRefreshCompleteList=true;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -59,11 +68,13 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
      * @return A new instance of fragment NewsListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NewsListFragment newInstance(String mainCat, String subCat) {
+
+
+    public static NewsListFragment newInstance(String mainCat, String subCat,String mainCategroyName) {
         NewsListFragment fragment = new NewsListFragment();
         Bundle args = new Bundle();
         args.putString(MAIN_CATEOGRY_STRING, mainCat);
-
+        args.putString(MAIN_CATEGORY_NAME,mainCategroyName);
         args.putString(SUBCATEGORY_STING, subCat);
         fragment.setArguments(args);
         return fragment;
@@ -84,6 +95,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         if (getArguments() != null) {
             mainCategory = getArguments().getString(MAIN_CATEOGRY_STRING);
             subCategory = getArguments().getString(SUBCATEGORY_STING);
+            categoryName=getArguments().getString(MAIN_CATEGORY_NAME);
         }
     }
 
@@ -97,6 +109,8 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         recyclerView= (RecyclerView) view.findViewById(R.id.recyclerView);
         progressBar= (ProgressBar) view.findViewById(R.id.progressBar);
         networkNotAvalibleTv= (TextView) view.findViewById(R.id.networkNotAvalibleTv);
+        swipeToRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.swipeToRefreshLayout);
+        swipeToRefreshLayout.setOnRefreshListener(onRefreshListener);
         newsListPresenter.start();
 
         return view;
@@ -131,6 +145,14 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         }
     }
 
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener=new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            toRefreshCompleteList=true;
+            newsListPresenter.fetchNewsFromServerBasedOnFiltre("");
+
+        }
+    };
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -165,8 +187,21 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
             networkNotAvalibleTv.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-            NewsListAdapterWithSubCateories newsListAdapterWithSubCateories=
-                    new NewsListAdapterWithSubCateories(newsFromMainCategoryResponse.getData().getNewsList());
+
+
+            if (newsListAdapterWithSubCateories!=null){
+
+                newsArrayList.clear();
+                newsArrayList.addAll(newsFromMainCategoryResponse.getData().getNewsList());
+                newsListAdapterWithSubCateories.notifyDataSetChanged();
+                swipeToRefreshLayout.setRefreshing(false);
+            }
+            else {
+                newsArrayList=newsFromMainCategoryResponse.getData().getNewsList();
+                newsListAdapterWithSubCateories =
+                new NewsListAdapterWithSubCateories(newsArrayList);
+            }
+
 
 
             newsListAdapterWithSubCateories.setOnNewsItemSelected(onNewsItemSelected);
@@ -221,6 +256,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
 
             Intent intent=new Intent(NewsListFragment.this.getActivity(), NewsDetailsActivity.class);
             intent.putExtra(NewsDetailsActivity.NEWS_ID,newsId);
+            intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,categoryName);
             startActivity(intent);
         }
     };

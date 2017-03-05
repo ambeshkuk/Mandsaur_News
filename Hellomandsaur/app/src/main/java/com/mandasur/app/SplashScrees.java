@@ -51,7 +51,7 @@ handler=new Handler();
             public void run() {
                 super.run();
                 Injector.getSubCategoryDataReporsitory(SplashScrees.this).getCategories(null);
-                handler.post(new Runnable() {
+                handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         Intent i = new Intent(SplashScrees.this, NewsBaseActiivty.class);
@@ -60,7 +60,7 @@ handler=new Handler();
 //                // close this activity
                 finish();
                     }
-                });
+                },6000);
             }
         };
         thread.start();

@@ -4,8 +4,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/metrics_10dp"
+
         android:textColor="@color/drawer_layout_list_item"
-            android:background="@android:color/transparent"
+
+
+
+
+
+            android:background="@drawable/drwaer_layout_list_item"
         android:id="@+id/categoryNameTv"
 
 

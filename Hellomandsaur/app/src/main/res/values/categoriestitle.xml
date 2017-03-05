@@ -11,6 +11,7 @@
         <item>अन्‍य खबरे </item>
         <item>&#xf03d; विडियो खबरें </item>
         <item>&#xf002; क्लासिफाइड </item>
+        <item>&#xf02e; बाद में पढ़िए </item>
         <!--<item>हमारा मन्‍दसौर पोर्टल </item>
         <item>>बिज़नेस पोर्टल </item>-->
 
@@ -26,6 +27,7 @@
         <item>othernews</item>
         <item>video</item>
         <item>classified</item>
+        <item>bookmarked</item>
        <!-- <item>Main News</item>-->
     </string-array>
 

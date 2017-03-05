@@ -8,7 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.api.GoogleAPIException;
+import com.google.api.translate.Language;
+import com.google.api.translate.Translate;
+import com.google.api.translate.TranslateV2;
 import com.mandasur.app.R;
 
 import com.mandasur.app.data.source.dao.requestdao.News;
@@ -16,6 +21,7 @@ import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by ambesh on 13-02-2017.
@@ -32,9 +38,10 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
 
 
     private ArrayList<News> newsArrayList;
-
+    private HashMap<String,String> tranlationAndIndicatorHashMap=new HashMap<>();
     public NewsListAdapterWithSubCateories(ArrayList<News> newsArrayList) {
         this.newsArrayList = newsArrayList;
+
     }
 
     @Override
@@ -54,6 +61,13 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
             holder.newsHeader.setVisibility(View.VISIBLE);
             holder.subCategoryTitle.setText(news.getSubCategoryName());
 
+            holder.viewAllTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(),"Comming Soon",Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
         else
         {
@@ -66,7 +80,7 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
 
         if (!TextUtils.isEmpty(news.getImage())){
 
-            Picasso.with(holder.newsImageIv.getContext()).load(news.getImage()).into(holder.newsImageIv);
+            Picasso.with(holder.newsImageIv.getContext()).load("http://" + news.getImage()).into(holder.newsImageIv);
         }
     }
 

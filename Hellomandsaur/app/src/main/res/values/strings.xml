@@ -11,15 +11,16 @@
         <string name="mainNews">mainnews_Fromall_Cat.php</string>
         <string name="anyNews">newsFrom_uppertabs.php</string>
         <string name="newsDetails">newsdetails.php</string>
+        <string name="bookMarkedNews">bookmarked</string>
 
-        <string name="db_name">mandsaurappdb</string>
+        <string name="db_name">mandsaurappdb</string>chr
         <integer name="db_version">1</integer>
         <string name="hello_world">Hello </string>
         <string name="action_settings">Settings</string>
         <string name="imgdesc">imgdesc</string>
         <string name="really_long_string">"I'm not committing not to run. I'm not committing to anything. I learned a long time ago, fate has a strange way of intervening,'' the departing US Vice-President said. </string>
 
-        <string name="textPuraDekiye">Pura Dekhie</string>
+        <string name="textPuraDekiye">पूरा देखिए </string>
         <string-array name="titles">
             <item>Home</item>
             <item>Tutorials</item>
@@ -44,7 +45,6 @@
 
 
 
-
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -63,4 +63,11 @@
         <string name="textNoNewsFound">इस श्रेणी की कोई भी खबर मौजूद नहीं है</string>
 
         <string name="textNewsDetailsNotFound">खबर विवरण उपलब्ध नहीं हैं </string>
+
+
+
+
+        <string name="textNoSavedNewsPresent">बाद मैं पड़ने के लिए कोई खबर चुनी नहीं गयी है </string>
+
+
     </resources>

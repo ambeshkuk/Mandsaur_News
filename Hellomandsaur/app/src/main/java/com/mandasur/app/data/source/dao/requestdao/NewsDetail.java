@@ -4,6 +4,16 @@ package com.mandasur.app.data.source.dao.requestdao;
  * Created by ambesh on 27-02-2017.
  */
 public class NewsDetail {
+public static final String FID="fid";
+    public static final String TITLE="title";
+    public static final String DESCR="descr";
+    public static final String DESCR2="descr2";
+
+    public static final String IMAGE1="image1";
+    public static final String IMAGE2="image2";
+    public static final String PLACE="place";
+    public static final String DATE="date";
+
     private String fid,title,descr
             ,descr2,image1,image2,place,date;
 

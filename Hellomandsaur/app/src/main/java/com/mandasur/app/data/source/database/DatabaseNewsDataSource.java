@@ -24,5 +24,8 @@ public class DatabaseNewsDataSource {
         return mandsaurDataBaseHelper;
     }
 
+    public MandsaurDataBaseHelper getMandsaurDataBaseHelper(){
+        return mandsaurDataBaseHelper;
+    }
 
 }

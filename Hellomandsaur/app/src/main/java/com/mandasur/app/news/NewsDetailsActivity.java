@@ -10,15 +10,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
+import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
+import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
 import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.MandsaurNewsTextView;
 import com.squareup.picasso.Picasso;
@@ -33,32 +40,67 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailContract.NewsDetailView{
 
     public static final String NEWS_ID="newsId";
+    public static final String CATEGORY_NAME="category_name";
     private ImageView image1,image2;
     private MandsaurNewsTextView titleNewsTv,dateTv,consisenewsTv,newsDetailsPart1Tv,newsDetailsPart2Tv;
     private FloatingActionButton bookmarkFb,shareFb;
     private CoordinatorLayout newsDetailParent;
     private ProgressBar progressIndicator;
-
-
+    private NewsDetail newsDetail;
+    private  MandsaurDataBaseHelper mandsaurDataBaseHelper;
+    private float detailViewTextSize;
 
     private NewsDetailContract.NewsDetailsPresenter newsDetailPresenter;
+    private SeekBar fontSizeSb;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_news_details);
+        String newsId=getIntent().getStringExtra(NEWS_ID);
+        String categoryName=getIntent().getStringExtra(CATEGORY_NAME);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
         setSupportActionBar(toolbar);
 
 
-        String newsId=getIntent().getStringExtra(NEWS_ID);
+
+
+
         View view=getLayoutInflater().inflate(R.layout.layout_custom_tool_bar_layout,null);
+
         MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView) view.findViewById(R.id.homeAsUpIcon);
+        TextView titleTv= (TextView) findViewById(R.id.titleTv);
+        titleTv.setText(categoryName);
+        findViewById(R.id.filtericonIv).setVisibility(View.GONE);
         newsDetailPresenter= new NewsDetailPresenter(Injector.getNewsDetailsFromServer(this),this,newsId);
+        mandsaurDataBaseHelper  = DatabaseNewsDataSource.getInstance(NewsDetailsActivity.this);
         homeAsUpIcon.setText(getString(R.string.textArrowIcon));
+        homeAsUpIcon.setOnClickListener(onClickListener);
         intiateUI();
+
         fetchNewsDetsil();
 //        toolbar.addView(view);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     private void fetchNewsDetsil() {
@@ -81,23 +123,111 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         bookmarkFb= (FloatingActionButton) findViewById(R.id.bookmarkFb);
         shareFb= (FloatingActionButton) findViewById(R.id.shareFb);
 
+
+
+
+        fontSizeSb= (SeekBar) findViewById(R.id.fontSizeSb);
+//        fontSizeSb.setOnSeekBarChangeListener(onSeekBarChangeListener);
+
+        bookmarkFb.setOnClickListener(onClickListener);
+        shareFb.setOnClickListener(onClickListener);
+
     }
+
+
+
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener=new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+
+
+
+
+
+            float newTextSize=detailViewTextSize+(progress);
+            newsDetailsPart1Tv.setTextSize(newTextSize);
+            newsDetailsPart2Tv.setTextSize(newTextSize);
+
+            newsDetailsPart1Tv.invalidate();
+            newsDetailsPart2Tv.invalidate();
+
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    } ;
+    private View.OnClickListener onClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.bookmarkFb:
+
+
+                    boolean isNewsSaved= (boolean) bookmarkFb.getTag();
+                    if (isNewsSaved){
+
+                        mandsaurDataBaseHelper.getSavedNewsTable().deleteNewsDetailFromDb(mandsaurDataBaseHelper.getSqLiteDatabase(), newsDetail.getFid());
+                        bookmarkFb.setImageResource(R.drawable.icn_read_later);
+                        bookmarkFb.setTag(false);
+
+
+                    }
+                    else {
+                        mandsaurDataBaseHelper.getSavedNewsTable().setNewsDetailToDb(mandsaurDataBaseHelper.getSqLiteDatabase(),newsDetail);
+                        bookmarkFb.setImageResource(R.drawable.icn_read_later_selected);
+                        bookmarkFb.setTag(true);
+                    }
+
+
+
+
+
+                    break;
+                case R.id.shareFb:
+                    Toast.makeText(NewsDetailsActivity.this,"Comming Soon",Toast.LENGTH_LONG).show();
+                    break;
+                case R.id.homeAsUpIcon:
+                    finish();
+                    break;
+            }
+        }
+    };
     @Override
     public void showNewsDetailsToScreen(NewsDetailsFromResponse newsDetailsFromResponse) {
 
         if (newsDetailsFromResponse!=null&&newsDetailsFromResponse.isSuccessful()){
+
 
             if (newsDetailsFromResponse.getData()!=null){
                 newsDetailParent.setVisibility(View.VISIBLE);
                 progressIndicator.setVisibility(View.GONE);
                 ArrayList<NewsDetail> newsDetails=newsDetailsFromResponse.getData();
                 if (!newsDetails.isEmpty()){
+                     newsDetail=newsDetails.get(0);
+                    if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),newsDetail.getFid())){
 
+                        bookmarkFb.setTag(true);
+                        bookmarkFb.setImageResource(R.drawable.icn_read_later_selected);
+                    }
+                    else {
+                        bookmarkFb.setTag(false);
+                        bookmarkFb.setImageResource(R.drawable.icn_read_later);
+                    }
 //                    if (!TextUtils.isEmpty(newsDetails.get(0).getImage1())){
 
                         Picasso.with(this).load("http://"+newsDetails.get(0).getImage1()).placeholder(R.drawable.logo).into(image1);

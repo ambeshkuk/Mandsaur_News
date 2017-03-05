@@ -15,12 +15,14 @@ import com.google.gson.stream.JsonReader;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.Data;
 import com.mandasur.app.data.source.dao.requestdao.News;
+import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailFromIdRequest;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.data.source.dao.requestdao.Request;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
+import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
 import com.mandasur.app.data.source.remote.OkHttpClientUtils;
 import com.mandasur.app.data.source.remote.RemoteNewsDataSource;
 import com.mandasur.app.news.exceptions.ErrorMessageHandler;
@@ -53,11 +55,16 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
     private DatabaseNewsDataSource databaseNewsDataSource;
 
     private ErrorMessageHandler errorHandler;
+    private Context context;
     public NewsDataRepository(RemoteNewsDataSource remoteNewsDataSource
             ,DatabaseNewsDataSource databaseNewsDataSource,Context context){
 
         this.remoteNewsDataSource=remoteNewsDataSource;
         this.databaseNewsDataSource=databaseNewsDataSource;
+
+
+
+        this.context=context;
         errorHandler=ErrorMessageHandler.getInstance(context);
     }
 
@@ -68,6 +75,27 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
         NewsFromMainCategoryResponse newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
 
+        if (request.get(NewsDetailFromIdRequest.REQUEST_URL).equals(context.getString(R.string.bookMarkedNews))){
+            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+
+            if (mandsaurDataBaseHelper.getSavedNewsTable().isSavedNewsEmpty(mandsaurDataBaseHelper.getSqLiteDatabase())){
+
+                newsFromMainCategoryResponse.setStatus("0");
+                newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_DB_ERROR_REQUEST_CODE.ERROR_CODE_DB_ERROR));
+            }
+            else{
+                ArrayList<News> newsArrayList=mandsaurDataBaseHelper.getSavedNewsTable().getSavedNewsList(mandsaurDataBaseHelper.getSqLiteDatabase());
+
+                Data data=new Data();
+                data.setNewsList(newsArrayList);
+                newsFromMainCategoryResponse.setData(data);
+                newsFromMainCategoryResponse.setStatus("1");
+            }
+
+
+            return newsFromMainCategoryResponse;
+
+        }
 
 
 
@@ -141,6 +169,17 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
     public NewsDetailsFromResponse getNewsDetailsFromId(NewsDetailFromIdRequest request) {
         NewsDetailsFromResponse newsDetailsFromResponse=new NewsDetailsFromResponse();
 
+        MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+
+        if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),request.get(NewsDetailFromIdRequest.NEWS_ID))){
+
+            ArrayList<NewsDetail> newsDetails=new ArrayList<>();
+            newsDetails.add(mandsaurDataBaseHelper.getSavedNewsTable().getNewsDetailFromDB(mandsaurDataBaseHelper.getSqLiteDatabase(), request.get(NewsDetailFromIdRequest.NEWS_ID)));
+            newsDetailsFromResponse.setData(newsDetails);
+            newsDetailsFromResponse.setStatus("1");
+
+            return newsDetailsFromResponse;
+        }
 
 
 
@@ -238,8 +277,15 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                 news.setFid(newsJson.get("fid").getAsString());
                                 news.setDate(newsJson.get("date").getAsString());
                                 if (i==0){
-                                    news.setIsSubcategoryStart(true);
-                                    news.setSubCategoryName(elementEntry.getKey());
+                                    if (entrySet.size()>1){
+                                        news.setIsSubcategoryStart(true);
+                                        news.setSubCategoryName(elementEntry.getKey());
+
+                                    }
+                                    else {
+                                        news.setIsSubcategoryStart(false);
+                                        news.setSubCategoryName(elementEntry.getKey());
+                                    }
                                     i++;
                                 }
                                 else {

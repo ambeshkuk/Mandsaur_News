@@ -9,6 +9,7 @@ import com.mandasur.app.data.source.dao.requestdao.NewsDetailFromIdRequest;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
+import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 
 /**
  * Created by ambesh on 25-02-2017.
@@ -18,8 +19,10 @@ public class GetNewsDetailsFromServer extends UseCase<GetNewsDetailsFromServer.R
 
     private NewsDataRepository newsDataRepository;
     private GetNewsDetailsAsyncTask getNewsDetailsAsyncTask;
+
     public GetNewsDetailsFromServer(NewsDataRepository newsDataRepository) {
         this.newsDataRepository = newsDataRepository;
+
     }
 
     @Override
@@ -68,6 +71,7 @@ public class GetNewsDetailsFromServer extends UseCase<GetNewsDetailsFromServer.R
         protected ResponseValue doInBackground(RequestValues... params) {
 
             GetNewsDetailsFromServer.ResponseValue responseValue=new ResponseValue();
+
 
             NewsDetailsFromResponse newsDetailsFromResponse=newsDataRepository
                     .getNewsDetailsFromId(params[0].getNewsDetailFromIdRequest());
