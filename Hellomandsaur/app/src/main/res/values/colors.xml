@@ -17,6 +17,6 @@
     <color name="colorGray">#b5000000</color>
     <color name="orange">#ffb60000</color>
 
-    <color name="backTransparentBlack">#80000000</color>
+    <color name="backTransparentBlack">#24000000</color>
     <color name="backGreen">#ff50ff8c</color>
 </resources>

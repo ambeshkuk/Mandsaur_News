@@ -3,9 +3,10 @@
 
     <string-array name="categoriesTitle">
 
-        <item>&#xf015; मुख्य समाचार</item>
+        <item>&#xf015; होम</item>
         <item>&#xf1ea; मन्‍दसौर हलचल</item>
         <item>&#xf1ea; मन्‍दसौर विविध</item>
+
         <item>&#xf080; व्यापार </item>
         <item>&#xf044; सम्‍पादकीय </item>
         <item>अन्‍य खबरे </item>

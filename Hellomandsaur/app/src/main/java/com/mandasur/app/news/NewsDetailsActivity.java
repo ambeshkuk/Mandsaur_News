@@ -77,6 +77,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         newsDetailPresenter= new NewsDetailPresenter(Injector.getNewsDetailsFromServer(this),this,newsId);
         mandsaurDataBaseHelper  = DatabaseNewsDataSource.getInstance(NewsDetailsActivity.this);
         homeAsUpIcon.setText(getString(R.string.textArrowIcon));
+
         homeAsUpIcon.setOnClickListener(onClickListener);
         intiateUI();
 

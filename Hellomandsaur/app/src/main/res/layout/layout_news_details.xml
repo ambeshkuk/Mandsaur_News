@@ -106,9 +106,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            fontPath="fonts/Proxima_Nova_Bold.otf"
+                fontPath="fonts/Roboto-Regular.ttf"
 
-
+            android:gravity="left"
             />
 
         <com.mandasur.app.util.MandsaurNewsTextView
@@ -118,8 +118,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/metrics_10dp"
+            android:gravity="left"
 
-            fontPath="fonts/Proxima_Nova_Light.otf"
+            fontPath="fonts/Roboto-Regular.ttf"
 
 
 
@@ -133,8 +134,9 @@
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/metrics_10dp"
 
+            android:gravity="left"
 
-            fontPath="fonts/Proxima_Nova_Reg.otf"
+            fontPath="fonts/Roboto-Regular.ttf"
             android:visibility="gone"
 
 
@@ -148,7 +150,9 @@
             android:layout_marginTop="@dimen/metrics_10dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/black"
-            fontPath="fonts/Proxima_Nova_Light.otf"
+            android:gravity="left"
+
+            fontPath="fonts/Roboto-Regular.ttf"
             />
             <ImageView
                 android:id="@+id/image2"
@@ -164,7 +168,9 @@
                 android:layout_marginTop="@dimen/metrics_10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/black"
-                fontPath="fonts/Proxima_Nova_Light.otf"
+                android:gravity="left"
+
+                fontPath="fonts/Roboto-Regular.ttf"
                 />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

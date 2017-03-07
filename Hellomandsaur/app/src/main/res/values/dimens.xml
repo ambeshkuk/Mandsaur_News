@@ -24,6 +24,7 @@
 
 
     <dimen name="metrics_300">300dp</dimen>
+    <dimen name="metrics_250">250dp</dimen>
     <dimen name="metrics_400">400dp</dimen>
     <dimen name="card_corner_radius">10dp</dimen>
     <dimen name="card_elevation">10dp</dimen>
