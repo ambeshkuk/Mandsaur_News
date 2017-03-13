@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+        <!--<string name="home">Home</string>-->
+        <string name="textAboutus">About Us</string>
+        <string name="textContactUs">Contact Us</string>
+        <string name="textPrivacyPolicy">Privacy Policy</string>
+        <string name="textAdvertiseUs">Advertise with us</string>
+        <string name="textSiteMap">Site Map</string>
+        <string name="textFacebook">Facebook</string>
+        <string name="textTwitter">Twitter</string>
+        <string name="textGoogle">Google +</string>
+        <string name="textYoutube">Youtube</string>
+        <string name="textRssFeed">RSS</string>
+</resources>
