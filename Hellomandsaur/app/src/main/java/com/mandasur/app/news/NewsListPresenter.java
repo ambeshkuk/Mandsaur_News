@@ -3,6 +3,7 @@ package com.mandasur.app.news;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.mandasur.app.R;
@@ -24,10 +25,14 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
 
 
     private GetNewsListByCategory getNewsListByCategory;
-    private NewsListFragment newsListFragment;
+    private NewsListContract.NewsListView newsListFragment;
 
+
+
+    private int pageNumber=1;
     private String categroyName;
-    public NewsListPresenter(GetNewsListByCategory getNewsListByCategory, NewsListFragment newsListFragment,String categroyName) {
+    public NewsListPresenter(GetNewsListByCategory getNewsListByCategory
+            , NewsListContract.NewsListView newsListFragment,String categroyName) {
         this.getNewsListByCategory = getNewsListByCategory;
         this.newsListFragment = newsListFragment;
         this.categroyName=categroyName;
@@ -48,10 +53,17 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
         return  isNetworkAvalible;
     }
 
+    public int getPageNumber() {
+        return pageNumber;
+    }
     @Override
-    public void fetchNewsFromServerBasedOnFiltre(String filterArray) {
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+    @Override
+    public void fetchNewsFromServerBasedOnFiltre(String filterName) {
 
-            if (!checkIfNetworkIsAvalible(newsListFragment.getActivity())&&!categroyName.equals(newsListFragment.getString(R.string.bookMarkedNews))){
+            if (!checkIfNetworkIsAvalible(newsListFragment.getContext())&&!categroyName.equals(newsListFragment.getContext().getString(R.string.bookMarkedNews))){
              return;
             }
 
@@ -60,22 +72,35 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
         NewsFromMainCategoryRequest newsFromMainCategoryRequest=new NewsFromMainCategoryRequest();
 
 
-        if (categroyName.equals("Main News")){
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,newsListFragment.getString(R.string.baseUrl)
-                    +newsListFragment.getString(R.string.mainNews));
+
+
+
+
+       if (TextUtils.isEmpty(filterName)){
+           newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL
+                   ,newsListFragment.getContext().getString(R.string.baseUrl)
+                   +newsListFragment.getContext().getString(R.string.newsSingleSubCat));
+           newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.SUB_CAT,filterName);
+           newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.PAGE_NO,pageNumber+"");
+
+       }
+       else if (categroyName.equals("Main News")){
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,newsListFragment.getContext().getString(R.string.baseUrl)
+                    +newsListFragment.getContext().getString(R.string.mainNews));
             newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CAT,categroyName);
             newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.SUB_CAT
-                    , DatabaseNewsDataSource.getInstance(newsListFragment.getActivity())
+                    , DatabaseNewsDataSource.getInstance(newsListFragment.getContext())
                     .getSubCategoriesTable().
-                            getStringArrayIfSelectedSubCategory(DatabaseNewsDataSource.getInstance(newsListFragment.getActivity())
+                            getStringArrayIfSelectedSubCategory(DatabaseNewsDataSource.getInstance(newsListFragment.getContext())
                                     .getSqLiteDatabase()));
         }
         else if (categroyName.equals("bookmarked")){
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL, newsListFragment.getString(R.string.bookMarkedNews));
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL, newsListFragment.getContext().getString(R.string.bookMarkedNews));
             newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CATEGORY, categroyName);
         }
+
         else{
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL, newsListFragment.getString(R.string.baseUrl) + newsListFragment.getString(R.string.anyNews));
+            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL, newsListFragment.getContext().getString(R.string.baseUrl) + newsListFragment.getContext().getString(R.string.anyNews));
             newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CATEGORY, categroyName);
         }
 

@@ -1,5 +1,6 @@
 package com.mandasur.app.news.adapters;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,16 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.api.GoogleAPIException;
-import com.google.api.translate.Language;
-import com.google.api.translate.Translate;
-import com.google.api.translate.TranslateV2;
 import com.mandasur.app.R;
 
 import com.mandasur.app.data.source.dao.requestdao.News;
-import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
+import com.mandasur.app.news.FiltredNewsListActivity;
+import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -54,17 +51,20 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
     @Override
     public void onBindViewHolder(NewsListViewHolder holder, int position) {
 
-        News news=newsArrayList.get(position);
+        final News news=newsArrayList.get(position);
 
         if (news.isSubcategoryStart()){
             if (!TextUtils.isEmpty(news.getSubCategoryName())&&(!news.getSubCategoryName().equals("news"))){}
             holder.newsHeader.setVisibility(View.VISIBLE);
             holder.subCategoryTitle.setText(news.getSubCategoryName());
-
+            holder.viewAllTv.setTag(news.getSubCategoryName());
             holder.viewAllTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(),"Comming Soon",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(v.getContext(), FiltredNewsListActivity.class);
+                    intent.putExtra(FiltredNewsListWithSubCategoryFragment.SUB_CATEGORY_NAME,(String)v.getTag());
+                    v.getContext().startActivity(intent);
+
                 }
             });
 

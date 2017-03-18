@@ -1,4 +1,7 @@
     <resources>
+        <string name="facebook_url">https://www.facebook.com/hello.mandsaurcom</string>
+        <string name="googleplus_url">https://plus.google.com/118146006832635043790</string>
+        <string name="twitter_url">twitter://user?742644935027871748</string>
         <string name="textFilterIcon">&#xf0b0;</string>
         <string name="textDrawerlayout">&#xf0c9;</string>
         <string name="textArrowIcon">&#xf060;</string>
@@ -11,6 +14,7 @@
         <string name="mainNews">mainnews_Fromall_Cat.php</string>
         <string name="anyNews">newsFrom_uppertabs.php</string>
         <string name="newsDetails">newsdetails.php</string>
+        <string name="newsSingleSubCat">news_singleSubcat.php</string>
         <string name="bookMarkedNews">bookmarked</string>
 
         <string name="db_name">mandsaurappdb</string>chr
@@ -68,6 +72,7 @@
 
 
         <string name="textNoSavedNewsPresent">बाद मैं पड़ने के लिए कोई खबर चुनी नहीं गयी है </string>
+    <string name="title_activity_filtred_news_list">FiltredNewsListActivity</string>
 
 
     </resources>

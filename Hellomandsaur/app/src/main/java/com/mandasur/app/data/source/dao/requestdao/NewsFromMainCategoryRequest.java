@@ -9,6 +9,9 @@ public class NewsFromMainCategoryRequest extends Request {
     public static final String SUB_CAT="sub_cat";
 
 
+    public static final String PAGE_NO="page_no";
+
+
     public static final String CATEGORY="category";
 
     @Override

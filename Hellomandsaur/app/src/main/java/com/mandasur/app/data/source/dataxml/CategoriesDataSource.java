@@ -32,7 +32,6 @@ public class CategoriesDataSource  {
 
        String[] categoriesTitle= context.getResources().getStringArray(R.array.categoriesTitle);
         String[] categoryIdentifier=context.getResources().getStringArray(R.array.categoryIdentifier);
-        String[] other_category_identifier=context.getResources().getStringArray(R.array.other_menu_item);
 
         for (int i=0;i<categoriesTitle.length;i++){
 

@@ -1,5 +1,6 @@
 package com.mandasur.app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -14,6 +15,7 @@ import com.mandasur.app.news.usecase.GetCategories;
 import com.mandasur.app.news.usecase.GetNewsDetailsFromServer;
 import com.mandasur.app.news.usecase.GetNewsListByCategory;
 import com.mandasur.app.news.usecase.GetSubCategory;
+import com.mandasur.app.news.usecase.ShareNewsDetails;
 import com.mandasur.app.news.usecase.SubCateorySelected;
 
 /**
@@ -70,4 +72,9 @@ public class Injector {
         return  new GetNewsDetailsFromServer(getNewsDataRepository(context));
     }
 
+
+    public static ShareNewsDetails getShareNewsDetailsUseCase(@NonNull Activity activity){
+        return new ShareNewsDetails(activity);
+    }
 }
+

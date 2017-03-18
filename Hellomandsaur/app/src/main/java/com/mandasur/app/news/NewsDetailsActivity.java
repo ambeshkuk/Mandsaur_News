@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
+import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
@@ -74,7 +75,8 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         TextView titleTv= (TextView) findViewById(R.id.titleTv);
         titleTv.setText(categoryName);
         findViewById(R.id.filtericonIv).setVisibility(View.GONE);
-        newsDetailPresenter= new NewsDetailPresenter(Injector.getNewsDetailsFromServer(this),this,newsId);
+        newsDetailPresenter= new NewsDetailPresenter(
+                Injector.getNewsDetailsFromServer(this),Injector.getShareNewsDetailsUseCase(this),this,newsId);
         mandsaurDataBaseHelper  = DatabaseNewsDataSource.getInstance(NewsDetailsActivity.this);
         homeAsUpIcon.setText(getString(R.string.textArrowIcon));
 
@@ -200,7 +202,12 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
                     break;
                 case R.id.shareFb:
-                    Toast.makeText(NewsDetailsActivity.this,"Comming Soon",Toast.LENGTH_LONG).show();
+                    News news=new News();
+                    news.setTitle(newsDetail.getTitle());
+                    news.setDate(newsDetail.getDate());
+
+                    newsDetailPresenter.shareNewsOnSocialMedia(news);
+
                     break;
                 case R.id.homeAsUpIcon:
                     finish();

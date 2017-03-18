@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.mandasur.app.BasePresenter;
 import com.mandasur.app.BaseView;
+import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
 
 /**
@@ -28,5 +29,6 @@ interface NewsDetailsPresenter extends BasePresenter{
      void fetchNewsDetailsFromServer();
         void fetchNewsAdvertisingFromServer();
      boolean checkIfNetworkIsAvalible(Context context);
+    void shareNewsOnSocialMedia(News news);
 }
 }

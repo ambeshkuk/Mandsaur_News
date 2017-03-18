@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/metrics_1dp"
+        android:background="@color/white"
+
+        />
+
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/aboutUsTv"
+        style="@style/style_row_item"
+        android:text="@string/textAboutus"
+        />
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/contactUsTv"
+        style="@style/style_row_item"
+        android:text="@string/textContactUs"
+
+        />
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/privacyPolicyTv"
+        style="@style/style_row_item"
+        android:text="@string/textPrivacyPolicy"
+
+        />
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/advertiseUsTv"
+        style="@style/style_row_item"
+        android:text="@string/textAdvertiseUs"
+
+        />
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/siteMapTv"
+        style="@style/style_row_item"
+        android:text="@string/textSiteMap"
+        />
+
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/facebookTv"
+        style="@style/style_row_item"
+        android:text="@string/textFacebook"
+        />
+
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/twitterTv"
+        style="@style/style_row_item"
+        android:text="@string/textTwitter"
+        />
+
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/googleTv"
+        style="@style/style_row_item"
+        android:text="@string/textGoogle"
+        />
+
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/youtubeTv"
+        style="@style/style_row_item"
+        android:text="@string/textYoutube"
+        />
+
+</LinearLayout>

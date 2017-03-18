@@ -12,6 +12,11 @@ package com.mandasur.app.data.source.dao.requestdao;
  */
 public class News {
 
+    public static final String TITLE="title";
+    public static final String IMAGE="image";
+    public static final String DATE="date";
+    public static final String NEWSURL="news_url";
+
     private String fid,title,image,place,date;
 
     public String getSubCategoryName() {

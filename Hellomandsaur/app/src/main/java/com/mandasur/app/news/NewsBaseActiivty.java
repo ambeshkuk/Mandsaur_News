@@ -13,17 +13,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.news.adapters.DrawerAdpater;
+import com.mandasur.app.socailmedia.SocialMediaUtil;
 import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.MandsaurNewsTextView;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
@@ -36,6 +41,8 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
     private NavigationView nav_view;
     private MandsaurNewsTextView homeAsUpIcon,titleTv;
     private ImageView filtericonIv;
+    private LinearLayout footerViewDrawerLayout;
+    private AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +51,13 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-
+        intialiseAdsOnScreen();
 
 //        toolbar.addView(view);
          filtericonIv= (ImageView) findViewById(R.id.filtericonIv);
         homeAsUpIcon = (MandsaurNewsTextView) findViewById(R.id.homeAsUpIcon);
          titleTv= (MandsaurNewsTextView) findViewById(R.id.titleTv);
+        footerViewDrawerLayout= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_bottom_drawer_list_view,null);
         titleTv.setText(getString(R.string.title_activity_detail));
         filtericonIv.setOnClickListener(onClickListener);
         homeAsUpIcon.setOnClickListener(onClickListener);
@@ -76,9 +84,32 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
     }
 
 
+    private void intialiseAdsOnScreen(){
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mAdView.loadAd(adRequest);
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
     }
 
     @Override
@@ -121,6 +152,19 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
                         mDrawerLayout.openDrawer(nav_view);
                     }
                     break;
+                case R.id.facebookTv:
+                    mDrawerLayout.closeDrawer(nav_view);
+                    SocialMediaUtil.openFacebookPageURL(NewsBaseActiivty.this);
+
+                    break;
+                case R.id.googleTv:
+                    mDrawerLayout.closeDrawer(nav_view);
+                    SocialMediaUtil.openGooglePlusPage(NewsBaseActiivty.this);
+                    break;
+                case R.id.twitterTv:
+                    mDrawerLayout.closeDrawer(nav_view);
+                    SocialMediaUtil.openTwitterPageUrl(NewsBaseActiivty.this);
+                    break;
             }
         }
     };
@@ -145,9 +189,19 @@ private DrawerAdpater drawerAdpater;
 //        drawerAdpater.notifyDataSetChanged();
 
         categorylv.setOnItemClickListener(onItemClickListener);
+        categorylv.addFooterView(footerViewDrawerLayout);
 
 
     }
+
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

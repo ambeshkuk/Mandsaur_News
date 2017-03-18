@@ -60,7 +60,7 @@ public class SubCategoriesTable {
         }
 
         cursor.close();
-        ActivityUtil.Log(SubCategoriesTable.class.getSimpleName(),subCategoryArray.toString());
+        ActivityUtil.Log(SubCategoriesTable.class.getSimpleName(), subCategoryArray.toString());
         return subCategoryArray.toString();
     }
 
@@ -84,7 +84,7 @@ public class SubCategoriesTable {
         contentValues.put(SubCategories.SUBCATEGORY_NAME,subCategorie.getSubCategoryName());
         contentValues.put(SubCategories.SUBCATEGORY_INDICATOR,subCategorie.getSubCategoryIndicator());
         contentValues.put(SubCategories.IS_ITEM_CHECKED,subCategorie.isItemChecked()?1:0);
-       return sqLiteDatabase.insert(SUBCATEGORY_TABLE,null,contentValues);
+       return sqLiteDatabase.insert(SUBCATEGORY_TABLE, null, contentValues);
     }
     public int insertSubCateoriesToDb(SQLiteDatabase sqLiteDatabase,ArrayList<SubCategories>  subCategories){
 
@@ -151,6 +151,31 @@ public class SubCategoriesTable {
 
         cursor.close();
         return subCategories;
+    }
+
+    public String getSubCategoryNameFromSubCategroyIndicator(SQLiteDatabase sqLiteDatabase,String subCateroryName){
+
+
+
+
+
+        String subCategoryName=null;
+        String[] columns={SubCategories.SUBCATEGORY_NAME};
+
+        Cursor cursor=sqLiteDatabase.query(SUBCATEGORY_TABLE,columns,
+                SubCategories.SUBCATEGORY_INDICATOR+"='"+subCateroryName+"'",null,null,null,null);
+
+
+
+
+
+
+
+        if (cursor.moveToFirst()){
+            subCategoryName=cursor.getString(cursor.getColumnIndex(SubCategories.SUBCATEGORY_NAME));
+        }
+
+        return subCategoryName;
     }
 }
 

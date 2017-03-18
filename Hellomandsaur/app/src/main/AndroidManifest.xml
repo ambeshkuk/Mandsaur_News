@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-
         android:name=".MandsaurApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,11 +15,9 @@
             android:name=".news.NewsBaseActiivty"
             android:label="@string/title_activity_news_base_actiivty"
             android:screenOrientation="portrait" >
-
         </activity>
         <activity
             android:name=".news.NewsDetailsActivity"
-
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -28,14 +25,28 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SplashScrees"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".news.FiltredNewsListActivity"
+            android:label="@string/title_activity_filtred_news_list"
+            android:parentActivityName=".news.NewsBaseActiivty" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mandasur.app.news.NewsBaseActiivty" />
+        </activity>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
     </application>
 
 </manifest>

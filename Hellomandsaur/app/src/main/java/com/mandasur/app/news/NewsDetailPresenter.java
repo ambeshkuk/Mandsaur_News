@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.mandasur.app.R;
 import com.mandasur.app.UseCase;
+import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailFromIdRequest;
 import com.mandasur.app.news.usecase.GetNewsDetailsFromServer;
 import com.mandasur.app.news.usecase.GetNewsListByCategory;
+import com.mandasur.app.news.usecase.ShareNewsDetails;
 import com.mandasur.app.util.ActivityUtil;
 
 /**
@@ -16,12 +18,14 @@ public class NewsDetailPresenter implements NewsDetailContract.NewsDetailsPresen
 
     private final String NEWS="news";
     private GetNewsDetailsFromServer getNewsDetailsFromServer;
+    private ShareNewsDetails shareNewsDetails;
     private NewsDetailsActivity newsDetailsActivity;
     private String newsId;
 
-    public NewsDetailPresenter(GetNewsDetailsFromServer getNewsDetailsFromServer
+    public NewsDetailPresenter(GetNewsDetailsFromServer getNewsDetailsFromServer,ShareNewsDetails shareNewsDetails
             ,NewsDetailsActivity newsDetailsActivity,String newsId){
         this.getNewsDetailsFromServer=getNewsDetailsFromServer;
+        this.shareNewsDetails=shareNewsDetails;
         this.newsDetailsActivity=newsDetailsActivity;
         this.newsId=newsId;
         newsDetailsActivity.setPresenter(this);
@@ -77,7 +81,18 @@ public class NewsDetailPresenter implements NewsDetailContract.NewsDetailsPresen
     }
 
     @Override
+    public void shareNewsOnSocialMedia(News news) {
+
+        ShareNewsDetails.RequestValues requestValues=new ShareNewsDetails.RequestValues();
+        requestValues.setNews(news);;
+        shareNewsDetails.executeUseCase(requestValues);
+
+
+    }
+
+    @Override
     public void start() {
 
     }
+
 }

@@ -19,6 +19,7 @@ public interface NewsListContract {
         void showLoadingIndicator();
         void showNewsListingBasedOnFilter(NewsFromMainCategoryResponse newsFromMainCategoryResponse);
         void showErrorOccured(String errorMessage);
+        Context getContext();
     }
 
 
@@ -28,6 +29,8 @@ public interface NewsListContract {
         boolean checkIfNetworkIsAvalible(Context context);
 
         void fetchNewsFromServerBasedOnFiltre(String filterArray);
+        void setPageNumber(int pageNumber);
+
 
 
     }
