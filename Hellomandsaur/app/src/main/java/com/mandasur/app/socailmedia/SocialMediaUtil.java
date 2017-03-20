@@ -1,6 +1,7 @@
 package com.mandasur.app.socailmedia;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -47,7 +48,22 @@ public class SocialMediaUtil {
 
     }
 
+    public static void openYouTubePage(Activity activity){
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(activity.getString(R.string.youtube_url)));
+        activity.startActivity(intent);
+
+    }
     public static void openTwitterPageUrl(Activity activity){
-        activity.startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(activity.getString(R.string.twitter_url))));
+        try{
+            activity.startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(activity.getString(R.string.twitter_url))));
+        }
+        catch (ActivityNotFoundException e){
+            activity.startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(activity.getString(R.string.twitter_browser_url))));
+
+        }
+
+
     }
 }

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdSize;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
@@ -22,10 +23,12 @@ public class FiltredNewsListActivity extends AppCompatActivity {
         setContentView(R.layout.layout_filtred_news_list_activity);
         Intent intent=getIntent();
 
+
         FiltredNewsListWithSubCategoryFragment filtredNewsListWithSubCategoryFragment
                 = FiltredNewsListWithSubCategoryFragment.newInstance(intent.
                 getStringExtra(FiltredNewsListWithSubCategoryFragment.SUBCATEGORY_STING));
-        filtredNewsListWithSubCategoryFragment.setPresenter(new NewsListPresenter(Injector.getNewsListByCategory(FiltredNewsListActivity.this)
+        filtredNewsListWithSubCategoryFragment.setPresenter(new NewsListPresenter(Injector.getNewsListByCategory(FiltredNewsListActivity.this),
+                Injector.getShareNewsDetailsUseCase(this)
                 , filtredNewsListWithSubCategoryFragment,""));
         ActivityUtil.addFragmentToActivity(R.id.content_frame,
                 getSupportFragmentManager(),

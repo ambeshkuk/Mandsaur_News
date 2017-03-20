@@ -71,7 +71,7 @@
         android:id="@+id/newsTitleTv"
          android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/metrics_10dp"
+        android:layout_marginBottom="@dimen/metrics_20dp"
         android:maxLines="2"
         android:ellipsize="end"
             android:textColor="@color/white"
@@ -105,7 +105,7 @@
             android:ellipsize="end"
             android:textColor="@color/white"
             fontPath="fonts/Roboto-Regular.ttf"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/metrics_20dp"
             android:text="0"
@@ -117,13 +117,13 @@
             android:id="@+id/shareFb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/metrics_10dp"
+            android:layout_marginRight="@dimen/metrics_20dp"
             android:clickable="true"
             android:src="@drawable/icn_share"
             app:layout_anchor="@id/newsListBackgroundLl"
 
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/newsReadCountTv"
             app:backgroundTint="@color/red"
 
             />

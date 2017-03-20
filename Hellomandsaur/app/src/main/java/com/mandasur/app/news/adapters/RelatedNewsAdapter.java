@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mandasur.app.R;
-
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.news.FiltredNewsListActivity;
 import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
@@ -27,7 +26,7 @@ import java.util.HashMap;
 
 
 
-public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsListAdapterWithSubCateories.NewsListViewHolder>{
+public class RelatedNewsAdapter extends RecyclerView.Adapter<RelatedNewsAdapter.NewsListViewHolder>{
 
 
     public interface OnNewsItemSelected{
@@ -36,16 +35,17 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
     }
 
 
+
     private ArrayList<News> newsArrayList;
     private HashMap<String,String> tranlationAndIndicatorHashMap=new HashMap<>();
-    public NewsListAdapterWithSubCateories(ArrayList<News> newsArrayList) {
+    public RelatedNewsAdapter(ArrayList<News> newsArrayList) {
         this.newsArrayList = newsArrayList;
 
     }
 
     @Override
     public NewsListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_news_list_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_related_news_list_item,parent,false);
 
         return new NewsListViewHolder(view);
     }
@@ -53,47 +53,19 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
     @Override
     public void onBindViewHolder(NewsListViewHolder holder, int position) {
 
-        final News news=newsArrayList.get(position);
-
-        if (news.isSubcategoryStart()){
-            if (!TextUtils.isEmpty(news.getSubCategoryName())&&(!news.getSubCategoryName().equals("news"))){}
-            holder.newsHeader.setVisibility(View.VISIBLE);
-            holder.subCategoryTitle.setText(news.getSubCategoryName());
-            holder.viewAllTv.setTag(news.getSubCategoryName());
-            holder.viewAllTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(v.getContext(), FiltredNewsListActivity.class);
-                    intent.putExtra(FiltredNewsListWithSubCategoryFragment.SUB_CATEGORY_NAME,(String)v.getTag());
-                    v.getContext().startActivity(intent);
-
-                }
-            });
-
-        }
-        else
-        {
-            holder.newsHeader.setVisibility(View.GONE);
-        }
-        holder.newsListBackgroundLl.setTag(news.getFid());
-        holder.newsListBackgroundLl.setOnClickListener(onClickListener);
-        holder.newsTimeTv.setText(news.getDate());
-        holder.newsTitleTv.setText(news.getTitle());
-
-        holder.shareFb.setTag(news);
-        holder.shareFb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (v.getTag() instanceof News){
-                    onNewsItemSelected.onClickOnShareBtn((News) v.getTag());
-                }
-            }
-        });
-        if (!TextUtils.isEmpty(news.getImage())){
-
-            Picasso.with(holder.newsImageIv.getContext()).load("http://" + news.getImage()).into(holder.newsImageIv);
-        }
+//        final News news=newsArrayList.get(position);
+//
+//
+//        holder.newsListBackgroundLl.setTag(news.getFid());
+//        holder.newsListBackgroundLl.setOnClickListener(onClickListener);
+//
+//        holder.newsTitleTv.setText(news.getTitle());
+//
+//
+//        if (!TextUtils.isEmpty(news.getImage())){
+//
+//            Picasso.with(holder.newsImageIv.getContext()).load("http://" + news.getImage()).into(holder.newsImageIv);
+//        }
     }
 
 
@@ -110,7 +82,7 @@ private View.OnClickListener onClickListener=new View.OnClickListener() {
 
     @Override
     public int getItemCount() {
-        return newsArrayList.size();
+        return 5;
     }
 
 

@@ -14,11 +14,14 @@
     <dimen name="metrics_150dp">150dp</dimen>
     <dimen name="metrics_10dp">10dp</dimen>
     <dimen name="metrics_20dp">20dp</dimen>
+
     <dimen name="metrics_5dp">5dp</dimen>
     <dimen name="metrics_50dp">50dp</dimen>
     <dimen name="metrics_80dp">80dp</dimen>
     <dimen name="metrics_200dp">200dp</dimen>
     <dimen name="metrics_1dp">1dp</dimen>
+
+    <dimen name="metrics_100dp">100dp</dimen>
 
 
 
@@ -35,6 +38,8 @@
 
 
 
+    <dimen name="size_1sp">1.5sp</dimen>
     <dimen name="size_25sp">25sp</dimen>
+    <dimen name="size_40sp">40sp</dimen>
 
 </resources>

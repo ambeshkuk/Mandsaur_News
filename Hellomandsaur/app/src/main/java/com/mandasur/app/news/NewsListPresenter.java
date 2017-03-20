@@ -9,10 +9,12 @@ import android.util.Log;
 import com.mandasur.app.R;
 import com.mandasur.app.UseCase;
 import com.mandasur.app.data.source.NewsDataRepository;
+import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.news.NewsList.NewsListFragment;
 import com.mandasur.app.news.usecase.GetNewsListByCategory;
+import com.mandasur.app.news.usecase.ShareNewsDetails;
 import com.mandasur.app.util.ActivityUtil;
 
 import okhttp3.internal.Util;
@@ -26,17 +28,17 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
 
     private GetNewsListByCategory getNewsListByCategory;
     private NewsListContract.NewsListView newsListFragment;
-
+    private ShareNewsDetails shareNewsDetails;
 
 
     private int pageNumber=1;
     private String categroyName;
-    public NewsListPresenter(GetNewsListByCategory getNewsListByCategory
+    public NewsListPresenter(GetNewsListByCategory getNewsListByCategory,ShareNewsDetails shareNewsDetails
             , NewsListContract.NewsListView newsListFragment,String categroyName) {
         this.getNewsListByCategory = getNewsListByCategory;
         this.newsListFragment = newsListFragment;
         this.categroyName=categroyName;
-
+    this.shareNewsDetails=shareNewsDetails;
         newsListFragment.setPresenter(this);
     }
 
@@ -60,6 +62,14 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
     public void setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
     }
+
+    @Override
+    public void shareNewsOnSocialMedia(News news) {
+        ShareNewsDetails.RequestValues requestValues=new ShareNewsDetails.RequestValues();
+        requestValues.setNews(news);;
+        shareNewsDetails.executeUseCase(requestValues);
+    }
+
     @Override
     public void fetchNewsFromServerBasedOnFiltre(String filterName) {
 
@@ -76,7 +86,7 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
 
 
 
-       if (TextUtils.isEmpty(filterName)){
+       if (!TextUtils.isEmpty(filterName)){
            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL
                    ,newsListFragment.getContext().getString(R.string.baseUrl)
                    +newsListFragment.getContext().getString(R.string.newsSingleSubCat));
@@ -127,7 +137,7 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
     @Override
     public void start() {
 
-        fetchNewsFromServerBasedOnFiltre("all");
+        fetchNewsFromServerBasedOnFiltre("");
 
     }
 }

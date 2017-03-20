@@ -73,7 +73,7 @@ public class Injector {
     }
 
 
-    public static ShareNewsDetails getShareNewsDetailsUseCase(@NonNull Activity activity){
+    public static ShareNewsDetails getShareNewsDetailsUseCase(@NonNull Context activity){
         return new ShareNewsDetails(activity);
     }
 }

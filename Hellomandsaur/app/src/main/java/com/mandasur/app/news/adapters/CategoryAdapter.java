@@ -76,7 +76,8 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
         NewsListFragment newsListFragment=NewsListFragment.
                 newInstance(category.getCategoryIdentifier(),"sports",category.getCategoryTitle());
         newsListFragment.setMainCategory(category.getCategoryTitle());
-        NewsListContract.NewsListPresenter newsListPresenter=new NewsListPresenter(Injector.getNewsListByCategory(context),newsListFragment,category.getCategoryIdentifier());
+        NewsListContract.NewsListPresenter newsListPresenter=new NewsListPresenter(Injector.getNewsListByCategory(context),Injector.getShareNewsDetailsUseCase(context),
+                newsListFragment,category.getCategoryIdentifier());
 
 
         return newsListFragment;

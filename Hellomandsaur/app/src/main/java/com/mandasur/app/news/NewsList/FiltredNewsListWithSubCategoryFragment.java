@@ -117,8 +117,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
         subCategroyName=mandsaurDataBaseHelper.getSubCategoriesTable().
                 getSubCategoryNameFromSubCategroyIndicator(mandsaurDataBaseHelper
                         .getSqLiteDatabase(),subCategory);
-        newsListPresenter.start();
-
+        newsListPresenter.fetchNewsFromServerBasedOnFiltre(subCategory);
 
         return view;
     }
@@ -168,6 +167,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
         networkNotAvalibleTv.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        swipeToRefreshLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -175,6 +175,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
         networkNotAvalibleTv.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        swipeToRefreshLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -185,8 +186,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
             networkNotAvalibleTv.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-
-
+            swipeToRefreshLayout.setVisibility(View.VISIBLE);
             if (newsListAdapterWithSubCateories!=null){
 
                 newsArrayList.clear();
@@ -222,6 +222,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
             networkNotAvalibleTv.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
+            swipeToRefreshLayout.setVisibility(View.GONE);
             networkNotAvalibleTv.setText(getString(R.string.textNoNewsFound));
         }
 
@@ -234,6 +235,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
         networkNotAvalibleTv.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        swipeToRefreshLayout.setVisibility(View.GONE);
         networkNotAvalibleTv.setText(errorMessage);
     }
 
@@ -271,6 +273,11 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
             intent.putExtra(NewsDetailsActivity.NEWS_ID,newsId);
             intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,subCategroyName);
             startActivity(intent);
+        }
+
+        @Override
+        public void onClickOnShareBtn(News news) {
+            newsListPresenter.shareNewsOnSocialMedia(news);
         }
     };
 

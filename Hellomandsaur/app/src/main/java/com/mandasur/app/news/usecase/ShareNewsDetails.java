@@ -1,6 +1,7 @@
 package com.mandasur.app.news.usecase;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,8 +19,8 @@ import java.util.ArrayList;
 public class ShareNewsDetails extends UseCase<ShareNewsDetails.RequestValues,ShareNewsDetails.ResponseValue>{
 
 
-    private Activity sharingActivity;
-        public ShareNewsDetails(Activity sharingActivity) {
+    private Context sharingActivity;
+        public ShareNewsDetails(Context sharingActivity) {
 
             this.sharingActivity=sharingActivity;
         }

@@ -171,6 +171,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         networkNotAvalibleTv.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        swipeToRefreshLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -178,6 +179,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         networkNotAvalibleTv.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        swipeToRefreshLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -188,6 +190,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
             networkNotAvalibleTv.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+            swipeToRefreshLayout.setVisibility(View.VISIBLE);
 
 
             if (newsListAdapterWithSubCateories!=null){
@@ -215,6 +218,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
             networkNotAvalibleTv.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
+            swipeToRefreshLayout.setVisibility(View.GONE);
             networkNotAvalibleTv.setText(getString(R.string.textNoNewsFound));
         }
 
@@ -227,6 +231,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         networkNotAvalibleTv.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        swipeToRefreshLayout.setVisibility(View.GONE);
         networkNotAvalibleTv.setText(errorMessage);
     }
 
@@ -264,6 +269,12 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
             intent.putExtra(NewsDetailsActivity.NEWS_ID,newsId);
             intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,categoryName);
             startActivity(intent);
+        }
+
+        @Override
+        public void onClickOnShareBtn(News news) {
+
+            newsListPresenter.shareNewsOnSocialMedia(news);
         }
     };
 }

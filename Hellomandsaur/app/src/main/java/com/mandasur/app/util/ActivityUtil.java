@@ -32,6 +32,10 @@ import android.util.Log;
  */
 public class ActivityUtil {
 
+
+    public static void log(String tag,String value){
+        Log.i(tag,value);
+    }
     /**
      * The {@code fragment} is added to the container view with id {@code frameId}. The operation is
      * performed by the {@code fragmentManager}.

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="@dimen/metrics_200dp"
+    android:orientation="vertical"
+    android:layout_width="@dimen/metrics_250"
+
+
+
+
+
+    android:layout_marginRight="@dimen/metrics_10dp"
+    >
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/newsImageIv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo"
+
+            />
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/newsListBackgroundLl"
+
+
+            android:padding="@dimen/metrics_10dp"
+
+            android:background="@color/backTransparentBlack"
+
+            >
+            <com.mandasur.app.util.MandsaurNewsTextView
+                android:id="@+id/newsTitleTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/metrics_20dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/white"
+                fontPath="fonts/Roboto-Regular.ttf"
+                android:layout_alignParentBottom="true"
+                android:text="Liposium Sample Text"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
+
+
+
+
+        </RelativeLayout>
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        />
+</LinearLayout>

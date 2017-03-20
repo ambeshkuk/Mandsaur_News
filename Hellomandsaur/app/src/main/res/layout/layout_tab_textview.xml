@@ -10,7 +10,6 @@
 
 
     android:textColor="@color/white"
-    fontPath="fonts/Proxima_Nova_Light.otf"
 
     android:textAppearance="?android:attr/textAppearanceSmall"
 

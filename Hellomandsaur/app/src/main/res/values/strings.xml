@@ -2,6 +2,8 @@
         <string name="facebook_url">https://www.facebook.com/hello.mandsaurcom</string>
         <string name="googleplus_url">https://plus.google.com/118146006832635043790</string>
         <string name="twitter_url">twitter://user?742644935027871748</string>
+        <string name="twitter_browser_url">https://twitter.com/742644935027871748</string>
+        <string name="youtube_url">https://www.youtube.com/channel/UCjTp0BZHoiDxmDELjfJvbIQ</string>
         <string name="textFilterIcon">&#xf0b0;</string>
         <string name="textDrawerlayout">&#xf0c9;</string>
         <string name="textArrowIcon">&#xf060;</string>

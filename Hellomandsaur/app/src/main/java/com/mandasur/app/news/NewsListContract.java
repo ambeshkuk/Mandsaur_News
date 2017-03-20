@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.mandasur.app.BasePresenter;
 import com.mandasur.app.BaseView;
+import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 
 /**
@@ -30,6 +31,7 @@ public interface NewsListContract {
 
         void fetchNewsFromServerBasedOnFiltre(String filterArray);
         void setPageNumber(int pageNumber);
+        void shareNewsOnSocialMedia(News news);
 
 
 

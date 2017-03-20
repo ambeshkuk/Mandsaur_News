@@ -18,6 +18,8 @@ import android.widget.ListView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Category;
@@ -42,7 +44,7 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
     private MandsaurNewsTextView homeAsUpIcon,titleTv;
     private ImageView filtericonIv;
     private LinearLayout footerViewDrawerLayout;
-    private AdView mAdView;
+    private PublisherAdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,9 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
          filtericonIv= (ImageView) findViewById(R.id.filtericonIv);
         homeAsUpIcon = (MandsaurNewsTextView) findViewById(R.id.homeAsUpIcon);
          titleTv= (MandsaurNewsTextView) findViewById(R.id.titleTv);
+
         footerViewDrawerLayout= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_bottom_drawer_list_view,null);
+        intializeTheFooterView();
         titleTv.setText(getString(R.string.title_activity_detail));
         filtericonIv.setOnClickListener(onClickListener);
         homeAsUpIcon.setOnClickListener(onClickListener);
@@ -83,10 +87,37 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
 
     }
 
+    private MandsaurNewsTextView aboutUsTv,contactUsTv,privacyPolicyTv
+            ,advertiseUsTv,siteMapTv,facebookTv,twitterTv,googleTv,youtubeTv;
+    private void intializeTheFooterView(){
+        aboutUsTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.aboutUsTv);
+        contactUsTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.contactUsTv);
+        privacyPolicyTv= (MandsaurNewsTextView) footerViewDrawerLayout
+                .findViewById(R.id.privacyPolicyTv);
+        advertiseUsTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.advertiseUsTv);
+        siteMapTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.siteMapTv);
+        facebookTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.facebookTv);
+        twitterTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.twitterTv);
+        googleTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.googleTv);
+        youtubeTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.youtubeTv);
+
+
+
+        aboutUsTv.setOnClickListener(onClickListener);
+        contactUsTv.setOnClickListener(onClickListener);
+        privacyPolicyTv.setOnClickListener(onClickListener);
+        advertiseUsTv.setOnClickListener(onClickListener);
+        siteMapTv.setOnClickListener(onClickListener);
+        facebookTv.setOnClickListener(onClickListener);
+        twitterTv.setOnClickListener(onClickListener);
+        googleTv.setOnClickListener(onClickListener);
+        youtubeTv.setOnClickListener(onClickListener);
+
+    }
 
     private void intialiseAdsOnScreen(){
-        mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
+        mAdView = (PublisherAdView) findViewById(R.id.adView);
+        PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .build();
         mAdView.loadAd(adRequest);
     }
@@ -164,6 +195,9 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
                 case R.id.twitterTv:
                     mDrawerLayout.closeDrawer(nav_view);
                     SocialMediaUtil.openTwitterPageUrl(NewsBaseActiivty.this);
+                    break;
+                case R.id.youtubeTv:
+                    SocialMediaUtil.openYouTubePage(NewsBaseActiivty.this);
                     break;
             }
         }

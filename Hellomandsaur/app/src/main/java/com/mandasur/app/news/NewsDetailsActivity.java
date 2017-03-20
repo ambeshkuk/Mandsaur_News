@@ -8,9 +8,12 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +23,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.News;
@@ -27,6 +34,7 @@ import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
+import com.mandasur.app.news.adapters.RelatedNewsAdapter;
 import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.MandsaurNewsTextView;
 import com.squareup.picasso.Picasso;
@@ -53,11 +61,15 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     private NewsDetailContract.NewsDetailsPresenter newsDetailPresenter;
     private SeekBar fontSizeSb;
+    private PublisherAdView mAdView;
+    private RecyclerView relatedNewsRv;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_news_details);
+        intialiseAdsOnScreen();
         String newsId=getIntent().getStringExtra(NEWS_ID);
         String categoryName=getIntent().getStringExtra(CATEGORY_NAME);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,6 +87,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         TextView titleTv= (TextView) findViewById(R.id.titleTv);
         titleTv.setText(categoryName);
         findViewById(R.id.filtericonIv).setVisibility(View.GONE);
+        relatedNewsRv= (RecyclerView) findViewById(R.id.relatedNewsRv);
         newsDetailPresenter= new NewsDetailPresenter(
                 Injector.getNewsDetailsFromServer(this),Injector.getShareNewsDetailsUseCase(this),this,newsId);
         mandsaurDataBaseHelper  = DatabaseNewsDataSource.getInstance(NewsDetailsActivity.this);
@@ -87,6 +100,21 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 //        toolbar.addView(view);
     }
 
+    @Override
+    protected void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+
+    private void intialiseAdsOnScreen(){
+        mAdView = (PublisherAdView) findViewById(R.id.adView);
+        PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
+                .build();
+        mAdView.loadAd(adRequest);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -101,8 +129,20 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     }
 
     @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+        detailViewTextSize=newsDetailsPart1Tv.getTextSize();
 
     }
 
@@ -130,7 +170,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
 
         fontSizeSb= (SeekBar) findViewById(R.id.fontSizeSb);
-//        fontSizeSb.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        fontSizeSb.setOnSeekBarChangeListener(onSeekBarChangeListener);
 
         bookmarkFb.setOnClickListener(onClickListener);
         shareFb.setOnClickListener(onClickListener);
@@ -156,8 +196,10 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
 
             float newTextSize=detailViewTextSize+(progress);
-            newsDetailsPart1Tv.setTextSize(newTextSize);
-            newsDetailsPart2Tv.setTextSize(newTextSize);
+
+
+            newsDetailsPart1Tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,newTextSize);
+            newsDetailsPart2Tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,newTextSize);
 
             newsDetailsPart1Tv.invalidate();
             newsDetailsPart2Tv.invalidate();
@@ -222,9 +264,17 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
 
             if (newsDetailsFromResponse.getData()!=null){
+
                 newsDetailParent.setVisibility(View.VISIBLE);
                 progressIndicator.setVisibility(View.GONE);
                 ArrayList<NewsDetail> newsDetails=newsDetailsFromResponse.getData();
+                RelatedNewsAdapter relatedNewsAdapter=new RelatedNewsAdapter(new ArrayList<News>());
+
+                relatedNewsRv.
+                        setLayoutManager(new
+                                LinearLayoutManager(NewsDetailsActivity.this
+                                , LinearLayoutManager.HORIZONTAL,false));
+                relatedNewsRv.setAdapter(relatedNewsAdapter);
                 if (!newsDetails.isEmpty()){
                      newsDetail=newsDetails.get(0);
                     if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),newsDetail.getFid())){

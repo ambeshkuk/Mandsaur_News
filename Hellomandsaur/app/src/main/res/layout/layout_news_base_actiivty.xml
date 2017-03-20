@@ -46,15 +46,14 @@
 
 
 
-        <com.google.android.gms.ads.AdView
+        <com.google.android.gms.ads.doubleclick.PublisherAdView
             android:id="@+id/adView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            ads:adSize="BANNER"
+            ads:adSize="SMART_BANNER"
+
             ads:adUnitId="@string/addIdHomeScreen">
-        </com.google.android.gms.ads.AdView>
+        </com.google.android.gms.ads.doubleclick.PublisherAdView>
 </LinearLayout>
 
     <android.support.design.widget.NavigationView
