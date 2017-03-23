@@ -10,7 +10,7 @@
     >
     <RelativeLayout
         android:id="@+id/newsHeader"
-        android:layout_height="@dimen/metrics_30dp"
+        android:layout_height="@dimen/metrics_50dp"
         android:padding="@dimen/metrics_5dp"
         android:background="@color/white"
         android:layout_width="match_parent">
@@ -21,8 +21,9 @@
             android:layout_height="match_parent"
             android:textColor="@color/red"
             android:layout_alignParentLeft="true"
-            fontPath="fonts/Roboto-Regular.ttf"
-
+            fontPath="fonts/Roboto-Bold.ttf"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center"
             android:layout_centerVertical="true"
             />
 
@@ -34,6 +35,8 @@
             android:text="@string/textPuraDekiye"
             android:layout_alignParentRight="true"
             fontPath="fonts/Roboto-Regular.ttf"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center"
 
             android:layout_centerVertical="true"
 

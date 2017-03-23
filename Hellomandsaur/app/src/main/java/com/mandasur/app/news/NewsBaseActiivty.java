@@ -22,6 +22,7 @@ import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
+import com.mandasur.app.aboutus_contact.AboutUsActivity;
 import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.news.adapters.DrawerAdpater;
 import com.mandasur.app.socailmedia.SocialMediaUtil;
@@ -45,12 +46,13 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
     private ImageView filtericonIv;
     private LinearLayout footerViewDrawerLayout;
     private PublisherAdView mAdView;
+   private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_news_base_actiivty);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar  = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         intialiseAdsOnScreen();
@@ -140,7 +142,9 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         super.onResume();
         if (mAdView != null) {
             mAdView.resume();
+            mAdView.resume();
         }
+        ActivityUtil.log(NewsBaseActiivty.class.getSimpleName(),toolbar.getHeight()+"");
     }
 
     @Override
@@ -198,6 +202,10 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
                     break;
                 case R.id.youtubeTv:
                     SocialMediaUtil.openYouTubePage(NewsBaseActiivty.this);
+                    break;
+                case R.id.aboutUsTv:
+                    Intent aboutUsIntent=new Intent(NewsBaseActiivty.this, AboutUsActivity.class);
+                    startActivity(aboutUsIntent);
                     break;
             }
         }

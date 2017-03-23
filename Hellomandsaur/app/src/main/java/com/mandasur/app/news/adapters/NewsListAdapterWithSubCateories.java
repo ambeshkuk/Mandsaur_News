@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.mandasur.app.R;
 
 import com.mandasur.app.data.source.dao.requestdao.News;
@@ -27,8 +29,10 @@ import java.util.HashMap;
 
 
 
-public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsListAdapterWithSubCateories.NewsListViewHolder>{
+public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
+    private final int TYPE_ADVERTISEMENT=0;
+    private final int TYPE_NEWS=1;
 
     public interface OnNewsItemSelected{
         public void openNewsItem(String newsId);
@@ -37,63 +41,106 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<NewsLi
 
 
     private ArrayList<News> newsArrayList;
-    private HashMap<String,String> tranlationAndIndicatorHashMap=new HashMap<>();
+
     public NewsListAdapterWithSubCateories(ArrayList<News> newsArrayList) {
         this.newsArrayList = newsArrayList;
 
     }
 
     @Override
-    public NewsListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_news_list_item,parent,false);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        switch (viewType){
 
-        return new NewsListViewHolder(view);
+            case TYPE_ADVERTISEMENT:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_advertising_item,parent,false);
+
+                return new AdvertisementViewHolder(view);
+
+            case TYPE_NEWS:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_news_list_item,parent,false);
+
+                return new NewsListViewHolder(view);
+            default:
+                 view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_news_list_item,parent,false);
+
+                return new NewsListViewHolder(view);
+
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(NewsListViewHolder holder, int position) {
+    public int getItemViewType(int position) {
+        News news=newsArrayList.get(position);
 
-        final News news=newsArrayList.get(position);
-
-        if (news.isSubcategoryStart()){
-            if (!TextUtils.isEmpty(news.getSubCategoryName())&&(!news.getSubCategoryName().equals("news"))){}
-            holder.newsHeader.setVisibility(View.VISIBLE);
-            holder.subCategoryTitle.setText(news.getSubCategoryName());
-            holder.viewAllTv.setTag(news.getSubCategoryName());
-            holder.viewAllTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(v.getContext(), FiltredNewsListActivity.class);
-                    intent.putExtra(FiltredNewsListWithSubCategoryFragment.SUB_CATEGORY_NAME,(String)v.getTag());
-                    v.getContext().startActivity(intent);
-
-                }
-            });
-
+        if (news.isAdvertisedNewsBean()){
+            return TYPE_ADVERTISEMENT;
         }
         else
         {
-            holder.newsHeader.setVisibility(View.GONE);
+            return TYPE_NEWS;
         }
-        holder.newsListBackgroundLl.setTag(news.getFid());
-        holder.newsListBackgroundLl.setOnClickListener(onClickListener);
-        holder.newsTimeTv.setText(news.getDate());
-        holder.newsTitleTv.setText(news.getTitle());
 
-        holder.shareFb.setTag(news);
-        holder.shareFb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
 
-                if (v.getTag() instanceof News){
-                    onNewsItemSelected.onClickOnShareBtn((News) v.getTag());
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        int itemType=getItemViewType(position);
+
+        switch (itemType){
+            case TYPE_NEWS:
+               NewsListViewHolder newsListViewHolder= (NewsListViewHolder) holder;
+                News news=newsArrayList.get(position);
+
+                if (news.isSubcategoryStart()){
+                    if (!TextUtils.isEmpty(news.getSubCategoryName())&&(!news.getSubCategoryName().equals("news"))){}
+                    newsListViewHolder.newsHeader.setVisibility(View.VISIBLE);
+                    newsListViewHolder.subCategoryTitle.setText(news.getSubCategoryName());
+                    newsListViewHolder.viewAllTv.setTag(news.getSubCategoryName());
+                    newsListViewHolder.viewAllTv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(v.getContext(), FiltredNewsListActivity.class);
+                            intent.putExtra(FiltredNewsListWithSubCategoryFragment.SUBCATEGORY_STING,(String)v.getTag());
+                            v.getContext().startActivity(intent);
+
+                        }
+                    });
+
                 }
-            }
-        });
-        if (!TextUtils.isEmpty(news.getImage())){
+                else
+                {
+                    newsListViewHolder.newsHeader.setVisibility(View.GONE);
+                }
+                newsListViewHolder.newsListBackgroundLl.setTag(news.getFid());
+                newsListViewHolder.newsListBackgroundLl.setOnClickListener(onClickListener);
+                newsListViewHolder.newsTimeTv.setText(news.getDate());
+                newsListViewHolder.newsTitleTv.setText(news.getTitle());
 
-            Picasso.with(holder.newsImageIv.getContext()).load("http://" + news.getImage()).into(holder.newsImageIv);
+                newsListViewHolder.shareFb.setTag(news);
+                newsListViewHolder.shareFb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (v.getTag() instanceof News){
+                            onNewsItemSelected.onClickOnShareBtn((News) v.getTag());
+                        }
+                    }
+                });
+                if (!TextUtils.isEmpty(news.getImage())){
+
+                    Picasso.with(newsListViewHolder.newsImageIv.getContext()).load("http://" + news.getImage()).
+                            into(newsListViewHolder.newsImageIv);
+                }
+                break;
+            case TYPE_ADVERTISEMENT:
+
+
+                break;
         }
+
     }
 
 
@@ -113,6 +160,15 @@ private View.OnClickListener onClickListener=new View.OnClickListener() {
         return newsArrayList.size();
     }
 
+
+    public class AdvertisementViewHolder extends RecyclerView.ViewHolder{
+
+        TextView adView;
+        public AdvertisementViewHolder(View itemView) {
+            super(itemView);
+            adView= (TextView) itemView.findViewById(R.id.adView);
+        }
+    }
 
     public class NewsListViewHolder extends RecyclerView.ViewHolder{
 

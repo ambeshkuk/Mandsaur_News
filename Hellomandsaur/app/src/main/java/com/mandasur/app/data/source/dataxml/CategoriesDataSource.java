@@ -32,7 +32,7 @@ public class CategoriesDataSource  {
 
        String[] categoriesTitle= context.getResources().getStringArray(R.array.categoriesTitle);
         String[] categoryIdentifier=context.getResources().getStringArray(R.array.categoryIdentifier);
-
+        String[] categroyNameTabs=context.getResources().getStringArray(R.array.categoriesTitleOnTabs);
         for (int i=0;i<categoriesTitle.length;i++){
 
             Category category=new Category();
@@ -41,6 +41,7 @@ public class CategoriesDataSource  {
 
             category.setCategoryTitle(categoriesTitle[i]);
             category.setCategoryIdentifier(categoryIdentifier[i]);
+            category.setCateegoryNameTabs(categroyNameTabs[i]);
 
             category.setCategoryId(i);
             categories.add(category);

@@ -60,7 +60,7 @@ handler=new Handler();
 //                // close this activity
                 finish();
                     }
-                },6000);
+                },4500);
             }
         };
         thread.start();

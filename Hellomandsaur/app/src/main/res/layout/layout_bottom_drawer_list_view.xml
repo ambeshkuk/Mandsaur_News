@@ -11,6 +11,16 @@
         />
 
     <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/humaraMandsurTv"
+        style="@style/style_row_item"
+        android:text="@string/textHumaraMandsaur"
+        />
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/buisnessTv"
+        style="@style/style_row_item"
+        android:text="@string/textBuisnessPortal"
+        />
+    <com.mandasur.app.util.MandsaurNewsTextView
         android:id="@+id/aboutUsTv"
         style="@style/style_row_item"
         android:text="@string/textAboutus"
@@ -33,11 +43,7 @@
         android:text="@string/textAdvertiseUs"
 
         />
-    <com.mandasur.app.util.MandsaurNewsTextView
-        android:id="@+id/siteMapTv"
-        style="@style/style_row_item"
-        android:text="@string/textSiteMap"
-        />
+
 
     <com.mandasur.app.util.MandsaurNewsTextView
         android:id="@+id/facebookTv"
@@ -62,5 +68,6 @@
         style="@style/style_row_item"
         android:text="@string/textYoutube"
         />
+
 
 </LinearLayout>

@@ -10,6 +10,15 @@ public class Category {
     private int categoryId;
     private String categoryIdentifier;
 
+    public String getCateegoryNameTabs() {
+        return cateegoryNameTabs;
+    }
+
+    public void setCateegoryNameTabs(String cateegoryNameTabs) {
+        this.cateegoryNameTabs = cateegoryNameTabs;
+    }
+
+    private String cateegoryNameTabs;
     public String getCategoryIdentifier() {
         return categoryIdentifier;
     }

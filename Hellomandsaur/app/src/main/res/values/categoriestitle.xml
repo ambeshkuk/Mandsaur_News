@@ -19,6 +19,19 @@
 
     </string-array>
 
+    <string-array name="categoriesTitleOnTabs">
+        <item>होम</item>
+        <item>मन्‍दसौर हलचल</item>
+        <item>मन्‍दसौर विविध</item>
+
+        <item> व्यापार </item>
+        <item>सम्‍पादकीय </item>
+        <item>अन्‍य खबरे </item>
+        <item>विडियो खबरें </item>
+        <item>क्लासिफाइड </item>
+        <item>बाद में पढ़िए </item>
+    </string-array>
+
     <string-array name="categoryIdentifier">
         <item>Main News</item>
         <item>mds</item>

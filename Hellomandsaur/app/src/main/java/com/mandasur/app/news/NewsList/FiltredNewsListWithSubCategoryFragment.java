@@ -62,7 +62,9 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
     private ArrayList<News> newsArrayList;
     private NewsListContract.NewsListPresenter newsListPresenter;
     private boolean toRefreshCompleteList=true;
+    private boolean toLoadMoreNews=false;
     private MandsaurDataBaseHelper mandsaurDataBaseHelper;
+    private ProgressBar loadMoreProgress;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     /**
      * Use this factory method to create a new instance of
@@ -109,6 +111,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
 
         View view=inflater.inflate(R.layout.fragment_news_list, container, false);;
         recyclerView= (RecyclerView) view.findViewById(R.id.recyclerView);
+        loadMoreProgress= (ProgressBar) view.findViewById(R.id.loadMoreProgress);
         progressBar= (ProgressBar) view.findViewById(R.id.progressBar);
         networkNotAvalibleTv= (TextView) view.findViewById(R.id.networkNotAvalibleTv);
         swipeToRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.swipeToRefreshLayout);
@@ -172,50 +175,79 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
 
     @Override
     public void showLoadingIndicator() {
-        networkNotAvalibleTv.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-        swipeToRefreshLayout.setVisibility(View.GONE);
+        if (toLoadMoreNews){
+            loadMoreProgress.setVisibility(View.VISIBLE);
+
+
+        }
+        else if (toRefreshCompleteList){
+            networkNotAvalibleTv.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+            swipeToRefreshLayout.setVisibility(View.GONE);
+
+        }
+        else{
+            networkNotAvalibleTv.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            swipeToRefreshLayout.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
     public void showNewsListingBasedOnFilter(NewsFromMainCategoryResponse newsFromMainCategoryResponse) {
 
         Log.i(FiltredNewsListWithSubCategoryFragment.class.getSimpleName(), "showNewsListingBasedOnFilter");
+        toRefreshCompleteList=false;
+
+
         if (newsFromMainCategoryResponse!=null&&newsFromMainCategoryResponse.getData()!=null){
             networkNotAvalibleTv.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             swipeToRefreshLayout.setVisibility(View.VISIBLE);
+            loadMoreProgress.setVisibility(View.GONE);
             if (newsListAdapterWithSubCateories!=null){
+                int lastSelectedPosition=0;
+                if (!toLoadMoreNews){
+                    newsArrayList.clear();
 
-                newsArrayList.clear();
+                }
+                else{
+                    toLoadMoreNews=false;
+                    lastSelectedPosition=newsListAdapterWithSubCateories.getItemCount();
+                }
+
                 newsArrayList.addAll(newsFromMainCategoryResponse.getData().getNewsList());
-                newsListAdapterWithSubCateories.notifyDataSetChanged();
+                newsListAdapterWithSubCateories.notifyItemRangeInserted(lastSelectedPosition, newsArrayList.size()-1);
                 swipeToRefreshLayout.setRefreshing(false);
             }
             else {
                 newsArrayList=newsFromMainCategoryResponse.getData().getNewsList();
                 newsListAdapterWithSubCateories =
                 new NewsListAdapterWithSubCateories(newsArrayList);
+
+                newsListAdapterWithSubCateories.setOnNewsItemSelected(onNewsItemSelected);
+                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider_item_shape));
+                endlessRecyclerViewScrollListener=new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        toLoadMoreNews=true;
+                        newsListPresenter.setPageNumber(page);
+                        newsListPresenter.fetchNewsFromServerBasedOnFiltre(subCategory);
+                    }
+                };
+                recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
+                recyclerView.setAdapter(newsListAdapterWithSubCateories);
+
             }
 
 
 
-            newsListAdapterWithSubCateories.setOnNewsItemSelected(onNewsItemSelected);
-            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider_item_shape));
-            endlessRecyclerViewScrollListener=new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
-                    newsListPresenter.setPageNumber(page);
-                    newsListPresenter.fetchNewsFromServerBasedOnFiltre(subCategory);
-                }
-            };
-            recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
-            recyclerView.setAdapter(newsListAdapterWithSubCateories);
 
         }
         else {
@@ -223,6 +255,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
             swipeToRefreshLayout.setVisibility(View.GONE);
+            loadMoreProgress.setVisibility(View.GONE);
             networkNotAvalibleTv.setText(getString(R.string.textNoNewsFound));
         }
 
@@ -237,6 +270,8 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
         recyclerView.setVisibility(View.GONE);
         swipeToRefreshLayout.setVisibility(View.GONE);
         networkNotAvalibleTv.setText(errorMessage);
+        toRefreshCompleteList=false;
+        toLoadMoreNews=false;
     }
 
     @Override

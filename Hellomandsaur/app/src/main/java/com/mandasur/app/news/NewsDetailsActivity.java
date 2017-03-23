@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -11,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -34,6 +37,7 @@ import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
+import com.mandasur.app.news.adapters.AdvertiseWithUsAdapter;
 import com.mandasur.app.news.adapters.RelatedNewsAdapter;
 import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.MandsaurNewsTextView;
@@ -46,7 +50,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by ambesh on 11-02-2017.
  */
-public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailContract.NewsDetailView{
+public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailContract.NewsDetailView , AppBarLayout.OnOffsetChangedListener{
 
     public static final String NEWS_ID="newsId";
     public static final String CATEGORY_NAME="category_name";
@@ -62,8 +66,9 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     private NewsDetailContract.NewsDetailsPresenter newsDetailPresenter;
     private SeekBar fontSizeSb;
     private PublisherAdView mAdView;
-    private RecyclerView relatedNewsRv;
-
+    private RecyclerView relatedNewsRv,advertiseUsRv;
+    private TextView titleTv;
+    MandsaurNewsTextView homeAsUpIcon;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -78,20 +83,19 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         setSupportActionBar(toolbar);
 
 
-
-
-
         View view=getLayoutInflater().inflate(R.layout.layout_custom_tool_bar_layout,null);
 
-        MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView) view.findViewById(R.id.homeAsUpIcon);
-        TextView titleTv= (TextView) findViewById(R.id.titleTv);
+        homeAsUpIcon  = (MandsaurNewsTextView) view.findViewById(R.id.homeAsUpIcon);
+        titleTv= (TextView) findViewById(R.id.titleTv);
         titleTv.setText(categoryName);
+        titleTv.setTextColor(getResources().getColor(R.color.black));
         findViewById(R.id.filtericonIv).setVisibility(View.GONE);
         relatedNewsRv= (RecyclerView) findViewById(R.id.relatedNewsRv);
         newsDetailPresenter= new NewsDetailPresenter(
                 Injector.getNewsDetailsFromServer(this),Injector.getShareNewsDetailsUseCase(this),this,newsId);
         mandsaurDataBaseHelper  = DatabaseNewsDataSource.getInstance(NewsDetailsActivity.this);
         homeAsUpIcon.setText(getString(R.string.textArrowIcon));
+        homeAsUpIcon.setTextColor(getResources().getColor(R.color.black));
 
         homeAsUpIcon.setOnClickListener(onClickListener);
         intiateUI();
@@ -167,7 +171,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         shareFb= (FloatingActionButton) findViewById(R.id.shareFb);
 
 
-
+        advertiseUsRv= (RecyclerView) findViewById(R.id.advertiseUsRv);
 
         fontSizeSb= (SeekBar) findViewById(R.id.fontSizeSb);
         fontSizeSb.setOnSeekBarChangeListener(onSeekBarChangeListener);
@@ -245,7 +249,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                     break;
                 case R.id.shareFb:
                     News news=new News();
-                    news.setTitle(newsDetail.getTitle());
+                    news.setTitle(Html.fromHtml(newsDetail.getTitle()).toString());
                     news.setDate(newsDetail.getDate());
 
                     newsDetailPresenter.shareNewsOnSocialMedia(news);
@@ -273,8 +277,15 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                 relatedNewsRv.
                         setLayoutManager(new
                                 LinearLayoutManager(NewsDetailsActivity.this
-                                , LinearLayoutManager.HORIZONTAL,false));
+                                , LinearLayoutManager.HORIZONTAL, false));
                 relatedNewsRv.setAdapter(relatedNewsAdapter);
+
+                AdvertiseWithUsAdapter advertiseWithUsAdapter=new AdvertiseWithUsAdapter(new ArrayList<News>());
+
+                advertiseUsRv.setLayoutManager(new
+                        LinearLayoutManager(NewsDetailsActivity.this
+                        , LinearLayoutManager.HORIZONTAL, false));
+                advertiseUsRv.setAdapter(advertiseWithUsAdapter);
                 if (!newsDetails.isEmpty()){
                      newsDetail=newsDetails.get(0);
                     if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),newsDetail.getFid())){
@@ -340,6 +351,19 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     @Override
     public void setPresenter(NewsDetailContract.NewsDetailsPresenter presenter) {
 
+
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+
+        if (i==0){
+
+
+
+            homeAsUpIcon.setTextColor(getResources().getColor(R.color.white));
+            titleTv.setTextColor(getResources().getColor(R.color.white));
+        }
 
     }
 }

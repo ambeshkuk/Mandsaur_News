@@ -3,17 +3,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdSize;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
 import com.mandasur.app.util.ActivityUtil;
+import com.mandasur.app.util.MandsaurNewsTextView;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class FiltredNewsListActivity extends AppCompatActivity {
+
 
 
 
@@ -22,6 +28,19 @@ public class FiltredNewsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_filtred_news_list_activity);
         Intent intent=getIntent();
+
+        findViewById(R.id.filtericonIv).setVisibility(View.GONE);
+        MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView)findViewById(R.id.homeAsUpIcon);
+
+        Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        homeAsUpIcon.setText(getString(R.string.textArrowIcon));
+        homeAsUpIcon.setOnClickListener(onClickListener);
+
+        TextView titleTv= (TextView) findViewById(R.id.titleTv);
+        titleTv.setText(intent.
+                getStringExtra(FiltredNewsListWithSubCategoryFragment.SUBCATEGORY_STING));
 
 
         FiltredNewsListWithSubCategoryFragment filtredNewsListWithSubCategoryFragment
@@ -35,6 +54,17 @@ public class FiltredNewsListActivity extends AppCompatActivity {
                 filtredNewsListWithSubCategoryFragment, FiltredNewsListWithSubCategoryFragment.class.getSimpleName());
 
     }
+
+    private View.OnClickListener onClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.homeAsUpIcon:
+                    finish();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void attachBaseContext(Context newBase) {

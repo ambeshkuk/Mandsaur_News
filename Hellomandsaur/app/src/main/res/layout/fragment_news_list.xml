@@ -34,4 +34,12 @@
         android:visibility="gone"
 
         />
+    <ProgressBar
+        android:id="@+id/loadMoreProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/metrics_5dp"
+        />
 </FrameLayout>

@@ -7,6 +7,9 @@
         <string name="textPrivacyPolicy">Privacy Policy</string>
         <string name="textAdvertiseUs">Advertise with us</string>
         <string name="textSiteMap">Site Map</string>
+
+        <string name="textHumaraMandsaur">हमारा मंदसौर पोर्टल </string>
+        <string name="textBuisnessPortal">बिज़नेस पोर्टल </string>
         <string name="textFacebook">Facebook</string>
         <string name="textTwitter">Twitter</string>
         <string name="textGoogle">Google +</string>

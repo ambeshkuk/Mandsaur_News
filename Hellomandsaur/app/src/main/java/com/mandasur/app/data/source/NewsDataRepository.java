@@ -258,11 +258,13 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
             Data data=new Data();
             ArrayList<News> newsArrayList=new ArrayList<>();
              data.setNewsList(newsArrayList);
+
             if (jsonElement!=null&&jsonElement.isJsonObject()){
 
                 JsonObject dataJsonObject=jsonElement.getAsJsonObject();
                 Set<Map.Entry<String,JsonElement>> entrySet=dataJsonObject.entrySet();
 
+                int currentIindexOfoverallList=0;
                 for (Map.Entry<String,JsonElement> elementEntry:entrySet){
                     jsonElement=dataJsonObject.get(elementEntry.getKey());
                     if (jsonElement!=null&&jsonElement.isJsonArray()){
@@ -274,6 +276,8 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                             News news=new News();
                             if (newsJsonObject!=null&&newsJsonObject.isJsonObject()){
                                 JsonObject newsJson=newsJsonObject.getAsJsonObject();
+
+
                                 news.setFid(newsJson.get("fid").getAsString());
                                 news.setDate(newsJson.get("date").getAsString());
                                 if (i==0){
@@ -286,11 +290,18 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                         news.setIsSubcategoryStart(false);
                                         news.setSubCategoryName(elementEntry.getKey());
                                     }
-                                    i++;
+
                                 }
                                 else {
                                     news.setIsSubcategoryStart(false);
                                 }
+
+                                i++;
+
+                                currentIindexOfoverallList++;
+
+
+
 
 
                                 news.setTitle(Html.fromHtml(newsJson.get("title").getAsString()).toString());
@@ -298,6 +309,13 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                   news.setImage(newsJson.get("image").getAsString());
 
                                 newsArrayList.add(news);
+
+                                if (currentIindexOfoverallList!=0&&((currentIindexOfoverallList%3)==0)){
+                                    News advertisedNews=new News();
+                                    advertisedNews.setIsAdvertisedNewsBean(true);
+                                    newsArrayList.add(advertisedNews);
+
+                                }
                             }
 
 

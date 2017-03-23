@@ -11,7 +11,7 @@
 
 
         <string name="baseUrl">http://www.hellomandsaur.com/webapi/</string>
-
+        <string name="textRelatedNews">संबंधित </string>
 
         <string name="mainNews">mainnews_Fromall_Cat.php</string>
         <string name="anyNews">newsFrom_uppertabs.php</string>
@@ -26,6 +26,7 @@
         <string name="imgdesc">imgdesc</string>
         <string name="really_long_string">"I'm not committing not to run. I'm not committing to anything. I learned a long time ago, fate has a strange way of intervening,'' the departing US Vice-President said. </string>
 
+        <string name="textAboutUs">About Us</string>
         <string name="textPuraDekiye">पूरा देखिए </string>
         <string-array name="titles">
             <item>Home</item>
@@ -75,6 +76,7 @@
 
         <string name="textNoSavedNewsPresent">बाद मैं पड़ने के लिए कोई खबर चुनी नहीं गयी है </string>
     <string name="title_activity_filtred_news_list">FiltredNewsListActivity</string>
+    <string name="title_activity_about_us">AboutUsActivity</string>
 
 
     </resources>

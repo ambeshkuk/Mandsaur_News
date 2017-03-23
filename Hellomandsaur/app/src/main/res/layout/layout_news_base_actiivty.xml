@@ -32,7 +32,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
             <include
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 layout="@layout/layout_custom_tool_bar_layout"
                 />
         </android.support.v7.widget.Toolbar>

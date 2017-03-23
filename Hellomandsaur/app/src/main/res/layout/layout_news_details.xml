@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:background="@color/white"
     >
-<android.support.design.widget.CoordinatorLayout
+    <android.support.design.widget.CoordinatorLayout
     android:id="@+id/newsDetailParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -44,11 +44,9 @@
 
             app:contentScrim="?attr/colorPrimary"
 
-            app:expandedTitleMarginEnd="64dp"
-
-            app:expandedTitleMarginStart="48dp"
 
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
 
 
             <ImageView
@@ -66,7 +64,6 @@
                 android:background="@drawable/logo"
                 app:layout_collapseMode="parallax" />
 
-
             <android.support.v7.widget.Toolbar
 
                 android:id="@+id/toolbar"
@@ -74,17 +71,20 @@
                 android:layout_width="match_parent"
 
                 android:layout_height="?attr/actionBarSize"
-
-
-                app:layout_collapseMode="parallax"
-
+                android:minHeight="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="pin"
+                app:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+                style="@style/Toolbar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
                 <include
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     layout="@layout/layout_custom_tool_bar_layout"
+
                     />
             </android.support.v7.widget.Toolbar>
+
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -162,6 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/metrics_200dp"
                 android:scaleType="centerCrop"
+                android:layout_marginTop="@dimen/metrics_1dp"
                 android:background="@color/white"
                 />
             <com.mandasur.app.util.MandsaurNewsTextView
@@ -177,12 +178,36 @@
 
                 fontPath="fonts/Roboto-Light.ttf"
                 />
+            <com.mandasur.app.util.MandsaurNewsTextView
+                android:id="@+id/suggestedNewsTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/metrics_20dp"
+
+
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/red"
+                android:gravity="left"
+                android:text="@string/textRelatedNews"
+
+                fontPath="fonts/Roboto-Bold.ttf"
+                />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/relatedNewsRv"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/metrics_200dp"
+                android:layout_marginTop="@dimen/metrics_10dp"
+
                 android:background="@android:color/transparent"
+
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/advertiseUsRv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/metrics_200dp"
                 android:layout_marginTop="@dimen/metrics_20dp"
+
+                android:background="@android:color/transparent"
 
                 />
         </LinearLayout>

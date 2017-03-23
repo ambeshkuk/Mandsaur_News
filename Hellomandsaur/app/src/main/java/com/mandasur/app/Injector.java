@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.mandasur.app.aboutus_contact.AboutUsPresenter;
+import com.mandasur.app.data.source.AboutUsDataRepository;
 import com.mandasur.app.data.source.CategoryDataRepository;
 import com.mandasur.app.data.source.NewsDataRepository;
 import com.mandasur.app.data.source.SubCategoryDataRepository;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
+import com.mandasur.app.data.source.dataxml.AboutUsDataSource;
 import com.mandasur.app.data.source.dataxml.CategoriesDataSource;
 import com.mandasur.app.data.source.dataxml.SubCategoryDataSource;
 import com.mandasur.app.data.source.remote.RemoteNewsDataSource;
+import com.mandasur.app.news.usecase.GetAboutUsContent;
 import com.mandasur.app.news.usecase.GetCategories;
 import com.mandasur.app.news.usecase.GetNewsDetailsFromServer;
 import com.mandasur.app.news.usecase.GetNewsListByCategory;
@@ -33,6 +37,10 @@ public class Injector {
     public static GetCategories getCategoriesUseCase(@NonNull Context context)
     {
         return  new GetCategories(getCategoryDataReporsitory(context));
+    }
+
+    public static GetAboutUsContent getAboutUsContent(@NonNull Context context){
+        return new GetAboutUsContent(new AboutUsDataRepository(new AboutUsDataSource(context)));
     }
 
     public static CategoryDataRepository getCategoryDataReporsitory(Context context){

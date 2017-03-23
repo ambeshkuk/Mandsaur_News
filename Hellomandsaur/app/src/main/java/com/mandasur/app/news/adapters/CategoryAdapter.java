@@ -44,7 +44,8 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
         // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
         TextView v = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tab_textview, null);
 
-        v.setText(categories.get(position).getCategoryTitle());
+
+        v.setText(categories.get(position).getCateegoryNameTabs());
 
         return v;
     }

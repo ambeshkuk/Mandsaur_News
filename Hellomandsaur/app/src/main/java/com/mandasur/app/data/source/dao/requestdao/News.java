@@ -19,6 +19,15 @@ public class News {
 
     private String fid,title,image,place,date;
 
+    public boolean isAdvertisedNewsBean() {
+        return isAdvertisedNewsBean;
+    }
+
+    public void setIsAdvertisedNewsBean(boolean isAdvertisedNewsBean) {
+        this.isAdvertisedNewsBean = isAdvertisedNewsBean;
+    }
+
+    private boolean isAdvertisedNewsBean=false;
     public String getSubCategoryName() {
         return subCategoryName;
     }
