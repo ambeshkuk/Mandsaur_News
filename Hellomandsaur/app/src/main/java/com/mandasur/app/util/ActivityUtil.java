@@ -36,6 +36,10 @@ public class ActivityUtil {
     public static void log(String tag,String value){
         Log.i(tag,value);
     }
+
+    public static void printLogFile(Exception e){
+        e.printStackTrace();
+    }
     /**
      * The {@code fragment} is added to the container view with id {@code frameId}. The operation is
      * performed by the {@code fragmentManager}.

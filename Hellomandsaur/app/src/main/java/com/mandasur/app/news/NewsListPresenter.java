@@ -12,6 +12,7 @@ import com.mandasur.app.data.source.NewsDataRepository;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
+import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
 import com.mandasur.app.news.NewsList.NewsListFragment;
 import com.mandasur.app.news.usecase.GetNewsListByCategory;
 import com.mandasur.app.news.usecase.ShareNewsDetails;
@@ -72,15 +73,22 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
 
     @Override
     public void fetchNewsFromServerBasedOnFiltre(String filterName) {
-
-            if (!checkIfNetworkIsAvalible(newsListFragment.getContext())&&!categroyName.equals(newsListFragment.getContext().getString(R.string.bookMarkedNews))){
+        boolean isNetworkAvailable=checkIfNetworkIsAvalible(newsListFragment.getContext());;
+        MandsaurDataBaseHelper mandsaurDataBaseHelper=DatabaseNewsDataSource.getInstance(newsListFragment.getContext());
+            if (!isNetworkAvailable&&
+                    !categroyName.equals(newsListFragment.getContext().getString(R.string.bookMarkedNews))
+                    &&(mandsaurDataBaseHelper.getCachedNewsTable()
+                    .isNewsTableEmpty(mandsaurDataBaseHelper.getSqLiteDatabase()
+                            ,categroyName))){
              return;
             }
 
 
 
         NewsFromMainCategoryRequest newsFromMainCategoryRequest=new NewsFromMainCategoryRequest();
-
+        newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.IS_NETWORK_AVALIBLE,
+                isNetworkAvailable?NewsFromMainCategoryRequest.TRUE
+                :NewsFromMainCategoryRequest.FALSE);
 
 
 

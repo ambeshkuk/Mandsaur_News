@@ -98,6 +98,24 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
         }
 
 
+        if (request.get(NewsFromMainCategoryRequest.IS_NETWORK_AVALIBLE).equals(NewsFromMainCategoryRequest.FALSE)){
+            newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
+            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+            if (!mandsaurDataBaseHelper.getCachedNewsTable()
+                    .isNewsTableEmpty(mandsaurDataBaseHelper.getSqLiteDatabase()
+                            , request.get(NewsFromMainCategoryRequest.CATEGORY))){
+
+                StringBuffer jsonData=mandsaurDataBaseHelper.getCachedNewsTable().
+                        getNewsListFromDb(mandsaurDataBaseHelper.getSqLiteDatabase(),
+                                request.get(NewsFromMainCategoryRequest.CATEGORY));
+
+                if (jsonData.length()!=0){
+                    parseJsonAndRerutrnNewsCategoryResponse(jsonData.toString(),newsFromMainCategoryResponse);
+                }
+
+            }
+        }
+
 
 
 
@@ -106,48 +124,21 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
         if (response!=null){
 
             if (response.isSuccessful()){
+
+
                 try {
-                    String jsonData=response.body().string();
-
-                    JsonReader jsonReader=new JsonReader(new StringReader(jsonData));
-                        jsonReader.setLenient(true);
-                            newsFromMainCategoryResponse= GsonUtil.getGsonInstance().
-                            fromJson(jsonData,
-                                    com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse.class);
-
-
-                    if (newsFromMainCategoryResponse==null){
-                        newsFromMainCategoryResponse.setStatus("0");
-                        newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
+                    parseJsonAndRerutrnNewsCategoryResponse(response.body().string(),newsFromMainCategoryResponse);
+                    MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+                    if (newsFromMainCategoryResponse.isSuccessful()){
+                        String mainCategory=TextUtils.isEmpty(request.get(NewsFromMainCategoryRequest.CATEGORY))?
+                                request.get(NewsFromMainCategoryRequest.CAT):request.get(NewsFromMainCategoryRequest.CATEGORY);
+                                mandsaurDataBaseHelper.getCachedNewsTable().setNewsListToDb(mandsaurDataBaseHelper.getSqLiteDatabase(),response.body().string(),mainCategory);
                     }
-                    else if (newsFromMainCategoryResponse.getData()==null){
-                        newsFromMainCategoryResponse.setStatus("0");
-                        newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_NEESLIST_NOT_FOUDN));
-                    }
-                    else if (newsFromMainCategoryResponse.getData().getNewsList()==null){
-
-                        newsFromMainCategoryResponse.setStatus("0");
-                        newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_NEESLIST_NOT_FOUDN));
-                    }
-                    else if (newsFromMainCategoryResponse.getData().getNewsList().isEmpty()){
-
-                        newsFromMainCategoryResponse.setStatus("0");
-                        newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_NEESLIST_NOT_FOUDN));
-                    }
-                    else {
-                        newsFromMainCategoryResponse.setStatus("1");
-                    }
-
 
                 } catch (IOException e) {
                     newsFromMainCategoryResponse.setStatus("0");
                     newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
                 }
-                catch (JsonSyntaxException e){
-                    newsFromMainCategoryResponse.setStatus("0");
-                    newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
-                }
-
             }
             else {
                 newsFromMainCategoryResponse.setStatus("0");
@@ -160,6 +151,47 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
        return newsFromMainCategoryResponse;
     }
 
+    private void parseJsonAndRerutrnNewsCategoryResponse(String jsonData,NewsFromMainCategoryResponse newsFromMainCategoryResponse){
+        try {
+
+
+            JsonReader jsonReader=new JsonReader(new StringReader(jsonData));
+            jsonReader.setLenient(true);
+            newsFromMainCategoryResponse= GsonUtil.getGsonInstance().
+                    fromJson(jsonData,
+                            com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse.class);
+
+
+            if (newsFromMainCategoryResponse==null){
+                newsFromMainCategoryResponse.setStatus("0");
+                newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
+            }
+            else if (newsFromMainCategoryResponse.getData()==null){
+                newsFromMainCategoryResponse.setStatus("0");
+                newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_NEESLIST_NOT_FOUDN));
+            }
+            else if (newsFromMainCategoryResponse.getData().getNewsList()==null){
+
+                newsFromMainCategoryResponse.setStatus("0");
+                newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_NEESLIST_NOT_FOUDN));
+            }
+            else if (newsFromMainCategoryResponse.getData().getNewsList().isEmpty()){
+
+                newsFromMainCategoryResponse.setStatus("0");
+                newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_ERROR_REQUEST_CODE.ERRORCODE_NEESLIST_NOT_FOUDN));
+            }
+            else {
+                newsFromMainCategoryResponse.setStatus("1");
+            }
+
+
+        }
+        catch (JsonSyntaxException e){
+            newsFromMainCategoryResponse.setStatus("0");
+            newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
+        }
+
+    }
     @Override
     public NewsDetailsFromResponse getNewsListOnSubCategories(NewsDetailFromIdRequest request) {
         return null;

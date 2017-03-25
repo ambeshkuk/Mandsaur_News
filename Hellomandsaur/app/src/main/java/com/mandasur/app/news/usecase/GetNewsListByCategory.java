@@ -33,6 +33,7 @@ public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.Request
     public void executeUseCase(RequestValues requestValues) {
 
         fetchNewsFromCategory=new FetchNewsFromCategory();
+
         fetchNewsFromCategory.execute(requestValues);
 
 
@@ -84,11 +85,12 @@ public class GetNewsListByCategory extends UseCase<GetNewsListByCategory.Request
         @Override
         protected GetNewsListByCategory.ResponseValue doInBackground(GetNewsListByCategory.RequestValues... params) {
 
+
+
+
+
+
             GetNewsListByCategory.ResponseValue responseValue=new ResponseValue();
-
-
-
-
 
             NewsFromMainCategoryResponse newsFromMainCategoryResponse=newsDataRepository.getNewsListOnMainTabs(params[0].getNewsFromMainCategoryRequest());
             responseValue.setNewsFromMainCategoryResponse(newsFromMainCategoryResponse);

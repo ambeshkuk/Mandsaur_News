@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 import com.mandasur.app.R;
+import com.mandasur.app.data.source.database.Tables.CachedNewsTable;
 import com.mandasur.app.data.source.database.Tables.SavedNewsTable;
 import com.mandasur.app.data.source.database.Tables.SubCategoriesTable;
 import com.mandasur.app.util.ActivityUtil;
@@ -24,7 +25,7 @@ public class MandsaurDataBaseHelper extends SQLiteOpenHelper {
 
     private SubCategoriesTable subCategoriesTable;
     private SavedNewsTable savedNewsTable;
-
+    private CachedNewsTable cachedNewsTable;
     private SQLiteDatabase sqLiteDatabase;
     public MandsaurDataBaseHelper(Context context, SQLiteDatabase.CursorFactory factory){
 
@@ -38,6 +39,7 @@ public class MandsaurDataBaseHelper extends SQLiteOpenHelper {
 
         subCategoriesTable=new SubCategoriesTable();
         savedNewsTable=new SavedNewsTable();
+        cachedNewsTable=new CachedNewsTable();
 
 
     }
@@ -67,6 +69,7 @@ public class MandsaurDataBaseHelper extends SQLiteOpenHelper {
 
             subCategoriesTable.createUserTableSchema(db);
             savedNewsTable.createUserTableSchema(db);
+            cachedNewsTable.createUserTableSchema(db);
         }
         catch(SQLException e){
 
@@ -106,5 +109,7 @@ public class MandsaurDataBaseHelper extends SQLiteOpenHelper {
     public SavedNewsTable getSavedNewsTable(){
         return savedNewsTable;
     }
-
+    public CachedNewsTable getCachedNewsTable(){
+        return cachedNewsTable;
+    }
 }

@@ -15,9 +15,24 @@ public class News {
     public static final String TITLE="title";
     public static final String IMAGE="image";
     public static final String DATE="date";
-    public static final String NEWSURL="news_url";
+    public static final String FID="fid";
+    public static final String SUB_CAT_INDICATOR="sub_cat_indicator";
 
-    private String fid,title,image,place,date;
+    private String fid;
+    private String title;
+    private String image;
+    private String date;
+
+    private String subCatIndicator;
+    public String getSubCatIndicator() {
+        return subCatIndicator;
+    }
+
+    public void setSubCatIndicator(String subCatIndicator) {
+        this.subCatIndicator = subCatIndicator;
+    }
+
+
 
     public boolean isAdvertisedNewsBean() {
         return isAdvertisedNewsBean;
@@ -71,13 +86,7 @@ public class News {
         this.image = image;
     }
 
-    public String getPlace() {
-        return place;
-    }
 
-    public void setPlace(String place) {
-        this.place = place;
-    }
 
     public String getDate() {
         return date;
