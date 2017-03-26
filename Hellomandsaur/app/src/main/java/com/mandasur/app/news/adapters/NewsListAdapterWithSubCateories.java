@@ -120,15 +120,15 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
                 newsListViewHolder.newsTitleTv.setText(news.getTitle());
 
                 newsListViewHolder.shareFb.setTag(news);
-                newsListViewHolder.shareFb.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (v.getTag() instanceof News){
-                            onNewsItemSelected.onClickOnShareBtn((News) v.getTag());
-                        }
-                    }
-                });
+//                newsListViewHolder.shareFb.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                        if (v.getTag() instanceof News){
+//                            onNewsItemSelected.onClickOnShareBtn((News) v.getTag());
+//                        }
+//                    }
+//                });
                 if (!TextUtils.isEmpty(news.getImage())){
 
                     Picasso.with(newsListViewHolder.newsImageIv.getContext()).load("http://" + news.getImage()).

@@ -29,12 +29,40 @@
 
 
 
-    <TextView
+    <WebView
         android:id="@+id/aboutUsTv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="@dimen/metrics_10dp"
+        android:textColor="@color/black"
         android:layout_weight="1"
-        fontPath="fonts/Roboto-Regular.ttf"
+        />
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/titleNewsTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:padding="@dimen/metrics_10dp"
+
+        android:layout_marginTop="@dimen/metrics_10dp"
+        fontPath="fonts/Roboto-Bold.ttf"
+        android:gravity="center"
+
+        android:background="@color/red"
+        android:drawableLeft="@android:drawable/ic_menu_call"
+        />
+    <com.mandasur.app.util.MandsaurNewsTextView
+        android:id="@+id/emailTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:padding="@dimen/metrics_10dp"
+
+        android:layout_marginTop="@dimen/metrics_10dp"
+        fontPath="fonts/Roboto-Bold.ttf"
+        android:gravity="center"
+        android:text="info@hellomandsaur.com"
+        android:background="@color/red"
+        android:drawableLeft="@android:drawable/ic_dialog_email"
         />
 </LinearLayout>

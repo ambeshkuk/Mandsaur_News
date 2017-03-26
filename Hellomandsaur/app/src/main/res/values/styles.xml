@@ -5,6 +5,10 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@android:color/holo_red_dark</item>
+
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

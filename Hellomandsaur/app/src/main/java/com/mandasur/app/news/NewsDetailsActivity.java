@@ -8,6 +8,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,8 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.News;
@@ -50,10 +53,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by ambesh on 11-02-2017.
  */
-public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailContract.NewsDetailView , AppBarLayout.OnOffsetChangedListener{
+public class NewsDetailsActivity extends AppCompatActivity
+        implements
+        NewsDetailContract.NewsDetailView ,
+        AppBarLayout.OnOffsetChangedListener,YouTubePlayer.OnInitializedListener{
 
     public static final String NEWS_ID="newsId";
     public static final String CATEGORY_NAME="category_name";
+
     private ImageView image1,image2;
     private MandsaurNewsTextView titleNewsTv,dateTv,consisenewsTv,newsDetailsPart1Tv,newsDetailsPart2Tv;
     private FloatingActionButton bookmarkFb,shareFb;
@@ -69,35 +76,49 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     private RecyclerView relatedNewsRv,advertiseUsRv;
     private TextView titleTv;
     MandsaurNewsTextView homeAsUpIcon;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_news_details);
+        collapsingToolbarLayout= (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         intialiseAdsOnScreen();
         String newsId=getIntent().getStringExtra(NEWS_ID);
         String categoryName=getIntent().getStringExtra(CATEGORY_NAME);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+
+
+        supportPostponeEnterTransition();
+        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                onBackPressed();
+            }
+        });
 
 
-        View view=getLayoutInflater().inflate(R.layout.layout_custom_tool_bar_layout,null);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
-        homeAsUpIcon  = (MandsaurNewsTextView) view.findViewById(R.id.homeAsUpIcon);
-        titleTv= (TextView) findViewById(R.id.titleTv);
-        titleTv.setText(categoryName);
-        titleTv.setTextColor(getResources().getColor(R.color.black));
-        findViewById(R.id.filtericonIv).setVisibility(View.GONE);
+        collapsingToolbarLayout.setTitle(categoryName);
+
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+
+
         relatedNewsRv= (RecyclerView) findViewById(R.id.relatedNewsRv);
+
+
+
+
         newsDetailPresenter= new NewsDetailPresenter(
                 Injector.getNewsDetailsFromServer(this),Injector.getShareNewsDetailsUseCase(this),this,newsId);
         mandsaurDataBaseHelper  = DatabaseNewsDataSource.getInstance(NewsDetailsActivity.this);
-        homeAsUpIcon.setText(getString(R.string.textArrowIcon));
-        homeAsUpIcon.setTextColor(getResources().getColor(R.color.black));
 
-        homeAsUpIcon.setOnClickListener(onClickListener);
         intiateUI();
 
         fetchNewsDetsil();
@@ -338,12 +359,20 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @Override
     public void showNetworkNotAvaible() {
+        findViewById(R.id.suggestedNewsTv).setVisibility(View.GONE);
+        findViewById(R.id.relatedNewsRv).setVisibility(View.GONE);
+        findViewById(R.id.advertiseUsRv).setVisibility(View.GONE);
+        findViewById(R.id.bookmarkFb).setVisibility(View.GONE);
+        findViewById(R.id.shareFb).setVisibility(View.GONE);
+        findViewById(R.id.bottomBarLv).setVisibility(View.GONE);
+
         newsDetailsPart1Tv.setText(getString(R.string.textNetworkNotAvaliable));
 
     }
 
     @Override
     public void showErrorMessage(String errorMessage) {
+
         newsDetailsPart1Tv.setText(errorMessage);
 
     }
@@ -364,6 +393,16 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
             homeAsUpIcon.setTextColor(getResources().getColor(R.color.white));
             titleTv.setTextColor(getResources().getColor(R.color.white));
         }
+
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
 
     }
 }

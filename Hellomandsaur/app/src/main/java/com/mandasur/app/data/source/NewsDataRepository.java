@@ -73,17 +73,18 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
     public  NewsFromMainCategoryResponse getNewsListOnMainTabs(NewsFromMainCategoryRequest request) {
 
 
-        NewsFromMainCategoryResponse newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
+        NewsFromMainCategoryResponse newsFromMainCategoryResponse = null;
 
         if (request.get(NewsDetailFromIdRequest.REQUEST_URL).equals(context.getString(R.string.bookMarkedNews))){
             MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
 
             if (mandsaurDataBaseHelper.getSavedNewsTable().isSavedNewsEmpty(mandsaurDataBaseHelper.getSqLiteDatabase())){
-
+            newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
                 newsFromMainCategoryResponse.setStatus("0");
                 newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(ErrorRequestCode.API_DB_ERROR_REQUEST_CODE.ERROR_CODE_DB_ERROR));
             }
             else{
+                newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
                 ArrayList<News> newsArrayList=mandsaurDataBaseHelper.getSavedNewsTable().getSavedNewsList(mandsaurDataBaseHelper.getSqLiteDatabase());
 
                 Data data=new Data();
@@ -101,19 +102,22 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
         if (request.get(NewsFromMainCategoryRequest.IS_NETWORK_AVALIBLE).equals(NewsFromMainCategoryRequest.FALSE)){
             newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
             MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+            String mainCategory=TextUtils.isEmpty(request.get(NewsFromMainCategoryRequest.CATEGORY))?
+                    request.get(NewsFromMainCategoryRequest.CAT):request.get(NewsFromMainCategoryRequest.CATEGORY);
             if (!mandsaurDataBaseHelper.getCachedNewsTable()
                     .isNewsTableEmpty(mandsaurDataBaseHelper.getSqLiteDatabase()
-                            , request.get(NewsFromMainCategoryRequest.CATEGORY))){
+                            , mainCategory)){
 
                 StringBuffer jsonData=mandsaurDataBaseHelper.getCachedNewsTable().
                         getNewsListFromDb(mandsaurDataBaseHelper.getSqLiteDatabase(),
-                                request.get(NewsFromMainCategoryRequest.CATEGORY));
+                                mainCategory);
 
-                if (jsonData.length()!=0){
-                    parseJsonAndRerutrnNewsCategoryResponse(jsonData.toString(),newsFromMainCategoryResponse);
-                }
+
+                    newsFromMainCategoryResponse=parseJsonAndRerutrnNewsCategoryResponse(jsonData.toString());
+
 
             }
+            return newsFromMainCategoryResponse;
         }
 
 
@@ -127,20 +131,24 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
 
                 try {
-                    parseJsonAndRerutrnNewsCategoryResponse(response.body().string(),newsFromMainCategoryResponse);
+                    String responseBody=response.body().string();
+                    newsFromMainCategoryResponse=parseJsonAndRerutrnNewsCategoryResponse(responseBody);
                     MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
                     if (newsFromMainCategoryResponse.isSuccessful()){
                         String mainCategory=TextUtils.isEmpty(request.get(NewsFromMainCategoryRequest.CATEGORY))?
                                 request.get(NewsFromMainCategoryRequest.CAT):request.get(NewsFromMainCategoryRequest.CATEGORY);
-                                mandsaurDataBaseHelper.getCachedNewsTable().setNewsListToDb(mandsaurDataBaseHelper.getSqLiteDatabase(),response.body().string(),mainCategory);
+
+                                mandsaurDataBaseHelper.getCachedNewsTable().setNewsListToDb(mandsaurDataBaseHelper.getSqLiteDatabase(),responseBody,mainCategory);
                     }
 
                 } catch (IOException e) {
+                    newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
                     newsFromMainCategoryResponse.setStatus("0");
                     newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
                 }
             }
             else {
+                newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
                 newsFromMainCategoryResponse.setStatus("0");
                 newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
             }
@@ -151,7 +159,8 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
        return newsFromMainCategoryResponse;
     }
 
-    private void parseJsonAndRerutrnNewsCategoryResponse(String jsonData,NewsFromMainCategoryResponse newsFromMainCategoryResponse){
+    private NewsFromMainCategoryResponse parseJsonAndRerutrnNewsCategoryResponse(String jsonData){
+        NewsFromMainCategoryResponse newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
         try {
 
 
@@ -163,6 +172,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
 
             if (newsFromMainCategoryResponse==null){
+                newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
                 newsFromMainCategoryResponse.setStatus("0");
                 newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
             }
@@ -191,6 +201,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
             newsFromMainCategoryResponse.setMsg(errorHandler.getApiErrorMessage(0));
         }
 
+        return newsFromMainCategoryResponse;
     }
     @Override
     public NewsDetailsFromResponse getNewsListOnSubCategories(NewsDetailFromIdRequest request) {
@@ -342,7 +353,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
                                 newsArrayList.add(news);
 
-                                if (currentIindexOfoverallList!=0&&((currentIindexOfoverallList%3)==0)){
+                                if (currentIindexOfoverallList!=0&&((currentIindexOfoverallList%2)==0)){
                                     News advertisedNews=new News();
                                     advertisedNews.setIsAdvertisedNewsBean(true);
                                     newsArrayList.add(advertisedNews);

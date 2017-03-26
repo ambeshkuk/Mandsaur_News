@@ -1,5 +1,6 @@
 package com.mandasur.app.news;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
@@ -27,6 +28,8 @@ import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.news.adapters.DrawerAdpater;
 import com.mandasur.app.socailmedia.SocialMediaUtil;
 import com.mandasur.app.util.ActivityUtil;
+import com.mandasur.app.util.DialogResponseInterface;
+import com.mandasur.app.util.DialogUtils;
 import com.mandasur.app.util.MandsaurNewsTextView;
 
 import java.util.ArrayList;
@@ -97,7 +100,6 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         privacyPolicyTv= (MandsaurNewsTextView) footerViewDrawerLayout
                 .findViewById(R.id.privacyPolicyTv);
         advertiseUsTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.advertiseUsTv);
-        siteMapTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.siteMapTv);
         facebookTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.facebookTv);
         twitterTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.twitterTv);
         googleTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.googleTv);
@@ -109,7 +111,7 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         contactUsTv.setOnClickListener(onClickListener);
         privacyPolicyTv.setOnClickListener(onClickListener);
         advertiseUsTv.setOnClickListener(onClickListener);
-        siteMapTv.setOnClickListener(onClickListener);
+
         facebookTv.setOnClickListener(onClickListener);
         twitterTv.setOnClickListener(onClickListener);
         googleTv.setOnClickListener(onClickListener);
@@ -144,7 +146,7 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
             mAdView.resume();
             mAdView.resume();
         }
-        ActivityUtil.log(NewsBaseActiivty.class.getSimpleName(),toolbar.getHeight()+"");
+        ActivityUtil.log(NewsBaseActiivty.class.getSimpleName(), toolbar.getHeight() + "");
     }
 
     @Override
@@ -234,6 +236,25 @@ private DrawerAdpater drawerAdpater;
         categorylv.addFooterView(footerViewDrawerLayout);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        DialogUtils.
+                showConfirmationDialog(this
+                        , "Hello Mandsur App", "क्या आप वाक्य्यी छोड़ना चाहते है"
+                        , false, -1, "Ok", "Cancel", new DialogResponseInterface() {
+                    @Override
+                    public void doOnPositiveBtnClick(Activity activity) {
+                        finish();
+                    }
+
+                    @Override
+                    public void doOnNegativeBtnClick(Activity activity) {
+
+                    }
+                });
     }
 
     @Override

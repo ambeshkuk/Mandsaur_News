@@ -123,6 +123,7 @@
             android:layout_marginRight="@dimen/metrics_20dp"
             android:clickable="true"
             android:src="@drawable/icn_share"
+            android:visibility="invisible"
             app:layout_anchor="@id/newsListBackgroundLl"
 
             android:layout_alignParentBottom="true"

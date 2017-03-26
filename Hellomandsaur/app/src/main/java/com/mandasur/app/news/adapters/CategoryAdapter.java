@@ -42,7 +42,8 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
 
     public View getTabView(int position) {
         // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
-        TextView v = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tab_textview, null);
+        TextView v = (TextView) LayoutInflater.from(context).
+                inflate(R.layout.layout_tab_textview, null);
 
 
         v.setText(categories.get(position).getCateegoryNameTabs());
@@ -75,7 +76,7 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
 
         Category category=categories.get(position);
         NewsListFragment newsListFragment=NewsListFragment.
-                newInstance(category.getCategoryIdentifier(),"sports",category.getCategoryTitle());
+                newInstance(category.getCategoryIdentifier(),"sports",category.getCateegoryNameTabs());
         newsListFragment.setMainCategory(category.getCategoryTitle());
         NewsListContract.NewsListPresenter newsListPresenter=new NewsListPresenter(Injector.getNewsListByCategory(context),Injector.getShareNewsDetailsUseCase(context),
                 newsListFragment,category.getCategoryIdentifier());

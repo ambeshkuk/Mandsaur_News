@@ -37,6 +37,7 @@ public class NewsDetailPresenter implements NewsDetailContract.NewsDetailsPresen
 
 
         if (!checkIfNetworkIsAvalible(newsDetailsActivity)){
+            newsDetailsActivity.showNetworkNotAvaible();
             return;
         }
 

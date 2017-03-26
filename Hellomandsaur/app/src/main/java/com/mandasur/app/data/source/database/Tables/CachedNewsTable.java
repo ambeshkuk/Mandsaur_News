@@ -40,7 +40,7 @@ public class CachedNewsTable {
 
     public boolean isNewsTableEmpty(SQLiteDatabase sqLiteDatabase,String mainCategoryName){
 
-        boolean ifNoNewsIsSaved=false;
+        boolean ifNoNewsIsSaved=true;
 
         Cursor cursor=sqLiteDatabase.rawQuery("Select COUNT(*) From "
                 + CACHED_NEWS_TABLE+" WHERE "
@@ -48,7 +48,7 @@ public class CachedNewsTable {
                 , null);
         if (cursor.moveToFirst()){
 
-            if (cursor.getInt(0)==0){
+            if (cursor.getInt(0)>0){
                 ifNoNewsIsSaved=false;
             }
 

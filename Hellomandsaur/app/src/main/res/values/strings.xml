@@ -77,6 +77,7 @@
         <string name="textNoSavedNewsPresent">बाद मैं पड़ने के लिए कोई खबर चुनी नहीं गयी है </string>
     <string name="title_activity_filtred_news_list">FiltredNewsListActivity</string>
     <string name="title_activity_about_us">AboutUsActivity</string>
+    <string name="title_activity_buisness">BuisnessActivity</string>
 
 
     </resources>

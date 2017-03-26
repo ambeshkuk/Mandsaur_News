@@ -3,7 +3,7 @@
      android:layout_width="match_parent"
     android:orientation="horizontal"
     android:background="@android:color/transparent"
-    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
 
 
     android:layout_height="match_parent">
@@ -11,8 +11,8 @@
 
     <com.mandasur.app.util.MandsaurNewsTextView
         android:id="@+id/homeAsUpIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/metrics_30dp"
+        android:layout_height="@dimen/metrics_30dp"
         android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:padding="@dimen/metrics_5dp"
