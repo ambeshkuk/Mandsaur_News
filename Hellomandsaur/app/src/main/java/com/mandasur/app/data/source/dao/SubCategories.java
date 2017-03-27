@@ -10,22 +10,23 @@ public class SubCategories
 
 
 
-    public static final String SUBCATEGORY_NAME ="subCategoryName";
+    public static final String SUBCATEGORY_NAME ="subcategory_name";
     public static final String SUBCATEGORY_ID ="subCategoryId";
-    public static final String SUBCATEGORY_INDICATOR ="subCategoryIndicator";
+    public static final String SUBCATEGORY_INDICATOR ="subcategory_indicator";
     public static final String IS_ITEM_CHECKED ="isItemChecked";
-    private String subCategoryName;
+    private String subcategory_name;
     private String subCategoryId;
 
-    public String getSubCategoryIndicator() {
-        return subCategoryIndicator;
+
+    public String getSubcategory_indicator() {
+        return subcategory_indicator;
     }
 
-    public void setSubCategoryIndicator(String subCategoryIndicator) {
-        this.subCategoryIndicator = subCategoryIndicator;
+    public void setSubcategory_indicator(String subcategory_indicator) {
+        this.subcategory_indicator = subcategory_indicator;
     }
 
-    private String subCategoryIndicator;
+    private String subcategory_indicator;
 
     public boolean isItemChecked() {
         return isItemChecked;
@@ -38,12 +39,12 @@ public class SubCategories
     private boolean isItemChecked;
 
 
-    public String getSubCategoryName() {
-        return subCategoryName;
+    public String getSubcategory_name() {
+        return subcategory_name;
     }
 
-    public void setSubCategoryName(String subCategoryName) {
-        this.subCategoryName = subCategoryName;
+    public void setSubcategory_name(String subcategory_name) {
+        this.subcategory_name = subcategory_name;
     }
 
     public String getSubCategoryId() {

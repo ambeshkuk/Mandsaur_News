@@ -1,10 +1,8 @@
 package com.mandasur.app.data.source.dataxml;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 
 import com.mandasur.app.R;
-import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.SubCategories;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 
@@ -44,10 +42,10 @@ String[] subCategoriesIndicator=context.getResources().getStringArray(R.array.su
 
             SubCategories subCategories = new SubCategories();
 
-            subCategories.setSubCategoryName(categoriesTitle[i]);
+            subCategories.setSubcategory_name(categoriesTitle[i]);
             subCategories.setSubCategoryId(i + "");
             subCategories.setIsItemChecked(true);
-            subCategories.setSubCategoryIndicator(subCategoriesIndicator[i]);
+            subCategories.setSubcategory_indicator(subCategoriesIndicator[i]);
             DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable()
                     .insertSubCateoriesToDb(DatabaseNewsDataSource.getInstance(context).getSqLiteDatabase(), subCategories);
             categories.add(subCategories);

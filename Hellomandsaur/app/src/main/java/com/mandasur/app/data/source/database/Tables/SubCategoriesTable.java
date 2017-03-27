@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.util.DebugUtils;
 
+import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.SubCategories;
 import com.mandasur.app.util.ActivityUtil;
 
@@ -29,8 +29,13 @@ public class SubCategoriesTable {
     {
 
         String tableCreationQuery = "create table IF NOT EXISTS "
-                + SUBCATEGORY_TABLE + " (" + SubCategories.SUBCATEGORY_ID + "  varchar " + " , "+ SubCategories.SUBCATEGORY_NAME + " varchar"
-                +" , "+ SubCategories.SUBCATEGORY_INDICATOR + " varchar" +" , "+ SubCategories.IS_ITEM_CHECKED + " INTEGER" +")";
+                + SUBCATEGORY_TABLE + " (" + SubCategories.SUBCATEGORY_ID
+                + "  varchar " + " , "
+                + SubCategories.SUBCATEGORY_NAME + " varchar"
+                + Category.CATEGORY_INDICATOR + " varchar"
+                +" , "+ SubCategories.SUBCATEGORY_INDICATOR
+                + " varchar" +" , "+ SubCategories.IS_ITEM_CHECKED
+                + " INTEGER" +")";
 
 
         sqLiteDatabase.execSQL(tableCreationQuery);
@@ -77,16 +82,10 @@ public class SubCategoriesTable {
 
     }
 
-    public long insertSubCateoriesToDb(SQLiteDatabase sqLiteDatabase,SubCategories subCategorie){
 
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(SubCategories.SUBCATEGORY_ID,subCategorie.getSubCategoryId());
-        contentValues.put(SubCategories.SUBCATEGORY_NAME,subCategorie.getSubCategoryName());
-        contentValues.put(SubCategories.SUBCATEGORY_INDICATOR,subCategorie.getSubCategoryIndicator());
-        contentValues.put(SubCategories.IS_ITEM_CHECKED,subCategorie.isItemChecked()?1:0);
-       return sqLiteDatabase.insert(SUBCATEGORY_TABLE, null, contentValues);
-    }
-    public int insertSubCateoriesToDb(SQLiteDatabase sqLiteDatabase,ArrayList<SubCategories>  subCategories){
+    public int insertSubCateoriesToDb(SQLiteDatabase sqLiteDatabase,
+                                      ArrayList<SubCategories>
+                                              subCategories,String categoryIndicator){
 
         int subCategoryCount=0;
 
@@ -94,16 +93,17 @@ public class SubCategoriesTable {
             sqLiteDatabase.beginTransaction();
 
             String sql = "Insert or Replace into "+SUBCATEGORY_TABLE
-                    +" ("+SubCategories.SUBCATEGORY_ID
+                    +" ("+SubCategories.SUBCATEGORY_ID+","+Category.CATEGORY_INDICATOR
                     +","+SubCategories.SUBCATEGORY_INDICATOR+","+SubCategories.SUBCATEGORY_NAME
-                    +","+SubCategories.IS_ITEM_CHECKED+") values(?,?,?,?)";
+                    +","+SubCategories.IS_ITEM_CHECKED+") values(?,?,?,?,?)";
 
             SQLiteStatement sqLiteStatement=sqLiteDatabase.compileStatement(sql);
             for (SubCategories subCategory:subCategories){
                 sqLiteStatement.bindString(1,subCategory.getSubCategoryId());
-                sqLiteStatement.bindString(2, subCategory.getSubCategoryIndicator());
-                sqLiteStatement.bindString(3, subCategory.getSubCategoryName());
-                sqLiteStatement.bindLong(4, subCategory.isItemChecked()?1:0);
+                sqLiteStatement.bindString(2,categoryIndicator);
+                sqLiteStatement.bindString(3, subCategory.getSubcategory_indicator());
+                sqLiteStatement.bindString(4, subCategory.getSubcategory_name());
+                sqLiteStatement.bindLong(5, subCategory.isItemChecked()?1:0);
                 sqLiteStatement.execute();
 
 
@@ -144,8 +144,8 @@ public class SubCategoriesTable {
             SubCategories subCategories1=new SubCategories();
             subCategories1.setIsItemChecked(cursor.getInt(cursor.getColumnIndex(SubCategories.IS_ITEM_CHECKED))>0?true:false);
             subCategories1.setSubCategoryId(cursor.getString(cursor.getColumnIndex(SubCategories.SUBCATEGORY_ID)));
-            subCategories1.setSubCategoryName(cursor.getString(cursor.getColumnIndex(SubCategories.SUBCATEGORY_NAME)));
-            subCategories1.setSubCategoryIndicator(cursor.getString(cursor.getColumnIndex(SubCategories.SUBCATEGORY_INDICATOR)));
+            subCategories1.setSubcategory_name(cursor.getString(cursor.getColumnIndex(SubCategories.SUBCATEGORY_NAME)));
+            subCategories1.setSubcategory_indicator(cursor.getString(cursor.getColumnIndex(SubCategories.SUBCATEGORY_INDICATOR)));
             subCategories.add(subCategories1);
         }
 

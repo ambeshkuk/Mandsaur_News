@@ -1,13 +1,25 @@
 package com.mandasur.app.data.source.dataxml;
 
 import android.content.Context;
-import android.content.res.TypedArray;
+import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Category;
+import com.mandasur.app.data.source.dao.requestdao.CategoryResponseBean;
+import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryRequest;
+import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
+import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
+import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
+import com.mandasur.app.data.source.remote.OkHttpClientUtils;
+import com.mandasur.app.news.exceptions.ErrorMessageHandler;
+import com.mandasur.app.util.GsonUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import okhttp3.Response;
 
 
 /**
@@ -18,39 +30,64 @@ public class CategoriesDataSource  {
 
 
     private Context context;
-
-    public CategoriesDataSource(Context context){
+    private ErrorMessageHandler errorHandler;
+    private DatabaseNewsDataSource databaseNewsDataSource;
+    public CategoriesDataSource(Context context
+            ,DatabaseNewsDataSource databaseNewsDataSource){
         this.context=context;
+        this.errorHandler=ErrorMessageHandler.getInstance(context);
+        this.databaseNewsDataSource=databaseNewsDataSource;
     }
 
 
 
 
-    public ArrayList<Category> getAllCategoriesFromDataXml(){
-
-        ArrayList<Category> categories=new ArrayList<>();
-
-       String[] categoriesTitle= context.getResources().getStringArray(R.array.categoriesTitle);
-        String[] categoryIdentifier=context.getResources().getStringArray(R.array.categoryIdentifier);
-        String[] categroyNameTabs=context.getResources().getStringArray(R.array.categoriesTitleOnTabs);
-        for (int i=0;i<categoriesTitle.length;i++){
-
-            Category category=new Category();
+    public CategoryResponseBean getAllCategoriesFromDataXml(){
 
 
+        CategoryResponseBean categoryResponseBean=new CategoryResponseBean();
 
-            category.setCategoryTitle(categoriesTitle[i]);
-            category.setCategoryIdentifier(categoryIdentifier[i]);
-            category.setCateegoryNameTabs(categroyNameTabs[i]);
 
-            category.setCategoryId(i);
-            categories.add(category);
+     Response response= OkHttpClientUtils.
+                 perfromHttpRequestForPostRequest(new HashMap<String, String>(),
+                         context.getString(R.string.baseUrl) +
+                                 context.getString(R.string.categories_news));
+
+
+        if (response!=null){
+
+            if (response.isSuccessful()){
+
+
+                try {
+                    String responseBody=response.body().string();
+
+                   Gson gson= GsonUtil.getGsonInstance();
+                    categoryResponseBean=gson.fromJson(responseBody
+                            ,CategoryResponseBean.class);
+
+                    MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+                    mandsaurDataBaseHelper.
+                    getCategoriesTable().
+                            insertCategoryToDb(mandsaurDataBaseHelper,
+                                    categoryResponseBean.getData());
+
+
+                } catch (IOException e) {
+
+                    categoryResponseBean.setStatus("0");
+                    categoryResponseBean.setMsg(errorHandler.getApiErrorMessage(0));
+                }
+            }
+            else {
+
+                categoryResponseBean.setStatus("0");
+                categoryResponseBean.setMsg(errorHandler.getApiErrorMessage(0));
+            }
+
         }
 
-
-
-
-        return categories;
+        return categoryResponseBean;
     }
 
 

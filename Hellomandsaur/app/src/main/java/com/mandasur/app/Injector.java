@@ -45,7 +45,8 @@ public class Injector {
 
     public static CategoryDataRepository getCategoryDataReporsitory(Context context){
 
-        return new CategoryDataRepository(new CategoriesDataSource(context));
+        return new CategoryDataRepository(
+                new CategoriesDataSource(context,new DatabaseNewsDataSource()));
 
     }
 

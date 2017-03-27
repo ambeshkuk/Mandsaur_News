@@ -317,7 +317,7 @@ private DrawerAdpater drawerAdpater;
              categoryTabsAndDrawerPresenter.openCategory(category.getCategoryId());
                 mDrawerLayout.closeDrawer(nav_view);
 
-//            if (category.getCategoryIdentifier().equals("Main News")){
+//            if (category.getCategory_indicator().equals("Main News")){
 //                setTheVisibilityOfFilterActivity(true);
 //            }
 //            else {

@@ -52,6 +52,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
 
     private RemoteNewsDataSource remoteNewsDataSource;
+
     private DatabaseNewsDataSource databaseNewsDataSource;
 
     private ErrorMessageHandler errorHandler;
@@ -132,7 +133,8 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
                 try {
                     String responseBody=response.body().string();
-                    newsFromMainCategoryResponse=parseJsonAndRerutrnNewsCategoryResponse(responseBody);
+                    newsFromMainCategoryResponse=
+                            parseJsonAndRerutrnNewsCategoryResponse(responseBody);
                     MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
                     if (newsFromMainCategoryResponse.isSuccessful()){
                         String mainCategory=TextUtils.isEmpty(request.get(NewsFromMainCategoryRequest.CATEGORY))?

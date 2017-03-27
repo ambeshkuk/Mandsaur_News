@@ -3,6 +3,8 @@ package com.mandasur.app.data.source;
 import android.support.annotation.NonNull;
 
 import com.mandasur.app.data.source.dao.Category;
+import com.mandasur.app.data.source.dao.requestdao.CategoryResponseBean;
+import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.data.source.dataxml.CategoriesDataSource;
 
 import java.util.ArrayList;
@@ -22,16 +24,16 @@ public class CategoryDataRepository  {
     }
     public interface LoadCategoriesCallBack{
 
-        void onCategoriesLoaded(ArrayList<Category> categories);
+        void onCategoriesLoaded(CategoryResponseBean categories);
         void onCategoriesNotAvaliable();
 
     }
 
     public void getCategories(@NonNull LoadCategoriesCallBack loadCategoriesCallBack){
 
-            ArrayList<Category> categories=categoriesDataSource.getAllCategoriesFromDataXml();
+            CategoryResponseBean categories=categoriesDataSource.getAllCategoriesFromDataXml();
 
-            if (categories!=null&&!categories.isEmpty()){
+            if (categories!=null){
 
                  loadCategoriesCallBack.onCategoriesLoaded(categories);
             }

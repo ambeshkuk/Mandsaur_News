@@ -32,7 +32,7 @@
         <item>बाद में पढ़िए </item>
     </string-array>
 
-    <string-array name="categoryIdentifier">
+    <string-array name="category_indicator">
         <item>Main News</item>
         <item>mds</item>
         <item>mini_mds</item>

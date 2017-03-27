@@ -1,6 +1,5 @@
 package com.mandasur.app.news.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +8,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mandasur.app.Injector;
@@ -76,10 +74,10 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
 
         Category category=categories.get(position);
         NewsListFragment newsListFragment=NewsListFragment.
-                newInstance(category.getCategoryIdentifier(),"sports",category.getCateegoryNameTabs());
-        newsListFragment.setMainCategory(category.getCategoryTitle());
+                newInstance(category.getCategory_indicator(),"sports",category.getCateegoryNameTabs());
+        newsListFragment.setMainCategory(category.getCategory_name());
         NewsListContract.NewsListPresenter newsListPresenter=new NewsListPresenter(Injector.getNewsListByCategory(context),Injector.getShareNewsDetailsUseCase(context),
-                newsListFragment,category.getCategoryIdentifier());
+                newsListFragment,category.getCategory_indicator());
 
 
         return newsListFragment;

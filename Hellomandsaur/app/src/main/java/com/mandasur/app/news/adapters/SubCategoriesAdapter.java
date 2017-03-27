@@ -7,12 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import com.mandasur.app.R;
-import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.SubCategories;
-import com.mandasur.app.util.MandsaurNewsTextView;
 
 import java.util.List;
 
@@ -53,7 +50,7 @@ public void setOnItemCheckedListner(OnItemCheckedListner onItemCheckedListner){
             subcategoryCb.setChecked(false);
         }
 
-        subcategoryCb.setText(subCategories.getSubCategoryName());
+        subcategoryCb.setText(subCategories.getSubcategory_name());
         subcategoryCb.setOnCheckedChangeListener(onCheckedChangeListener);
 
         subcategoryCb.setTag(position);

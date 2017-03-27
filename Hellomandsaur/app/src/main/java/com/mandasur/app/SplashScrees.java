@@ -1,26 +1,55 @@
 package com.mandasur.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.mandasur.app.R;
+import com.mandasur.app.data.source.CategoryDataRepository;
+import com.mandasur.app.data.source.dao.Category;
+import com.mandasur.app.data.source.dao.requestdao.CategoryResponseBean;
 import com.mandasur.app.news.NewsBaseActiivty;
+
+import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SplashScrees extends Activity {
 
     Handler handler;
+    private ProgressBar progressBar;
+
+
+
+    private TextView informationSplash;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+
+
+
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_splash_screen);
+        progressBar= (ProgressBar) findViewById(R.id.progressBar);
+        informationSplash= (TextView) findViewById(R.id.informationSplash);
 
-handler=new Handler();
+
 
 //        new Handler().postDelayed(new Runnable() {
 //
@@ -41,31 +70,68 @@ handler=new Handler();
 //            }
 //        }, 6000);
 
-        loadSubCategoriesOnDb();
+        new FetchCategoriesAndSubCategories().execute();
     }
 
-    private void loadSubCategoriesOnDb()
-    {
-        Thread thread=new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                Injector.getSubCategoryDataReporsitory(SplashScrees.this).getCategories(null);
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent i = new Intent(SplashScrees.this, NewsBaseActiivty.class);
-                startActivity(i);
-//
-//                // close this activity
-                finish();
-                    }
-                },4500);
+
+
+    private class FetchCategoriesAndSubCategories
+            extends AsyncTask<Void,Void,Boolean>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+
+            final CategoryResponseBean[] categoryResponseBean = new CategoryResponseBean[1];
+            Injector.getCategoryDataReporsitory(SplashScrees.this).
+                    getCategories(new CategoryDataRepository.LoadCategoriesCallBack() {
+                        @Override
+                        public void onCategoriesLoaded(CategoryResponseBean categories) {
+
+                            categoryResponseBean[0] = categories;
+                        }
+
+                        @Override
+                        public void onCategoriesNotAvaliable() {
+
+                        }
+                    });
+
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+
+
             }
-        };
-        thread.start();
-    }
+            if (categoryResponseBean[0]!=null&&categoryResponseBean[0].isSuccessful()){
+                return true;
+            }
+            else {
+                return false;
+            }
 
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            progressBar.setVisibility(View.GONE);
+            if (aBoolean){
+                Intent intent=new Intent(SplashScrees.this,NewsBaseActiivty.class);
+                startActivity(intent);
+                finish();
+            }
+            else {
+
+            }
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
