@@ -49,7 +49,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
     private static final String MAIN_CATEGORY_NAME="manin_category_name";
     // TODO: Rename and change types of parameters
     private String mainCategory;
-    private String subCategory;
+
     private ProgressBar progressBar;
     private TextView networkNotAvalibleTv;
     private String categoryName;
@@ -71,12 +71,12 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
     // TODO: Rename and change types and number of parameters
 
 
-    public static NewsListFragment newInstance(String mainCat, String subCat,String mainCategroyName) {
+    public static NewsListFragment newInstance(String mainCat,String mainCategroyName) {
         NewsListFragment fragment = new NewsListFragment();
         Bundle args = new Bundle();
         args.putString(MAIN_CATEOGRY_STRING, mainCat);
         args.putString(MAIN_CATEGORY_NAME,mainCategroyName);
-        args.putString(SUBCATEGORY_STING, subCat);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,7 +95,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mainCategory = getArguments().getString(MAIN_CATEOGRY_STRING);
-            subCategory = getArguments().getString(SUBCATEGORY_STING);
+
             categoryName=getArguments().getString(MAIN_CATEGORY_NAME);
         }
     }

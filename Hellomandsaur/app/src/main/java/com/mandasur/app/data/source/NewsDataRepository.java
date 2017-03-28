@@ -103,8 +103,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
         if (request.get(NewsFromMainCategoryRequest.IS_NETWORK_AVALIBLE).equals(NewsFromMainCategoryRequest.FALSE)){
             newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
             MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
-            String mainCategory=TextUtils.isEmpty(request.get(NewsFromMainCategoryRequest.CATEGORY))?
-                    request.get(NewsFromMainCategoryRequest.CAT):request.get(NewsFromMainCategoryRequest.CATEGORY);
+            String mainCategory=request.get(NewsFromMainCategoryRequest.MAIN_CAT);
             if (!mandsaurDataBaseHelper.getCachedNewsTable()
                     .isNewsTableEmpty(mandsaurDataBaseHelper.getSqLiteDatabase()
                             , mainCategory)){
@@ -137,10 +136,9 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                             parseJsonAndRerutrnNewsCategoryResponse(responseBody);
                     MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
                     if (newsFromMainCategoryResponse.isSuccessful()){
-                        String mainCategory=TextUtils.isEmpty(request.get(NewsFromMainCategoryRequest.CATEGORY))?
-                                request.get(NewsFromMainCategoryRequest.CAT):request.get(NewsFromMainCategoryRequest.CATEGORY);
-
-                                mandsaurDataBaseHelper.getCachedNewsTable().setNewsListToDb(mandsaurDataBaseHelper.getSqLiteDatabase(),responseBody,mainCategory);
+                        String mainCategory=request.get(NewsFromMainCategoryRequest.MAIN_CAT);
+                        mandsaurDataBaseHelper.getCachedNewsTable().
+                                setNewsListToDb(mandsaurDataBaseHelper.getSqLiteDatabase(),responseBody,mainCategory);
                     }
 
                 } catch (IOException e) {

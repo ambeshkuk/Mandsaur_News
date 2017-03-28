@@ -42,7 +42,7 @@ public class SubCategoriesTable {
     }
 
 
-    public String getStringArrayIfSelectedSubCategory(SQLiteDatabase sqLiteDatabase){
+    public String getStringArrayIfSelectedSubCategory(SQLiteDatabase sqLiteDatabase,String mainCat){
         StringBuilder subCategoryArray=new StringBuilder();
 
 
@@ -51,7 +51,8 @@ public class SubCategoriesTable {
 
         String[] columns={SubCategories.SUBCATEGORY_INDICATOR};
 
-        Cursor cursor=sqLiteDatabase.query(SUBCATEGORY_TABLE,columns,SubCategories.IS_ITEM_CHECKED+"=1",null,null,null,null);
+        Cursor cursor=sqLiteDatabase.query(SUBCATEGORY_TABLE,columns,SubCategories.IS_ITEM_CHECKED+"=1"+" AND "
+                +Category.CATEGORY_INDICATOR+"='"+mainCat+"'",null,null,null,null);
 
         while (cursor.moveToNext()){
             if (!cursor.isLast()){

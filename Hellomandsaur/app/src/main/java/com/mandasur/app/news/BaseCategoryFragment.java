@@ -109,14 +109,14 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            if (MandsaurAppSharedPref.getCategoryName(getActivity()).equals("Main News")){
+
 
                 Fragment currentFragment = categoryAdapter.getRegisteredFragment(baseNewsVp.getCurrentItem());
                 if (currentFragment!=null&&(currentFragment instanceof NewsListFragment)){
                     ((NewsListFragment)currentFragment).onActivityResult(requestCode, resultCode, data);
                 }
 
-            }
+
 
     }
 

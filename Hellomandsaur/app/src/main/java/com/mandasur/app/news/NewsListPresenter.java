@@ -110,12 +110,12 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
        else{
            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,newsListFragment.getContext().getString(R.string.baseUrl)
                    +newsListFragment.getContext().getString(R.string.mainNews));
-           newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CAT,categroyName);
+           newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.MAIN_CAT,categroyName);
            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.SUB_CAT
                    , DatabaseNewsDataSource.getInstance(newsListFragment.getContext())
                    .getSubCategoriesTable().
                            getStringArrayIfSelectedSubCategory(DatabaseNewsDataSource.getInstance(newsListFragment.getContext())
-                                   .getSqLiteDatabase()));
+                                   .getSqLiteDatabase(),categroyName));
        }
 
 
