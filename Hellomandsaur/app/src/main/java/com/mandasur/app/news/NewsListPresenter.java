@@ -102,25 +102,23 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.PAGE_NO,pageNumber+"");
 
        }
-       else if (categroyName.equals("Main News")){
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,newsListFragment.getContext().getString(R.string.baseUrl)
-                    +newsListFragment.getContext().getString(R.string.mainNews));
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CAT,categroyName);
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.SUB_CAT
-                    , DatabaseNewsDataSource.getInstance(newsListFragment.getContext())
-                    .getSubCategoriesTable().
-                            getStringArrayIfSelectedSubCategory(DatabaseNewsDataSource.getInstance(newsListFragment.getContext())
-                                    .getSqLiteDatabase()));
-        }
+
         else if (categroyName.equals("bookmarked")){
             newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL, newsListFragment.getContext().getString(R.string.bookMarkedNews));
             newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CATEGORY, categroyName);
         }
+       else{
+           newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL,newsListFragment.getContext().getString(R.string.baseUrl)
+                   +newsListFragment.getContext().getString(R.string.mainNews));
+           newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CAT,categroyName);
+           newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.SUB_CAT
+                   , DatabaseNewsDataSource.getInstance(newsListFragment.getContext())
+                   .getSubCategoriesTable().
+                           getStringArrayIfSelectedSubCategory(DatabaseNewsDataSource.getInstance(newsListFragment.getContext())
+                                   .getSqLiteDatabase()));
+       }
 
-        else{
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL, newsListFragment.getContext().getString(R.string.baseUrl) + newsListFragment.getContext().getString(R.string.anyNews));
-            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.CATEGORY, categroyName);
-        }
+
 
 
         GetNewsListByCategory.RequestValues requestValues=new GetNewsListByCategory.RequestValues();

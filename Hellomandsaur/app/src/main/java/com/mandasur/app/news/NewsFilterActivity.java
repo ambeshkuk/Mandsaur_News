@@ -128,7 +128,7 @@ public class NewsFilterActivity extends AppCompatActivity  implements SubCategor
 
                 DatabaseNewsDataSource.getInstance(NewsFilterActivity.this)
                         .getSubCategoriesTable().updateIsItemCheckdOrNot(DatabaseNewsDataSource
-                        .getInstance(NewsFilterActivity.this).getSqLiteDatabase(),subCategories.getSubCategoryId(),subCategories.isItemChecked());
+                        .getInstance(NewsFilterActivity.this).getSqLiteDatabase(),subCategories.getSubcategory_indicator(),subCategories.isItemChecked());
                 ((SubCategoriesAdapter) arrayAdapter).notifyDataSetChanged();
 
             }

@@ -13,8 +13,7 @@
         <string name="baseUrl">https://newindiapress.com/webApi/</string>
         <string name="textRelatedNews">संबंधित </string>
 
-        <string name="mainNews">mainnews_Fromall_Cat.php</string>
-        <string name="anyNews">newsFrom_uppertabs.php</string>
+        <string name="mainNews">mandsaurNews.php</string>
         <string name="categories_news">categorylist.php</string>
         <string name="newsDetails">newsdetails.php</string>
         <string name="newsSingleSubCat">news_singleSubcat.php</string>

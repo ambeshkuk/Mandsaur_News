@@ -40,9 +40,11 @@ public class CategoriesDataSource  {
     }
 
 
+    public DatabaseNewsDataSource getDatabaseNewsDataSource() {
+        return databaseNewsDataSource;
+    }
 
-
-    public CategoryResponseBean getAllCategoriesFromDataXml(){
+    public CategoryResponseBean loadAllCategoriesToDb(){
 
 
         CategoryResponseBean categoryResponseBean=new CategoryResponseBean();
@@ -66,12 +68,12 @@ public class CategoriesDataSource  {
                     categoryResponseBean=gson.fromJson(responseBody
                             ,CategoryResponseBean.class);
 
-                    MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+                    MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getInstance(context);
                     mandsaurDataBaseHelper.
                     getCategoriesTable().
                             insertCategoryToDb(mandsaurDataBaseHelper,
                                     categoryResponseBean.getData());
-
+                categoryResponseBean.setStatus("1");
 
                 } catch (IOException e) {
 
@@ -92,5 +94,9 @@ public class CategoriesDataSource  {
 
 
 
+    public ArrayList<Category> getAllCategroiesFromDb(){
+            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+      return   mandsaurDataBaseHelper.getCategoriesTable().getCategoriesFromDb(mandsaurDataBaseHelper.getSqLiteDatabase());
+    }
 
 }

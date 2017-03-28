@@ -35,21 +35,21 @@ public class SubCategoryDataSource {
         }
 
 
-        String[] categoriesTitle = context.getResources().getStringArray(R.array.sub_categories_name);
-String[] subCategoriesIndicator=context.getResources().getStringArray(R.array.subcategoires_indicator);
-
-        for (int i = 0; i < categoriesTitle.length; i++) {
-
-            SubCategories subCategories = new SubCategories();
-
-            subCategories.setSubcategory_name(categoriesTitle[i]);
-            subCategories.setSubCategoryId(i + "");
-            subCategories.setIsItemChecked(true);
-            subCategories.setSubcategory_indicator(subCategoriesIndicator[i]);
-            DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable()
-                    .insertSubCateoriesToDb(DatabaseNewsDataSource.getInstance(context).getSqLiteDatabase(), subCategories);
-            categories.add(subCategories);
-        }
+//        String[] categoriesTitle = context.getResources().getStringArray(R.array.sub_categories_name);
+//String[] subCategoriesIndicator=context.getResources().getStringArray(R.array.subcategoires_indicator);
+//
+//        for (int i = 0; i < categoriesTitle.length; i++) {
+//
+//            SubCategories subCategories = new SubCategories();
+//
+//            subCategories.setSubcategory_name(categoriesTitle[i]);
+//            subCategories.setSubCategoryId(i + "");
+//            subCategories.setIsItemChecked(true);
+//            subCategories.setSubcategory_indicator(subCategoriesIndicator[i]);
+//            DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable()
+//                    .insertSubCateoriesToDb(DatabaseNewsDataSource.getInstance(context).getSqLiteDatabase(), subCategories);
+//            categories.add(subCategories);
+//        }
 
         return categories;
     }

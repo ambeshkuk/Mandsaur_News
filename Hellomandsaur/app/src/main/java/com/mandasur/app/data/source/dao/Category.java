@@ -20,6 +20,16 @@ public class Category {
     private String category_icon;
     private String category_indicator;
 
+    public int getCategroyId() {
+        return categroyId;
+    }
+
+    public void setCategroyId(int categroyId) {
+        this.categroyId = categroyId;
+    }
+
+    private int categroyId;
+
     public ArrayList<SubCategories> getSubcategories() {
         return subcategories;
     }

@@ -314,7 +314,7 @@ private DrawerAdpater drawerAdpater;
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             view.setSelected(true);
              Category category= (Category) parent.getAdapter().getItem(position);
-             categoryTabsAndDrawerPresenter.openCategory(category.getCategoryId());
+             categoryTabsAndDrawerPresenter.openCategory(category.getCategroyId());
                 mDrawerLayout.closeDrawer(nav_view);
 
 //            if (category.getCategory_indicator().equals("Main News")){

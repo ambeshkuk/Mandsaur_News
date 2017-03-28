@@ -42,9 +42,17 @@ public class OkHttpClientUtils {
         }
 
 
-        MultipartBody formBody=formBodybuilder.build();
-        Request request=getInstanceOfRequestBuilder().url(requestUrl).post(formBody)
-                .build();
+
+        Request request;
+        if (requestParam.size()==0){
+            request=getInstanceOfRequestBuilder().url(requestUrl).build();
+        }
+        else {
+            MultipartBody formBody=formBodybuilder.build();
+            request=getInstanceOfRequestBuilder().url(requestUrl).post(formBody)
+                    .build();
+        }
+
 
 
 

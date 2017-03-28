@@ -22,11 +22,11 @@ public class GetCategories extends UseCase<GetCategories.RequestValues,GetCatego
     }
     @Override
     public void executeUseCase(RequestValues requestValues) {
-        categoryDataRepository.getCategories(new CategoryDataRepository.LoadCategoriesCallBack() {
+        categoryDataRepository.getCategories(new CategoryDataRepository.LoadCategoriesFromDb() {
             @Override
             public void onCategoriesLoaded(ArrayList<Category> categories) {
 
-                ResponseValue responseValue=new ResponseValue(categories);
+                ResponseValue responseValue = new ResponseValue(categories);
                 getUseCaseCallback().onSuccess(responseValue);
             }
 

@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.requestdao.CategoryResponseBean;
-import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.data.source.dataxml.CategoriesDataSource;
 
 import java.util.ArrayList;
@@ -22,6 +21,11 @@ public class CategoryDataRepository  {
        this.categoriesDataSource=categoriesDataSource;
 
     }
+
+    public CategoriesDataSource getCategoriesDataSource() {
+        return categoriesDataSource;
+    }
+
     public interface LoadCategoriesCallBack{
 
         void onCategoriesLoaded(CategoryResponseBean categories);
@@ -29,9 +33,17 @@ public class CategoryDataRepository  {
 
     }
 
-    public void getCategories(@NonNull LoadCategoriesCallBack loadCategoriesCallBack){
 
-            CategoryResponseBean categories=categoriesDataSource.getAllCategoriesFromDataXml();
+
+    public interface LoadCategoriesFromDb{
+        void onCategoriesLoaded(ArrayList<Category> categories);
+        void onCategoriesNotAvaliable();
+    }
+
+    public void loadCategoriesToDb(@NonNull LoadCategoriesCallBack loadCategoriesCallBack){
+
+
+            CategoryResponseBean categories=categoriesDataSource.loadAllCategoriesToDb();
 
             if (categories!=null){
 
@@ -43,6 +55,22 @@ public class CategoryDataRepository  {
 
 
 
+    }
+
+
+
+    public void getCategories(@NonNull LoadCategoriesFromDb loadCategoriesFromDb){
+
+
+
+        ArrayList<Category> categories=categoriesDataSource.getAllCategroiesFromDb();
+        if (categories!=null){
+            loadCategoriesFromDb.onCategoriesLoaded(categories);
+
+        }
+        else {
+            loadCategoriesFromDb.onCategoriesNotAvaliable();
+        }
     }
 
 }

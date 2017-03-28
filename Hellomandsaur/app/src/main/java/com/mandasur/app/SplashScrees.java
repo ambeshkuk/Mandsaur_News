@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,13 +12,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mandasur.app.R;
 import com.mandasur.app.data.source.CategoryDataRepository;
-import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.requestdao.CategoryResponseBean;
+import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
 import com.mandasur.app.news.NewsBaseActiivty;
-
-import java.util.ArrayList;
+import com.mandasur.app.util.ActivityUtil;
+import com.mandasur.app.util.DialogUtils;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -29,7 +26,7 @@ public class SplashScrees extends Activity {
     Handler handler;
     private ProgressBar progressBar;
 
-
+    private CategoryDataRepository categoryDataRepository;
 
     private TextView informationSplash;
 
@@ -46,6 +43,7 @@ public class SplashScrees extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_splash_screen);
+        categoryDataRepository=Injector.getCategoryDataReporsitory(SplashScrees.this);
         progressBar= (ProgressBar) findViewById(R.id.progressBar);
         informationSplash= (TextView) findViewById(R.id.informationSplash);
 
@@ -70,13 +68,35 @@ public class SplashScrees extends Activity {
 //            }
 //        }, 6000);
 
-        new FetchCategoriesAndSubCategories().execute();
+        MandsaurDataBaseHelper mandsaurDataBaseHelper=categoryDataRepository.getCategoriesDataSource()
+                .getDatabaseNewsDataSource().getMandsaurDataBaseHelper();
+        if (ActivityUtil.isNetworkAvaliable(SplashScrees.this)
+                ){
+            new FetchCategoriesAndSubCategories().execute();
+        }
+        else  if (mandsaurDataBaseHelper.getCategoriesTable()
+                .getRowCount(mandsaurDataBaseHelper.getSqLiteDatabase())!=0){
+            Intent intent=new Intent(SplashScrees.this,NewsBaseActiivty.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            DialogUtils.showFinishDialog(SplashScrees.this
+                    , "Can not Process Request Right Now", new DialogUtils.OnFinishDialogClickInterface() {
+                @Override
+                public void onFinishDialog() {
+                    finish();
+
+                }
+            });
+        }
+
     }
 
 
 
     private class FetchCategoriesAndSubCategories
-            extends AsyncTask<Void,Void,Boolean>{
+            extends AsyncTask<Void,Void,CategoryResponseBean>{
 
         @Override
         protected void onPreExecute() {
@@ -85,23 +105,23 @@ public class SplashScrees extends Activity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected CategoryResponseBean doInBackground(Void... params) {
 
 
             final CategoryResponseBean[] categoryResponseBean = new CategoryResponseBean[1];
-            Injector.getCategoryDataReporsitory(SplashScrees.this).
-                    getCategories(new CategoryDataRepository.LoadCategoriesCallBack() {
-                        @Override
-                        public void onCategoriesLoaded(CategoryResponseBean categories) {
+           categoryDataRepository.
+                   loadCategoriesToDb(new CategoryDataRepository.LoadCategoriesCallBack() {
+                       @Override
+                       public void onCategoriesLoaded(CategoryResponseBean categories) {
 
-                            categoryResponseBean[0] = categories;
-                        }
+                           categoryResponseBean[0] = categories;
+                       }
 
-                        @Override
-                        public void onCategoriesNotAvaliable() {
+                       @Override
+                       public void onCategoriesNotAvaliable() {
 
-                        }
-                    });
+                       }
+                   });
 
             try {
                 Thread.sleep(3000);
@@ -109,26 +129,30 @@ public class SplashScrees extends Activity {
 
 
             }
-            if (categoryResponseBean[0]!=null&&categoryResponseBean[0].isSuccessful()){
-                return true;
-            }
-            else {
-                return false;
-            }
+          return categoryResponseBean[0];
 
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
+        protected void onPostExecute(CategoryResponseBean categoryResponseBean) {
+            super.onPostExecute(categoryResponseBean);
             progressBar.setVisibility(View.GONE);
-            if (aBoolean){
-                Intent intent=new Intent(SplashScrees.this,NewsBaseActiivty.class);
-                startActivity(intent);
-                finish();
-            }
-            else {
+            if (categoryResponseBean!=null){
+                if(categoryResponseBean.isSuccessful()){
+                    Intent intent=new Intent(SplashScrees.this,NewsBaseActiivty.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else{
 
+                    DialogUtils.showFinishDialog(SplashScrees.this, "Could Not initiate the App , please try again later", new DialogUtils.OnFinishDialogClickInterface() {
+                        @Override
+                        public void onFinishDialog() {
+                                  finish();
+                        }
+                    });
+
+                }
             }
         }
     }

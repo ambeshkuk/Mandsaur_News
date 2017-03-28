@@ -103,13 +103,15 @@ public class CategoriesTable {
     public ArrayList<Category> getCategoriesFromDb(SQLiteDatabase sqLiteDatabase){
 
         ArrayList<Category>    categories=new ArrayList<>();
-
+        int categroyid=0;
         Cursor cursor=sqLiteDatabase.query(CATEGORY_TABLE,null,null,null,null,null,null);
 
         while (cursor.moveToNext()){
             Category category=new Category();
             category.setCategory_indicator(cursor.getString(cursor.
                     getColumnIndex(Category.CATEGORY_INDICATOR)));
+            category.setCategroyId(categroyid);
+            categroyid++;
             category.setCategory_icon(cursor.getString(cursor.getColumnIndex(Category.CATEGORY_ICON)));
             category.setCategory_name(cursor.getString(cursor.getColumnIndex(Category.CATEGORY_NAME)));
             categories.add(category);
