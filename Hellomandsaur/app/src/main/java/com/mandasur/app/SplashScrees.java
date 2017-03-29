@@ -82,7 +82,7 @@ public class SplashScrees extends Activity {
         }
         else {
             DialogUtils.showFinishDialog(SplashScrees.this
-                    , "Can not Process Request Right Now", new DialogUtils.OnFinishDialogClickInterface() {
+                    , "You are not connected to internet please proceed later.", new DialogUtils.OnFinishDialogClickInterface() {
                 @Override
                 public void onFinishDialog() {
                     finish();
@@ -101,7 +101,8 @@ public class SplashScrees extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+            DialogUtils.showProgressDialog(SplashScrees.this,"Please Wait!!","While we initalise the device.",false);
+
         }
 
         @Override
@@ -136,6 +137,7 @@ public class SplashScrees extends Activity {
         @Override
         protected void onPostExecute(CategoryResponseBean categoryResponseBean) {
             super.onPostExecute(categoryResponseBean);
+            DialogUtils.dismissProgressDialog();
             progressBar.setVisibility(View.GONE);
             if (categoryResponseBean!=null){
                 if(categoryResponseBean.isSuccessful()){
@@ -145,7 +147,8 @@ public class SplashScrees extends Activity {
                 }
                 else{
 
-                    DialogUtils.showFinishDialog(SplashScrees.this, "Could Not initiate the App , please try again later", new DialogUtils.OnFinishDialogClickInterface() {
+                    DialogUtils.showFinishDialog(SplashScrees.this,
+                            "Could Not initiate the App , please try again later", new DialogUtils.OnFinishDialogClickInterface() {
                         @Override
                         public void onFinishDialog() {
                                   finish();

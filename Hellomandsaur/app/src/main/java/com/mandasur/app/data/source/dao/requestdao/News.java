@@ -15,10 +15,10 @@ public class News {
     public static final String TITLE="title";
     public static final String IMAGE="image";
     public static final String DATE="date";
-    public static final String FID="fid";
+    public static final String ID ="id";
     public static final String SUB_CAT_INDICATOR="sub_cat_indicator";
 
-    private String fid;
+    private String id;
     private String title;
     private String image;
     private String date;
@@ -61,13 +61,13 @@ public class News {
     }
 
     private boolean isSubcategoryStart;
-    public String getFid() {
-        return fid;
+    public String getId() {
+        return id;
     }
 
 
-    public void setFid(String fid) {
-        this.fid = fid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

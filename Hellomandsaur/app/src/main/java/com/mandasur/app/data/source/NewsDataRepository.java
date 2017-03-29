@@ -2,7 +2,6 @@ package com.mandasur.app.data.source;
 
 import android.content.Context;
 import android.text.Html;
-import android.text.TextUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -27,12 +26,8 @@ import com.mandasur.app.data.source.remote.OkHttpClientUtils;
 import com.mandasur.app.data.source.remote.RemoteNewsDataSource;
 import com.mandasur.app.news.exceptions.ErrorMessageHandler;
 import com.mandasur.app.news.exceptions.ErrorRequestCode;
-import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.GsonUtil;
 
-
-import org.json.JSONObject;
-import org.xml.sax.ErrorHandler;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -53,7 +48,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
     private RemoteNewsDataSource remoteNewsDataSource;
 
-    private DatabaseNewsDataSource databaseNewsDataSource;
+    private static DatabaseNewsDataSource databaseNewsDataSource;
 
     private ErrorMessageHandler errorHandler;
     private Context context;
@@ -216,9 +211,8 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
         if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),request.get(NewsDetailFromIdRequest.NEWS_ID))){
 
-            ArrayList<NewsDetail> newsDetails=new ArrayList<>();
-            newsDetails.add(mandsaurDataBaseHelper.getSavedNewsTable().getNewsDetailFromDB(mandsaurDataBaseHelper.getSqLiteDatabase(), request.get(NewsDetailFromIdRequest.NEWS_ID)));
-            newsDetailsFromResponse.setData(newsDetails);
+            newsDetailsFromResponse=GsonUtil.getGsonInstance().fromJson(mandsaurDataBaseHelper.getSavedNewsTable().getNewsDetailFromDB(mandsaurDataBaseHelper.getSqLiteDatabase()
+                    , request.get(NewsDetailFromIdRequest.NEWS_ID)),NewsDetailsFromResponse.class);
             newsDetailsFromResponse.setStatus("1");
 
             return newsDetailsFromResponse;
@@ -245,7 +239,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                     newsDetailsFromResponse= GsonUtil.getGsonInstance().
                             fromJson(jsonData,
                                     com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse.class);
-
+                    newsDetailsFromResponse.setUnderLineJson(jsonData);
 
                     if (newsDetailsFromResponse==null){
                         newsDetailsFromResponse.setStatus("0");
@@ -295,7 +289,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
         @Override
         public NewsFromMainCategoryResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             NewsFromMainCategoryResponse newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
-
+            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
             JsonObject jsonObject=json.getAsJsonObject();
             JsonElement jsonElement=jsonObject.get("data");
             Data data=new Data();
@@ -321,12 +315,15 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                 JsonObject newsJson=newsJsonObject.getAsJsonObject();
 
 
-                                news.setFid(newsJson.get("fid").getAsString());
+                                news.setId(newsJson.get("id").getAsString());
                                 news.setDate(newsJson.get("date").getAsString());
                                 if (i==0){
                                     if (entrySet.size()>1){
                                         news.setIsSubcategoryStart(true);
-                                        news.setSubCategoryName(elementEntry.getKey());
+
+                                        news.setSubCategoryName(mandsaurDataBaseHelper
+                                                .getSubCategoriesTable().getSubCategoryNameFromSubCategroyIndicator(mandsaurDataBaseHelper.getSqLiteDatabase()
+                                                        , elementEntry.getKey()));
 
                                     }
                                     else {

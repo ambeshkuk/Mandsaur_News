@@ -35,7 +35,7 @@ public class OkHttpClientUtils {
 
 
         for (String key:requestParam.keySet()){
-            if (!key.equals(com.mandasur.app.data.source.dao.requestdao.Request.REQUEST_URL)){
+            if (!key.equals(com.mandasur.app.data.source.dao.requestdao.Request.REQUEST_URL)||!key.equals(com.mandasur.app.data.source.dao.requestdao.Request.IS_NETWORK_AVALIBLE)){
                 formBodybuilder.addFormDataPart(key, requestParam.get(key));
             }
 

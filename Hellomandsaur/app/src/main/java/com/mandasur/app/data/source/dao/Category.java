@@ -71,7 +71,7 @@ public class Category {
     }
 
    public void setCategory_icon(String category_icon){
-
+        this.category_icon=category_icon;
    }
     public String getCategory_icon(){
         return category_icon;

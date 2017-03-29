@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.News;
+import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
 import com.mandasur.app.news.FiltredNewsListActivity;
 import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
 import com.squareup.picasso.Picasso;
@@ -36,9 +37,9 @@ public class RelatedNewsAdapter extends RecyclerView.Adapter<RelatedNewsAdapter.
 
 
 
-    private ArrayList<News> newsArrayList;
+    private ArrayList<NewsDetail> newsArrayList;
     private HashMap<String,String> tranlationAndIndicatorHashMap=new HashMap<>();
-    public RelatedNewsAdapter(ArrayList<News> newsArrayList) {
+    public RelatedNewsAdapter(ArrayList<NewsDetail> newsArrayList) {
         this.newsArrayList = newsArrayList;
 
     }
@@ -53,19 +54,19 @@ public class RelatedNewsAdapter extends RecyclerView.Adapter<RelatedNewsAdapter.
     @Override
     public void onBindViewHolder(NewsListViewHolder holder, int position) {
 
-//        final News news=newsArrayList.get(position);
-//
-//
-//        holder.newsListBackgroundLl.setTag(news.getFid());
-//        holder.newsListBackgroundLl.setOnClickListener(onClickListener);
-//
-//        holder.newsTitleTv.setText(news.getTitle());
-//
-//
-//        if (!TextUtils.isEmpty(news.getImage())){
-//
-//            Picasso.with(holder.newsImageIv.getContext()).load("http://" + news.getImage()).into(holder.newsImageIv);
-//        }
+         NewsDetail newsDetail=newsArrayList.get(position);
+
+
+        holder.newsListBackgroundLl.setTag(newsDetail.getFid());
+        holder.newsListBackgroundLl.setOnClickListener(onClickListener);
+
+        holder.newsTitleTv.setText(newsDetail.getTitle());
+
+
+        if (!TextUtils.isEmpty(newsDetail.getImage())){
+
+            Picasso.with(holder.newsImageIv.getContext()).load(  newsDetail.getImage()).into(holder.newsImageIv);
+        }
     }
 
 

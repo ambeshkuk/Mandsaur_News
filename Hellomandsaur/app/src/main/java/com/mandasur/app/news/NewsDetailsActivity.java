@@ -43,6 +43,7 @@ import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
 import com.mandasur.app.news.adapters.AdvertiseWithUsAdapter;
 import com.mandasur.app.news.adapters.RelatedNewsAdapter;
 import com.mandasur.app.util.ActivityUtil;
+import com.mandasur.app.util.GsonUtil;
 import com.mandasur.app.util.MandsaurNewsTextView;
 import com.squareup.picasso.Picasso;
 
@@ -67,6 +68,7 @@ public class NewsDetailsActivity extends AppCompatActivity
     private CoordinatorLayout newsDetailParent;
     private ProgressBar progressIndicator;
     private NewsDetail newsDetail;
+    private String newsDetailString;
     private  MandsaurDataBaseHelper mandsaurDataBaseHelper;
     private float detailViewTextSize;
 
@@ -258,7 +260,8 @@ public class NewsDetailsActivity extends AppCompatActivity
 
                     }
                     else {
-                        mandsaurDataBaseHelper.getSavedNewsTable().setNewsDetailToDb(mandsaurDataBaseHelper.getSqLiteDatabase(),newsDetail);
+                        mandsaurDataBaseHelper.getSavedNewsTable()
+                                .setNewsDetailToDb(mandsaurDataBaseHelper.getSqLiteDatabase(), newsDetailString,newsDetail.getFid());
                         bookmarkFb.setImageResource(R.drawable.icn_read_later_selected);
                         bookmarkFb.setTag(true);
                     }
@@ -293,13 +296,21 @@ public class NewsDetailsActivity extends AppCompatActivity
                 newsDetailParent.setVisibility(View.VISIBLE);
                 progressIndicator.setVisibility(View.GONE);
                 ArrayList<NewsDetail> newsDetails=newsDetailsFromResponse.getData();
-                RelatedNewsAdapter relatedNewsAdapter=new RelatedNewsAdapter(new ArrayList<News>());
+                ArrayList<NewsDetail> relatedNews=newsDetailsFromResponse.getRelated_news();
+                if (relatedNews!=null&&!relatedNews.isEmpty()){
+                    RelatedNewsAdapter relatedNewsAdapter=new RelatedNewsAdapter(newsDetails);
 
-                relatedNewsRv.
-                        setLayoutManager(new
-                                LinearLayoutManager(NewsDetailsActivity.this
-                                , LinearLayoutManager.HORIZONTAL, false));
-                relatedNewsRv.setAdapter(relatedNewsAdapter);
+                    relatedNewsRv.
+                            setLayoutManager(new
+                                    LinearLayoutManager(NewsDetailsActivity.this
+                                    , LinearLayoutManager.HORIZONTAL, false));
+                    relatedNewsRv.setAdapter(relatedNewsAdapter);
+                }
+                else {
+                    relatedNewsRv.setVisibility(View.GONE);
+                }
+
+
 
                 AdvertiseWithUsAdapter advertiseWithUsAdapter=new AdvertiseWithUsAdapter(new ArrayList<News>());
 
@@ -308,7 +319,9 @@ public class NewsDetailsActivity extends AppCompatActivity
                         , LinearLayoutManager.HORIZONTAL, false));
                 advertiseUsRv.setAdapter(advertiseWithUsAdapter);
                 if (!newsDetails.isEmpty()){
+
                      newsDetail=newsDetails.get(0);
+                    newsDetailString=newsDetailsFromResponse.getUnderLineJson();
                     if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),newsDetail.getFid())){
 
                         bookmarkFb.setTag(true);

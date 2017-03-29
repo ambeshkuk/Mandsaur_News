@@ -59,7 +59,7 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
     public int getPageNumber() {
         return pageNumber;
     }
-    @Override
+    @Override/**/
     public void setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
     }
@@ -97,7 +97,7 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
        if (!TextUtils.isEmpty(filterName)){
            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.REQUEST_URL
                    ,newsListFragment.getContext().getString(R.string.baseUrl)
-                   +newsListFragment.getContext().getString(R.string.newsSingleSubCat));
+                   +newsListFragment.getContext().getString(R.string.mainNews));
            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.SUB_CAT,filterName);
            newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.PAGE_NO,pageNumber+"");
 

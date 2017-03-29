@@ -11,6 +11,6 @@ public class Request extends HashMap<String,String>{
 
 
     public static final String REQUEST_URL="requestUrl";
-
+    public static final String IS_NETWORK_AVALIBLE="isNetworkAvailable";
 
 }

@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.mandasur.app.R;
 
 import com.mandasur.app.data.source.dao.requestdao.News;
@@ -21,7 +19,6 @@ import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by ambesh on 13-02-2017.
@@ -114,7 +111,7 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
                 {
                     newsListViewHolder.newsHeader.setVisibility(View.GONE);
                 }
-                newsListViewHolder.newsListBackgroundLl.setTag(news.getFid());
+                newsListViewHolder.newsListBackgroundLl.setTag(news.getId());
                 newsListViewHolder.newsListBackgroundLl.setOnClickListener(onClickListener);
                 newsListViewHolder.newsTimeTv.setText(news.getDate());
                 newsListViewHolder.newsTitleTv.setText(news.getTitle());

@@ -51,7 +51,7 @@ public class AdvertiseWithUsAdapter extends RecyclerView.Adapter<AdvertiseWithUs
 //        final News news=newsArrayList.get(position);
 //
 //
-//        holder.newsListBackgroundLl.setTag(news.getFid());
+//        holder.newsListBackgroundLl.setTag(news.getId());
 //        holder.newsListBackgroundLl.setOnClickListener(onClickListener);
 //
 //        holder.newsTitleTv.setText(news.getTitle());

@@ -53,6 +53,16 @@ public static final String FID="fid";
         return image1;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    private String image;
+
     public void setImage1(String image1) {
         this.image1 = image1;
     }
@@ -79,5 +89,17 @@ public static final String FID="fid";
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public News mapToNews(){
+        News news=new News();
+        news.setImage(image);
+        news.setTitle(title);
+        news.setDate(date);
+        news.setId(fid);
+
+
+        return news;
+
     }
 }

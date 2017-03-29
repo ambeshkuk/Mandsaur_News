@@ -44,7 +44,7 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
                 inflate(R.layout.layout_tab_textview, null);
 
 
-        v.setText(categories.get(position).getCateegoryNameTabs());
+        v.setText(categories.get(position).getCategory_name());
 
         return v;
     }

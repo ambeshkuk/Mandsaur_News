@@ -5,14 +5,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 
-import com.mandasur.app.data.source.dao.SubCategories;
+import com.google.gson.Gson;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
-import com.mandasur.app.util.ActivityUtil;
+import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
+import com.mandasur.app.util.GsonUtil;
 
 import java.util.ArrayList;
 
@@ -25,6 +24,8 @@ public class SavedNewsTable {
 
 
     private String NEWS_TABLE ="news_table";
+    private String NEWS_DETAIL_JSON="news_detail_json";
+    private String NEWS_ID="news_id";
 
 
     public void createUserTableSchema(SQLiteDatabase sqLiteDatabase)
@@ -32,14 +33,12 @@ public class SavedNewsTable {
     {
 
         String tableCreationQuery = "create table IF NOT EXISTS "
-                + NEWS_TABLE + " (" + NewsDetail.FID + "  varchar "
-                + " , "+ NewsDetail.TITLE + " varchar"
-                +" , "+ NewsDetail.DESCR + " varchar"
-                +" , "+ NewsDetail.PLACE + " varchar"
-                +" , "+ NewsDetail.DATE + " varchar"
-                +" , "+ NewsDetail.IMAGE1 + " varchar"
-                +" , "+ NewsDetail.IMAGE2 + " varchar"
-                +" , "+ NewsDetail.DESCR2 + " varchar" +")";
+                + NEWS_TABLE
+                + " ("
+                + NEWS_DETAIL_JSON + "  varchar "
+                + ","+NEWS_ID + "  varchar "
+
+                + ")";
 
 
         sqLiteDatabase.execSQL(tableCreationQuery);
@@ -62,26 +61,27 @@ public class SavedNewsTable {
     }
 
     public ArrayList<News> getSavedNewsList(SQLiteDatabase sqLiteDatabase){
-        ArrayList<News> newsDetails=new ArrayList<>();
+        ArrayList<News> newsArrayList=new ArrayList<>();
+        Gson gson= GsonUtil.getGsonInstance();
+
 
         Cursor cursor=sqLiteDatabase.query(NEWS_TABLE
                 , null, null, null, null, null, null);
 
         while (cursor.moveToNext()){
+            NewsDetailsFromResponse newsDetailsFromResponse=gson.fromJson(cursor.getString(cursor.getColumnIndex(NEWS_DETAIL_JSON))
+                    ,NewsDetailsFromResponse.class);
 
-            News newsDetail=new News();
-            newsDetail.setFid(cursor.getString(cursor.getColumnIndex(NewsDetail.FID)));
-            newsDetail.setDate(cursor.getString(cursor.getColumnIndex(NewsDetail.DATE)));
-            newsDetail.setTitle(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsDetail.TITLE))).toString());
-            newsDetail.setImage(cursor.getString(cursor.getColumnIndex(NewsDetail.IMAGE1)));
+            if (newsDetailsFromResponse.getData()!=null&&!newsDetailsFromResponse.getData().isEmpty()){
+                newsArrayList.add(newsDetailsFromResponse.getData().get(0).mapToNews());
 
-            newsDetails.add(newsDetail);
+            }
 
         }
 
         cursor.close();
 
-        return newsDetails;
+        return newsArrayList;
     }
 
 
@@ -90,49 +90,39 @@ public class SavedNewsTable {
 
 
 
-    public NewsDetail getNewsDetailFromDB(SQLiteDatabase sqLiteDatabase,String newsId){
+    public String getNewsDetailFromDB(SQLiteDatabase sqLiteDatabase,String newsId){
 
-        NewsDetail newsDetail=new NewsDetail();
+        Gson gson=GsonUtil.getGsonInstance();
+            String newsDetailResponseBean="";
 
         Cursor cursor=sqLiteDatabase.query(NEWS_TABLE
                 ,null,NewsDetail.FID+"='"+newsId+"'",null,null,null,null);
 
         while (cursor.moveToFirst()){
-            newsDetail.setFid(cursor.getString(cursor.getColumnIndex(NewsDetail.FID)));
-            newsDetail.setDate(cursor.getString(cursor.getColumnIndex(NewsDetail.DATE)));
-            newsDetail.setTitle(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsDetail.TITLE))).toString());
-            newsDetail.setImage1(cursor.getString(cursor.getColumnIndex(NewsDetail.IMAGE1)));
-            newsDetail.setImage2(cursor.getString(cursor.getColumnIndex(NewsDetail.IMAGE2)));
-            newsDetail.setDescr(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsDetail.DESCR))).toString());
-            newsDetail.setDescr2(Html.fromHtml(cursor.getString(cursor.getColumnIndex(NewsDetail.DESCR2))).toString());
-            newsDetail.setPlace(cursor.getString(cursor.getColumnIndex(NewsDetail.PLACE)));
-            break;
+
+            return cursor.getString(cursor.getColumnIndex(NEWS_DETAIL_JSON));
+
+
         }
         cursor.close();
-        return newsDetail;
+        return newsDetailResponseBean;
     }
 
 
 
 
-    public void setNewsDetailToDb(SQLiteDatabase sqLiteDatabase,NewsDetail newsDetail){
+    public void setNewsDetailToDb(SQLiteDatabase sqLiteDatabase,String  newsDetail,String newsId){
 
         ContentValues contentValues=new ContentValues();
-        contentValues.put(NewsDetail.FID,newsDetail.getFid());
-        contentValues.put(NewsDetail.DATE,newsDetail.getDate());
-        contentValues.put(NewsDetail.DESCR,newsDetail.getDescr());
-        contentValues.put(NewsDetail.DESCR2,newsDetail.getDescr2());
-        contentValues.put(NewsDetail.IMAGE1,newsDetail.getImage1());
-        contentValues.put(NewsDetail.IMAGE2,newsDetail.getImage2());
-        contentValues.put(NewsDetail.PLACE,newsDetail.getPlace());
-        contentValues.put(NewsDetail.TITLE,newsDetail.getTitle());
+        contentValues.put(NEWS_DETAIL_JSON,newsDetail);
+        contentValues.put(NEWS_ID,newsId);
         sqLiteDatabase.insert(NEWS_TABLE, null, contentValues);
 
     }
 
     public boolean isNewsAlreadySaved(SQLiteDatabase sqLiteDatabase,String newsId){
         boolean isNewsAlreadySaved=false;
-        Cursor cursor=sqLiteDatabase.query(NEWS_TABLE,new String[]{NewsDetail.FID},NewsDetail.FID+"='"+newsId+"'",null,null,null,null);
+        Cursor cursor=sqLiteDatabase.query(NEWS_TABLE,new String[]{NEWS_ID},NEWS_ID+"='"+newsId+"'",null,null,null,null);
 
         while (cursor.moveToFirst()){
             isNewsAlreadySaved=true;
@@ -146,7 +136,7 @@ public class SavedNewsTable {
 
     public int deleteNewsDetailFromDb(SQLiteDatabase sqLiteDatabase,String newsId){
 
-       return sqLiteDatabase.delete(NEWS_TABLE,NewsDetail.FID+"='"+newsId+"'",null);
+       return sqLiteDatabase.delete(NEWS_TABLE,NEWS_ID+"='"+newsId+"'",null);
     }
 }
 

@@ -17,7 +17,7 @@ public class NewsFromMainCategoryRequest extends Request {
 
     public static final String CATEGORY="category";
 
-    public static final String IS_NETWORK_AVALIBLE="isNetworkAvailable";
+
     public static final String TRUE="true";
     public static final String FALSE="false";
 
