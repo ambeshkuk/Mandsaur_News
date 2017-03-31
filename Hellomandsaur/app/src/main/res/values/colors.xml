@@ -4,8 +4,14 @@
     <color name="black_light">#bb000000</color>
     <color name="red">#ffb60000</color>
     <color name="white">#fff4fdff</color>
-    <color name="off_white">#ffffedf0</color>
 
+
+
+
+
+
+    <color name="white_dull">#fff5f4fd</color>
+    <color name="off_white">#ffffedf0</color>
 
 
 

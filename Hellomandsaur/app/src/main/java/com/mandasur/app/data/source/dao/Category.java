@@ -14,12 +14,24 @@ public class Category {
     public static final String CATEGORY_NAME="category_name";
     public static final String CATEGORY_ICON="category_icon";
     public static final String CATEGORY_INDICATOR="category_indicator";
+    public static final String IS_SUB_CATEGORY_AVAILABLE="isSubCategoryAvailable";
+    public static final int SUBCATEGORY_AVAIALBLE=1;
+    public static final int SUBCATEGORY_UN_AVAIALBLE=0;
 
 
     private String category_name;
     private String category_icon;
     private String category_indicator;
 
+    public int getIsSubCategoryAvailable() {
+        return isSubCategoryAvailable;
+    }
+
+    public void setIsSubCategoryAvailable(int isSubCategoryAvailable) {
+        this.isSubCategoryAvailable = isSubCategoryAvailable;
+    }
+
+    private int isSubCategoryAvailable=0;
     public int getCategroyId() {
         return categroyId;
     }

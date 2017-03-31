@@ -19,6 +19,7 @@ import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.SubCategories;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.news.adapters.SubCategoriesAdapter;
+import com.mandasur.app.util.MandsaurAppSharedPref;
 import com.mandasur.app.util.MandsaurNewsTextView;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class NewsFilterActivity extends AppCompatActivity  implements SubCategor
     private ListView listViewSubCategories;
     private TextView doneTv;
     private ImageView filtericonIv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class NewsFilterActivity extends AppCompatActivity  implements SubCategor
         homeAsUpIcon.setOnClickListener(onClickListener);
 
         subCateoriesFilterPresenter=new SubCateoriesFilterPresenter(Injector.getSubCategoryUseCase(this),Injector.getSubCategorySelected(this),this);
+        subCateoriesFilterPresenter.setMainCategoryName(MandsaurAppSharedPref.getCategoryIndicator(NewsFilterActivity.this));
 
         listViewSubCategories= (ListView) findViewById(R.id.listViewSubCategories);
 

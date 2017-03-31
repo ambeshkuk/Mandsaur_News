@@ -26,6 +26,7 @@ import com.mandasur.app.data.source.remote.OkHttpClientUtils;
 import com.mandasur.app.data.source.remote.RemoteNewsDataSource;
 import com.mandasur.app.news.exceptions.ErrorMessageHandler;
 import com.mandasur.app.news.exceptions.ErrorRequestCode;
+import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.GsonUtil;
 
 
@@ -70,6 +71,10 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
 
         NewsFromMainCategoryResponse newsFromMainCategoryResponse = null;
+
+            ActivityUtil.log(NewsDataRepository.class.getSimpleName(),"Request URl>>"+request.get(NewsFromMainCategoryRequest.REQUEST_URL));
+        ActivityUtil.log(NewsDataRepository.class.getSimpleName(),"Request Params>>"+request.toString());
+
 
         if (request.get(NewsDetailFromIdRequest.REQUEST_URL).equals(context.getString(R.string.bookMarkedNews))){
             MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
@@ -127,6 +132,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
                 try {
                     String responseBody=response.body().string();
+                    ActivityUtil.log(NewsDataRepository.class.getSimpleName(),"API Reponse>>"+responseBody);
                     newsFromMainCategoryResponse=
                             parseJsonAndRerutrnNewsCategoryResponse(responseBody);
                     MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
@@ -291,19 +297,19 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
             NewsFromMainCategoryResponse newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
             MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
             JsonObject jsonObject=json.getAsJsonObject();
-            JsonElement jsonElement=jsonObject.get("data");
+
             Data data=new Data();
             ArrayList<News> newsArrayList=new ArrayList<>();
              data.setNewsList(newsArrayList);
 
-            if (jsonElement!=null&&jsonElement.isJsonObject()){
+            if (jsonObject!=null&&jsonObject.isJsonObject()){
 
-                JsonObject dataJsonObject=jsonElement.getAsJsonObject();
-                Set<Map.Entry<String,JsonElement>> entrySet=dataJsonObject.entrySet();
+
+                Set<Map.Entry<String,JsonElement>> entrySet=jsonObject.entrySet();
 
                 int currentIindexOfoverallList=0;
                 for (Map.Entry<String,JsonElement> elementEntry:entrySet){
-                    jsonElement=dataJsonObject.get(elementEntry.getKey());
+                JsonElement  jsonElement=jsonObject.get(elementEntry.getKey());
                     if (jsonElement!=null&&jsonElement.isJsonArray()){
 
                         JsonArray jsonArray=jsonElement.getAsJsonArray();
@@ -320,7 +326,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                 if (i==0){
                                     if (entrySet.size()>1){
                                         news.setIsSubcategoryStart(true);
-
+                                        news.setSubCatIndicator(elementEntry.getKey());
                                         news.setSubCategoryName(mandsaurDataBaseHelper
                                                 .getSubCategoriesTable().getSubCategoryNameFromSubCategroyIndicator(mandsaurDataBaseHelper.getSqLiteDatabase()
                                                         , elementEntry.getKey()));

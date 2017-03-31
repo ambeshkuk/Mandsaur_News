@@ -172,6 +172,7 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
         @Override
         public void onPageSelected(int position) {
 
+
             categoryTabsAndDrawerPresenter.updateTheSelectionOfDrawer(position);
         }
 

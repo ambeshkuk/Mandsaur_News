@@ -22,7 +22,9 @@ public class SubCateoriesFilterPresenter implements SubCategoryContract.SubCateo
     private GetSubCategory getSubCategory;
     private SubCateorySelected subCateorySelected;
     private SubCategoryContract.SubCateogryFilterView subCateogryFilterView;
-    public SubCateoriesFilterPresenter(@NonNull GetSubCategory getSubCategory,@NonNull SubCateorySelected subCateorySelected,@NonNull SubCategoryContract.SubCateogryFilterView subCateogryFilterView) {
+    private String mainCategoryName;
+    public SubCateoriesFilterPresenter(@NonNull GetSubCategory getSubCategory,@NonNull SubCateorySelected subCateorySelected
+            ,@NonNull SubCategoryContract.SubCateogryFilterView subCateogryFilterView) {
 
         this.getSubCategory=getSubCategory;
         this.subCateogryFilterView=subCateogryFilterView;
@@ -30,9 +32,17 @@ public class SubCateoriesFilterPresenter implements SubCategoryContract.SubCateo
         subCateogryFilterView.setPresenter(this);
     }
 
+
+
+public void setMainCategoryName(String mainCategoryName){
+    this.mainCategoryName=mainCategoryName;
+
+}
     @Override
     public void loadSubCategories() {
 
+        GetSubCategory.RequestValues requestValues =new GetSubCategory.RequestValues();
+        requestValues.setMainCategoryName(mainCategoryName);
         getSubCategory.setUseCaseCallback(new UseCase.UseCaseCallback<GetSubCategory.ResponseValue>() {
             @Override
             public void onSuccess(GetSubCategory.ResponseValue response) {
@@ -44,7 +54,7 @@ public class SubCateoriesFilterPresenter implements SubCategoryContract.SubCateo
 
             }
         });
-        getSubCategory.executeUseCase(new GetSubCategory.RequestValues());
+        getSubCategory.executeUseCase(requestValues);
     }
 
     @Override

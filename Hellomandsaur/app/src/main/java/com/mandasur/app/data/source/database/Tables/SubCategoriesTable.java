@@ -152,13 +152,14 @@ public class SubCategoriesTable {
         }
         return i;
     }
-    public ArrayList<SubCategories> getSubCategoiesFromDb(SQLiteDatabase sqLiteDatabase){
+    public ArrayList<SubCategories> getSubCategoiesFromDb(SQLiteDatabase sqLiteDatabase,String mainCategoryName){
 
         ArrayList<SubCategories> subCategories=new ArrayList<>();
 
         String[] columns={SubCategories.SUBCATEGORY_NAME,SubCategories.SUBCATEGORY_INDICATOR,SubCategories.IS_ITEM_CHECKED};
 
-        Cursor cursor=sqLiteDatabase.query(SUBCATEGORY_TABLE,columns,null,null,null,null,null);
+        Cursor cursor=sqLiteDatabase.query(SUBCATEGORY_TABLE,columns,
+                Category.CATEGORY_INDICATOR+"='"+mainCategoryName+"'",null,null,null,null);
         while (cursor.moveToNext()){
             SubCategories subCategories1=new SubCategories();
             subCategories1.setIsItemChecked(cursor.getInt(cursor.getColumnIndex(SubCategories.IS_ITEM_CHECKED))>0?true:false);

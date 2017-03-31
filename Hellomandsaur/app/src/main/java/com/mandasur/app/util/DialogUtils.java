@@ -338,7 +338,7 @@ public final class DialogUtils {
             if (pd == null) {
 
 
-                    pd = new ProgressDialog(activity);
+                    pd = new ProgressDialog(activity,ProgressDialog.THEME_HOLO_LIGHT);
 
             } else
                 pd.dismiss();

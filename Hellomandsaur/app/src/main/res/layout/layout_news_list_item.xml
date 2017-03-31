@@ -67,7 +67,7 @@
 
         android:padding="@dimen/metrics_10dp"
 
-        android:background="@color/backTransparentBlack"
+        android:background="@drawable/news_list_item_background"
 
         >
         <com.mandasur.app.util.MandsaurNewsTextView

@@ -1,19 +1,15 @@
 package com.mandasur.app.news.adapters;
 
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.News;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by ambesh on 13-02-2017.
@@ -48,19 +44,37 @@ public class AdvertiseWithUsAdapter extends RecyclerView.Adapter<AdvertiseWithUs
     @Override
     public void onBindViewHolder(AdvertiseWithUsViewHolder holder, int position) {
 
-//        final News news=newsArrayList.get(position);
-//
-//
-//        holder.newsListBackgroundLl.setTag(news.getId());
-//        holder.newsListBackgroundLl.setOnClickListener(onClickListener);
-//
-//        holder.newsTitleTv.setText(news.getTitle());
-//
-//
-//        if (!TextUtils.isEmpty(news.getImage())){
-//
-//            Picasso.with(holder.newsImageIv.getContext()).load("http://" + news.getImage()).into(holder.newsImageIv);
-//        }
+
+            switch (position){
+                case 0:
+                    holder.advertisementImageIv.setImageResource(R.drawable.advertise_with_us_image_first);
+                    break;
+                case 1:
+                    holder.advertisementImageIv
+                            .setImageResource(R.drawable.advertise_with_us_image2);
+
+                    break;
+                case 2:
+                    holder.advertisementImageIv
+                            .setImageResource(R.drawable.advertise_with_us_image3);
+                    break;
+                case 3:
+                    holder.advertisementImageIv
+                            .setImageResource(R.drawable.advertise_with_us_image_first);
+                    break;
+                case 4:
+                    holder.advertisementImageIv
+                            .setImageResource(R.drawable.advertise_with_us_image2);
+                    break;
+                case 5:
+                    holder.advertisementImageIv
+                            .setImageResource(R.drawable.advertise_with_us_image3);
+                    break;
+
+            }
+
+
+
     }
 
 
@@ -77,16 +91,15 @@ private View.OnClickListener onClickListener=new View.OnClickListener() {
 
     @Override
     public int getItemCount() {
-        return 7;
+        return 5;
     }
 
 
     public class AdvertiseWithUsViewHolder extends RecyclerView.ViewHolder{
 
-        TextView subCategoryTitle,viewAllTv,newsTitleTv,newsTimeTv;
-        ImageView newsImageIv;
-        RelativeLayout newsHeader,newsListBackgroundLl;
-        FloatingActionButton shareFb;
+
+        ImageView advertisementImageIv;
+
 
         public AdvertiseWithUsViewHolder(View itemView) {
             super(itemView);
@@ -95,14 +108,9 @@ private View.OnClickListener onClickListener=new View.OnClickListener() {
 
 
 
-            subCategoryTitle= (TextView) itemView.findViewById(R.id.subCategoryTitle);
-            viewAllTv= (TextView) itemView.findViewById(R.id.viewAllTv);
-            newsTitleTv= (TextView) itemView.findViewById(R.id.newsTitleTv);
-            newsTimeTv= (TextView) itemView.findViewById(R.id.newsTimeTv);
-            newsImageIv= (ImageView) itemView.findViewById(R.id.newsImageIv);
-            newsHeader= (RelativeLayout) itemView.findViewById(R.id.newsHeader);
-            shareFb= (FloatingActionButton) itemView.findViewById(R.id.shareFb);
-            newsListBackgroundLl= (RelativeLayout) itemView.findViewById(R.id.newsListBackgroundLl);
+
+            advertisementImageIv = (ImageView) itemView.findViewById(R.id.advertisementImageIv);
+
         }
     }
 

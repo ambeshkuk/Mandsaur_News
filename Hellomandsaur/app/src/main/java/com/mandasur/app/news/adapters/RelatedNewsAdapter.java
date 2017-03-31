@@ -1,6 +1,5 @@
 package com.mandasur.app.news.adapters;
 
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
-import com.mandasur.app.news.FiltredNewsListActivity;
-import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -57,7 +54,7 @@ public class RelatedNewsAdapter extends RecyclerView.Adapter<RelatedNewsAdapter.
          NewsDetail newsDetail=newsArrayList.get(position);
 
 
-        holder.newsListBackgroundLl.setTag(newsDetail.getFid());
+        holder.newsListBackgroundLl.setTag(newsDetail.getId());
         holder.newsListBackgroundLl.setOnClickListener(onClickListener);
 
         holder.newsTitleTv.setText(newsDetail.getTitle());
@@ -83,7 +80,7 @@ private View.OnClickListener onClickListener=new View.OnClickListener() {
 
     @Override
     public int getItemCount() {
-        return 5;
+        return newsArrayList.size();
     }
 
 

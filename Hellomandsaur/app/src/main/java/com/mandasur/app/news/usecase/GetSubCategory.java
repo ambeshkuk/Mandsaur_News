@@ -35,12 +35,22 @@ public class GetSubCategory extends UseCase<GetSubCategory.RequestValues,GetSubC
                 getUseCaseCallback().onError("");;
 
             }
-        });
+        },requestValues.getMainCategoryName());
 
     }
 
 
     public static final class RequestValues implements UseCase.RequestValues {
+
+        public String getMainCategoryName() {
+            return mainCategoryName;
+        }
+
+        public void setMainCategoryName(String mainCategoryName) {
+            this.mainCategoryName = mainCategoryName;
+        }
+
+        private String mainCategoryName;
 
 
     }

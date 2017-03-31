@@ -210,7 +210,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
 
             newsListAdapterWithSubCateories.setOnNewsItemSelected(onNewsItemSelected);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),R.drawable.divider_item_shape));
+
             recyclerView.setAdapter(newsListAdapterWithSubCateories);
 
         }

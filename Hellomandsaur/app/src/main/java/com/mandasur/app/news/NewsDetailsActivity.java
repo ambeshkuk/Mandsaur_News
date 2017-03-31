@@ -1,34 +1,26 @@
 package com.mandasur.app.news;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -43,7 +35,6 @@ import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
 import com.mandasur.app.news.adapters.AdvertiseWithUsAdapter;
 import com.mandasur.app.news.adapters.RelatedNewsAdapter;
 import com.mandasur.app.util.ActivityUtil;
-import com.mandasur.app.util.GsonUtil;
 import com.mandasur.app.util.MandsaurNewsTextView;
 import com.squareup.picasso.Picasso;
 
@@ -74,11 +65,29 @@ public class NewsDetailsActivity extends AppCompatActivity
 
     private NewsDetailContract.NewsDetailsPresenter newsDetailPresenter;
     private SeekBar fontSizeSb;
-    private PublisherAdView mAdView;
+    private PublisherAdView mAdView,bottonAdView,topAdView,rectrangleAdsView;
     private RecyclerView relatedNewsRv,advertiseUsRv;
     private TextView titleTv;
     MandsaurNewsTextView homeAsUpIcon;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+
+
+    private RelatedNewsAdapter.OnNewsItemSelected onNewsItemSelected=new RelatedNewsAdapter.OnNewsItemSelected() {
+        @Override
+        public void openNewsItem(String newsId) {
+            Intent intent=new Intent(NewsDetailsActivity.this, NewsDetailsActivity.class);
+            intent.putExtra(NewsDetailsActivity.NEWS_ID,newsId);
+            intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,
+                    getIntent().getStringExtra(CATEGORY_NAME));
+            startActivity(intent);
+        }
+
+        @Override
+        public void onClickOnShareBtn(News news) {
+
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -87,6 +96,7 @@ public class NewsDetailsActivity extends AppCompatActivity
         collapsingToolbarLayout= (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         intialiseAdsOnScreen();
         String newsId=getIntent().getStringExtra(NEWS_ID);
+        ActivityUtil.log(NewsDetailsActivity.class.getSimpleName(),"News Id:"+newsId);
         String categoryName=getIntent().getStringExtra(CATEGORY_NAME);
 
 
@@ -138,9 +148,16 @@ public class NewsDetailsActivity extends AppCompatActivity
 
     private void intialiseAdsOnScreen(){
         mAdView = (PublisherAdView) findViewById(R.id.adView);
+        rectrangleAdsView= (PublisherAdView) findViewById(R.id.rectrangleAdsView);
+        topAdView= (PublisherAdView) findViewById(R.id.topAdView);
+
+        bottonAdView= (PublisherAdView) findViewById(R.id.bottonAdView);
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .build();
         mAdView.loadAd(adRequest);
+        rectrangleAdsView.loadAd(adRequest);
+        topAdView.loadAd(adRequest);
+        bottonAdView.loadAd(adRequest);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -159,6 +176,9 @@ public class NewsDetailsActivity extends AppCompatActivity
     protected void onDestroy() {
         if (mAdView != null) {
             mAdView.destroy();
+            rectrangleAdsView.destroy();
+            topAdView.destroy();
+            bottonAdView.destroy();
         }
         super.onDestroy();
     }
@@ -253,7 +273,7 @@ public class NewsDetailsActivity extends AppCompatActivity
                     boolean isNewsSaved= (boolean) bookmarkFb.getTag();
                     if (isNewsSaved){
 
-                        mandsaurDataBaseHelper.getSavedNewsTable().deleteNewsDetailFromDb(mandsaurDataBaseHelper.getSqLiteDatabase(), newsDetail.getFid());
+                        mandsaurDataBaseHelper.getSavedNewsTable().deleteNewsDetailFromDb(mandsaurDataBaseHelper.getSqLiteDatabase(), newsDetail.getId());
                         bookmarkFb.setImageResource(R.drawable.icn_read_later);
                         bookmarkFb.setTag(false);
 
@@ -261,7 +281,7 @@ public class NewsDetailsActivity extends AppCompatActivity
                     }
                     else {
                         mandsaurDataBaseHelper.getSavedNewsTable()
-                                .setNewsDetailToDb(mandsaurDataBaseHelper.getSqLiteDatabase(), newsDetailString,newsDetail.getFid());
+                                .setNewsDetailToDb(mandsaurDataBaseHelper.getSqLiteDatabase(), newsDetailString,newsDetail.getId());
                         bookmarkFb.setImageResource(R.drawable.icn_read_later_selected);
                         bookmarkFb.setTag(true);
                     }
@@ -304,6 +324,7 @@ public class NewsDetailsActivity extends AppCompatActivity
                             setLayoutManager(new
                                     LinearLayoutManager(NewsDetailsActivity.this
                                     , LinearLayoutManager.HORIZONTAL, false));
+                    relatedNewsAdapter.setOnNewsItemSelected(onNewsItemSelected);
                     relatedNewsRv.setAdapter(relatedNewsAdapter);
                 }
                 else {
@@ -322,7 +343,7 @@ public class NewsDetailsActivity extends AppCompatActivity
 
                      newsDetail=newsDetails.get(0);
                     newsDetailString=newsDetailsFromResponse.getUnderLineJson();
-                    if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),newsDetail.getFid())){
+                    if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),newsDetail.getId())){
 
                         bookmarkFb.setTag(true);
                         bookmarkFb.setImageResource(R.drawable.icn_read_later_selected);

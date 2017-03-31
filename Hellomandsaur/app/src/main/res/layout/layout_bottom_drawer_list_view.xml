@@ -14,11 +14,13 @@
         android:id="@+id/humaraMandsurTv"
         style="@style/style_row_item"
         android:text="@string/textHumaraMandsaur"
+        android:visibility="gone"
         />
     <com.mandasur.app.util.MandsaurNewsTextView
         android:id="@+id/buisnessTv"
         style="@style/style_row_item"
         android:text="@string/textBuisnessPortal"
+        android:visibility="gone"
         />
     <com.mandasur.app.util.MandsaurNewsTextView
         android:id="@+id/aboutUsTv"

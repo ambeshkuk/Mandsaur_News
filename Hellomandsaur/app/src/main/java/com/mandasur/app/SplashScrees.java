@@ -49,47 +49,43 @@ public class SplashScrees extends Activity {
 
 
 
-//        new Handler().postDelayed(new Runnable() {
-//
-//            /*
-//             * Showing splash screen with a timer. This will be useful when you
-//             * want to show case your app logo / company
-//             */
-//
-//            @Override
-//            public void run() {
-//                // This method will be executed once the timer is over
-//                // Start your app main activity
-//                Intent i = new Intent(SplashScrees.this, NewsBaseActiivty.class);
-//                startActivity(i);
-//
-//                // close this activity
-//                finish();
-//            }
-//        }, 6000);
+        new Handler().postDelayed(new Runnable() {
 
-        MandsaurDataBaseHelper mandsaurDataBaseHelper=categoryDataRepository.getCategoriesDataSource()
-                .getDatabaseNewsDataSource().getMandsaurDataBaseHelper();
-        if (ActivityUtil.isNetworkAvaliable(SplashScrees.this)
-                ){
-            new FetchCategoriesAndSubCategories().execute();
-        }
-        else  if (mandsaurDataBaseHelper.getCategoriesTable()
-                .getRowCount(mandsaurDataBaseHelper.getSqLiteDatabase())!=0){
-            Intent intent=new Intent(SplashScrees.this,NewsBaseActiivty.class);
-            startActivity(intent);
-            finish();
-        }
-        else {
-            DialogUtils.showFinishDialog(SplashScrees.this
-                    , "You are not connected to internet please proceed later.", new DialogUtils.OnFinishDialogClickInterface() {
-                @Override
-                public void onFinishDialog() {
-                    finish();
+            /*
+             * Showing splash screen with a timer. This will be useful when you
+             * want to show case your app logo / company
+             */
 
+            @Override
+            public void run() {
+                // This method will be executed once the timer is over
+                // Start your app main activity
+                MandsaurDataBaseHelper mandsaurDataBaseHelper=categoryDataRepository.getCategoriesDataSource()
+                        .getDatabaseNewsDataSource().getInstance(SplashScrees.this);
+                if (ActivityUtil.isNetworkAvaliable(SplashScrees.this)
+                        ){
+                    new FetchCategoriesAndSubCategories().execute();
                 }
-            });
-        }
+                else  if (mandsaurDataBaseHelper.getCategoriesTable()
+                        .getRowCount(mandsaurDataBaseHelper.getSqLiteDatabase())!=0){
+                    Intent intent=new Intent(SplashScrees.this,NewsBaseActiivty.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    DialogUtils.showFinishDialog(SplashScrees.this
+                            , getString(R.string.textNetworkNotAvaliableSplash), new DialogUtils.OnFinishDialogClickInterface() {
+                        @Override
+                        public void onFinishDialog() {
+                            finish();
+
+                        }
+                    });
+                }
+            }
+        }, 4000);
+
+
 
     }
 
@@ -101,7 +97,7 @@ public class SplashScrees extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            DialogUtils.showProgressDialog(SplashScrees.this,"Please Wait!!","While we initalise the device.",false);
+            DialogUtils.showProgressDialog(SplashScrees.this,"",getString(R.string.textPleaseWait),false);
 
         }
 

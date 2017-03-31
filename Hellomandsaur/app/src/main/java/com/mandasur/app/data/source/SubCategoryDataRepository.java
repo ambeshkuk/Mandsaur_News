@@ -42,13 +42,13 @@ public class SubCategoryDataRepository {
         public void onDatabaseError();
 
     }
-    public void getCategories(@NonNull LoadSubCategoriesCallBack loadCategoriesCallBack) {
+    public void getCategories(@NonNull LoadSubCategoriesCallBack loadCategoriesCallBack,String mainCategroyName) {
 
 
 
 
 
-        ArrayList<SubCategories> categories = subCategoryDataSource.getAllSubCategoriesFromFromDataXml();
+        ArrayList<SubCategories> categories = subCategoryDataSource.getAllSubCategoriesFromFromDataXml(mainCategroyName);
 
         if (categories != null && !categories.isEmpty()) {
             if(loadCategoriesCallBack!=null)

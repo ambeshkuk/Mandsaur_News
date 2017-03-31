@@ -44,9 +44,9 @@ public class CategoryTabsAndDrawerPresenter implements DrawerContract.CategroyPr
         getCategories.setUseCaseCallback(new UseCase.UseCaseCallback<GetCategories.ResponseValue>() {
             @Override
             public void onSuccess(GetCategories.ResponseValue response) {
-
-                baseNewsFragment.showCategories(response.getCategories());
                 newsBaseActiivty.showCategoriesOnSidePanel(response.getCategories());
+                baseNewsFragment.showCategories(response.getCategories());
+
             }
 
             @Override

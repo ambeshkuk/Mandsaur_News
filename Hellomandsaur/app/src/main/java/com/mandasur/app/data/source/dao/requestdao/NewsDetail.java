@@ -4,7 +4,7 @@ package com.mandasur.app.data.source.dao.requestdao;
  * Created by ambesh on 27-02-2017.
  */
 public class NewsDetail {
-public static final String FID="fid";
+public static final String FID="id";
     public static final String TITLE="title";
     public static final String DESCR="descr";
     public static final String DESCR2="descr2";
@@ -14,15 +14,15 @@ public static final String FID="fid";
     public static final String PLACE="place";
     public static final String DATE="date";
 
-    private String fid,title,descr
+    private String id,title,descr
             ,descr2,image1,image2,place,date;
 
-    public String getFid() {
-        return fid;
+    public String getId() {
+        return id;
     }
 
-    public void setFid(String fid) {
-        this.fid = fid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -96,7 +96,7 @@ public static final String FID="fid";
         news.setImage(image);
         news.setTitle(title);
         news.setDate(date);
-        news.setId(fid);
+        news.setId(id);
 
 
         return news;

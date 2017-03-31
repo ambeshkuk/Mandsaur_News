@@ -34,7 +34,7 @@ public class CategoriesTable {
                 + CATEGORY_TABLE + " (" + Category.CATEGORY_NAME
                 + "  varchar " + " , "+ Category.CATEGORY_ICON + " varchar"
                 +" , "+ Category.CATEGORY_INDICATOR
-                + " varchar"+")";
+                + " varchar"+","+Category.IS_SUB_CATEGORY_AVAILABLE+" INTEGER"+")";
 
 
         sqLiteDatabase.execSQL(tableCreationQuery);
@@ -63,7 +63,13 @@ public class CategoriesTable {
             contentValues.put(Category.CATEGORY_INDICATOR, category.getCategory_indicator());
             contentValues.put(Category.CATEGORY_NAME, category.getCategory_name());
 
-
+            if (category.getSubcategories()!=null&&!category.getSubcategories().isEmpty()){
+                contentValues.put(Category.IS_SUB_CATEGORY_AVAILABLE, 1);
+            }
+            else
+            {
+                contentValues.put(Category.IS_SUB_CATEGORY_AVAILABLE, 0);
+            }
             noOfRecordsInserted= sqLiteDatabase.
                     insert(CATEGORY_TABLE, null, contentValues);
             if (category.getSubcategories()!=null&&!category.getSubcategories().isEmpty()){
@@ -114,6 +120,7 @@ public class CategoriesTable {
             categroyid++;
             category.setCategory_icon(cursor.getString(cursor.getColumnIndex(Category.CATEGORY_ICON)));
             category.setCategory_name(cursor.getString(cursor.getColumnIndex(Category.CATEGORY_NAME)));
+            category.setIsSubCategoryAvailable(cursor.getInt(cursor.getColumnIndex(Category.IS_SUB_CATEGORY_AVAILABLE)));
             categories.add(category);
 
         }

@@ -30,6 +30,7 @@ import com.mandasur.app.socailmedia.SocialMediaUtil;
 import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.DialogResponseInterface;
 import com.mandasur.app.util.DialogUtils;
+import com.mandasur.app.util.MandsaurAppSharedPref;
 import com.mandasur.app.util.MandsaurNewsTextView;
 
 import java.util.ArrayList;
@@ -222,9 +223,10 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
 private DrawerAdpater drawerAdpater;
 
 
+//
     @Override
     public void showCategoriesOnSidePanel(ArrayList<Category> categories) {
-
+        this.categories.addAll(categories);
         drawerAdpater =new DrawerAdpater(this,categories);
 
 
@@ -290,6 +292,10 @@ private DrawerAdpater drawerAdpater;
 
     }
 
+
+
+
+
     @Override
     public void setItemSelcetionOfDrawerView(int position) {
 
@@ -298,13 +304,12 @@ private DrawerAdpater drawerAdpater;
 
             drawerAdpater.notifyDataSetChanged();
         }
+        MandsaurAppSharedPref.setCategoryIndicator(NewsBaseActiivty.this,categories.get(position).getCategory_indicator());
 
-        if (position==0){
-            setTheVisibilityOfFilterActivity(true);
-        }
-        else {
-            setTheVisibilityOfFilterActivity(false);
-        }
+
+            setTheVisibilityOfFilterActivity(categories.get(position).getIsSubCategoryAvailable()==Category.SUBCATEGORY_AVAIALBLE?true:false);
+
+
 
     }
 
@@ -314,6 +319,7 @@ private DrawerAdpater drawerAdpater;
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             view.setSelected(true);
              Category category= (Category) parent.getAdapter().getItem(position);
+
              categoryTabsAndDrawerPresenter.openCategory(category.getCategroyId());
                 mDrawerLayout.closeDrawer(nav_view);
 

@@ -50,7 +50,7 @@ public class DrawerAdpater extends ArrayAdapter<Category> {
 //        }
             Category category=getItem(position);
             TextView categoryNameTv= (TextView) convertView.findViewById(R.id.categoryNameTv);
-           categoryNameTv.setText(category.getCategory_icon()+" "+category.getCategory_name());
+           categoryNameTv.setText(category.getCategory_name());
 //            categoryNameTv.setCompoundDrawables(categoryNameTv
 //                .getContext().getResources().getDrawable(category.getImageId())
 //                ,null,null,null);

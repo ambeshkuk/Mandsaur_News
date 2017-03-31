@@ -39,8 +39,8 @@ public class FiltredNewsListActivity extends AppCompatActivity {
         homeAsUpIcon.setOnClickListener(onClickListener);
 
         TextView titleTv= (TextView) findViewById(R.id.titleTv);
-        titleTv.setText(intent.
-                getStringExtra(FiltredNewsListWithSubCategoryFragment.SUBCATEGORY_STING));
+
+        titleTv.setText(getIntent().getStringExtra(FiltredNewsListWithSubCategoryFragment.SUB_CATEGORY_NAME));
 
 
         FiltredNewsListWithSubCategoryFragment filtredNewsListWithSubCategoryFragment
@@ -71,12 +71,7 @@ public class FiltredNewsListActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_filtred_news_list, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

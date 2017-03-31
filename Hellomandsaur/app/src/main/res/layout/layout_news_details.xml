@@ -175,6 +175,15 @@
 
                 fontPath="fonts/Roboto-Light.ttf"
                 />
+            <com.google.android.gms.ads.doubleclick.PublisherAdView
+                android:id="@+id/rectrangleAdsView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                ads:adSize="LARGE_BANNER"
+                android:layout_gravity="center_horizontal"
+                ads:adUnitId="@string/addIdHomeScreen">
+            </com.google.android.gms.ads.doubleclick.PublisherAdView>
             <com.mandasur.app.util.MandsaurNewsTextView
                 android:id="@+id/suggestedNewsTv"
                 android:layout_width="match_parent"
@@ -189,6 +198,13 @@
 
                 fontPath="fonts/Roboto-Bold.ttf"
                 />
+            <com.google.android.gms.ads.doubleclick.PublisherAdView
+                android:id="@+id/topAdView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ads:adSize="SMART_BANNER"
+                ads:adUnitId="@string/addIdHomeScreen">
+            </com.google.android.gms.ads.doubleclick.PublisherAdView>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/relatedNewsRv"
                 android:layout_width="match_parent"
@@ -198,6 +214,13 @@
                 android:background="@android:color/transparent"
 
                 />
+            <com.google.android.gms.ads.doubleclick.PublisherAdView
+                android:id="@+id/bottonAdView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ads:adSize="SMART_BANNER"
+                ads:adUnitId="@string/addIdHomeScreen">
+            </com.google.android.gms.ads.doubleclick.PublisherAdView>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/advertiseUsRv"
                 android:layout_width="match_parent"
@@ -257,7 +280,7 @@
     <LinearLayout
         android:id="@+id/bottomBarLv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/metrics_30dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="bottom"
         android:gravity="center_vertical"
@@ -276,7 +299,8 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:max="15"
-
+            android:paddingTop="@dimen/metrics_10dp"
+            android:paddingBottom="@dimen/metrics_10dp"
             android:layout_height="wrap_content"
 
             />

@@ -61,7 +61,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
     private NewsListAdapterWithSubCateories newsListAdapterWithSubCateories;
     private ArrayList<News> newsArrayList;
     private NewsListContract.NewsListPresenter newsListPresenter;
-    private boolean toRefreshCompleteList=true;
+    private boolean toRefreshCompleteList=false;
     private boolean toLoadMoreNews=false;
     private MandsaurDataBaseHelper mandsaurDataBaseHelper;
     private ProgressBar loadMoreProgress;

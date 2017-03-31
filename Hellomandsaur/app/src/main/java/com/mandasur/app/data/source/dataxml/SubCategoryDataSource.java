@@ -23,14 +23,14 @@ public class SubCategoryDataSource {
     }
 
 
-    public ArrayList<SubCategories> getAllSubCategoriesFromFromDataXml() {
+    public ArrayList<SubCategories> getAllSubCategoriesFromFromDataXml(String mainCategoryName) {
 
         ArrayList<SubCategories> categories = new ArrayList<>();
         if (DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable().getRowCount(DatabaseNewsDataSource.getInstance(context).getSqLiteDatabase()) != 0) {
 
 
             return DatabaseNewsDataSource.getInstance(context).getSubCategoriesTable()
-                    .getSubCategoiesFromDb(DatabaseNewsDataSource.getInstance(context).getSqLiteDatabase());
+                    .getSubCategoiesFromDb(DatabaseNewsDataSource.getInstance(context).getSqLiteDatabase(),mainCategoryName);
 
         }
 

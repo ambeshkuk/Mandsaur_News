@@ -95,12 +95,14 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
                     if (!TextUtils.isEmpty(news.getSubCategoryName())&&(!news.getSubCategoryName().equals("news"))){}
                     newsListViewHolder.newsHeader.setVisibility(View.VISIBLE);
                     newsListViewHolder.subCategoryTitle.setText(news.getSubCategoryName());
-                    newsListViewHolder.viewAllTv.setTag(news.getSubCategoryName());
+                    newsListViewHolder.viewAllTv.setTag(news.getSubCategoryName() + "/" + news.getSubCatIndicator());
                     newsListViewHolder.viewAllTv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(v.getContext(), FiltredNewsListActivity.class);
-                            intent.putExtra(FiltredNewsListWithSubCategoryFragment.SUBCATEGORY_STING,(String)v.getTag());
+                            Intent intent = new Intent(v.getContext(), FiltredNewsListActivity.class);
+                            String[] subCatString = ((String) v.getTag()).split("/");
+                            intent.putExtra(FiltredNewsListWithSubCategoryFragment.SUBCATEGORY_STING, subCatString[1]);
+                            intent.putExtra(FiltredNewsListWithSubCategoryFragment.SUB_CATEGORY_NAME,subCatString[0]);
                             v.getContext().startActivity(intent);
 
                         }
@@ -128,7 +130,7 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
 //                });
                 if (!TextUtils.isEmpty(news.getImage())){
 
-                    Picasso.with(newsListViewHolder.newsImageIv.getContext()).load("http://" + news.getImage()).
+                    Picasso.with(newsListViewHolder.newsImageIv.getContext()).load( news.getImage()).
                             into(newsListViewHolder.newsImageIv);
                 }
                 break;
