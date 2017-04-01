@@ -27,6 +27,7 @@
         <string name="imgdesc">imgdesc</string>
         <string name="really_long_string">"I'm not committing not to run. I'm not committing to anything. I learned a long time ago, fate has a strange way of intervening,'' the departing US Vice-President said. </string>
 
+
         <string name="textAboutUs">About Us</string>
         <string name="textPuraDekiye">पूरा देखिए </string>
         <string-array name="titles">
@@ -60,7 +61,17 @@
 
 
 
-    <string name="textSubFilterHeader">अपनी होम स्क्रीन को देखने के लिए श्रेणियो का चयन करिए | </string>
+
+
+
+
+
+        <string name="textCategoryName">बाद में पढ़िए</string>
+
+
+
+
+        <string name="textSubFilterHeader">अपनी होम स्क्रीन को देखने के लिए श्रेणियो का चयन करिए | </string>
     <string name="title_activity_splash_screes">SplashScrees</string>
         <string name="textNetworkNotAvaliable">नेटवर्क उपलब्ध नहीं है ।  पुन: प्रयास करने के लिए क्लिक करें</string>
         <string name="textNetworkNotAvaliableSplash">नेटवर्क उपलब्ध नहीं है । कृपया अपना नेटवर्क ऑन कीजिये और पुनः प्रयास कीजिये</string>

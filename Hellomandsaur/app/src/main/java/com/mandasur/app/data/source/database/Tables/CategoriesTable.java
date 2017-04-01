@@ -2,11 +2,13 @@ package com.mandasur.app.data.source.database.Tables;
 
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
+import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.data.source.dao.SubCategories;
 import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
@@ -106,7 +108,7 @@ public class CategoriesTable {
     }
 
 
-    public ArrayList<Category> getCategoriesFromDb(SQLiteDatabase sqLiteDatabase){
+    public ArrayList<Category> getCategoriesFromDb(SQLiteDatabase sqLiteDatabase,Context context){
 
         ArrayList<Category>    categories=new ArrayList<>();
         int categroyid=0;
@@ -128,8 +130,16 @@ public class CategoriesTable {
             }
 
 
+
         }
 
+        Category category=new Category();
+        category.setCategory_name(context.getString(R.string.textCategoryName));
+        category.setCategory_indicator(context.getString(R.string.bookMarkedNews));
+        categroyid++;
+        category.setCategroyId(categroyid);
+        category.setIsSubCategoryAvailable(Category.SUBCATEGORY_UN_AVAIALBLE);
+        categories.add(category);
         cursor.close();
         return categories;
     }
