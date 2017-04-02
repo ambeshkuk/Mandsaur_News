@@ -23,6 +23,7 @@
     <dimen name="metrics_1dp">1dp</dimen>
 
     <dimen name="metrics_100dp">100dp</dimen>
+    <dimen name="metrics_140dp">140dp</dimen>
 
 
 

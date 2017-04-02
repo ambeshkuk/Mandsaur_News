@@ -100,6 +100,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+
+            <fragment
+                android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+                android:id="@+id/youtubePlayerFragment"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/metrics_10dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"/>
             <com.mandasur.app.util.MandsaurNewsTextView
             android:id="@+id/titleNewsTv"
             android:layout_width="match_parent"

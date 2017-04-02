@@ -47,7 +47,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
 
-    android:layout_height="@dimen/metrics_250">
+    android:layout_height="@dimen/metrics_200dp">
 
 
 <ImageView

@@ -18,7 +18,7 @@
 
 
 <color name="balck_normal_opacity">#d3000000</color>
-
+    <color name="black_medium_opacity">#a3000000</color>
 
     <color name="colorGray">#b5000000</color>
     <color name="orange">#ffb60000</color>

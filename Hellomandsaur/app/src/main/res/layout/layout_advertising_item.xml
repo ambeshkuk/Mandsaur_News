@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
 
     android:orientation="vertical"
@@ -7,20 +7,20 @@
     android:background="@color/colorGray"
     android:gravity="center"
     android:padding="@dimen/metrics_10dp"
-    android:layout_height="@dimen/metrics_200dp">
 
 
-    <TextView
+
+    android:layout_height="@dimen/metrics_150dp">
+
+
+    <ImageView
         android:id="@+id/adView"
-        android:layout_width="@dimen/metrics_200dp"
+        android:layout_width="@dimen/metrics_150dp"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:text="Reserverd for Advertise"
-        android:textColor="@color/black"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center"
-
+       android:src="@drawable/testadv"
+         android:layout_gravity="center"
+        android:scaleType="fitCenter"
         >
-    </TextView>
+    </ImageView>
 
-</LinearLayout>
+</FrameLayout>

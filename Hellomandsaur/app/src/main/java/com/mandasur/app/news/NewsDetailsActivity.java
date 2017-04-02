@@ -20,11 +20,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.requestdao.News;
@@ -52,6 +54,7 @@ public class NewsDetailsActivity extends AppCompatActivity
 
     public static final String NEWS_ID="newsId";
     public static final String CATEGORY_NAME="category_name";
+    public static final String VIDEO_URL="video_url";
 
     private ImageView image1,image2;
     private MandsaurNewsTextView titleNewsTv,dateTv,consisenewsTv,newsDetailsPart1Tv,newsDetailsPart2Tv;
@@ -69,6 +72,7 @@ public class NewsDetailsActivity extends AppCompatActivity
     private RecyclerView relatedNewsRv,advertiseUsRv;
     private TextView titleTv;
     MandsaurNewsTextView homeAsUpIcon;
+    private YouTubePlayerSupportFragment youTubePlayerSupportFragment;
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
 
@@ -98,6 +102,15 @@ public class NewsDetailsActivity extends AppCompatActivity
         String newsId=getIntent().getStringExtra(NEWS_ID);
         ActivityUtil.log(NewsDetailsActivity.class.getSimpleName(),"News Id:"+newsId);
         String categoryName=getIntent().getStringExtra(CATEGORY_NAME);
+        String videoUrl=getIntent().getStringExtra(VIDEO_URL);
+        youTubePlayerSupportFragment= (YouTubePlayerSupportFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.youtubePlayerFragment);
+        if (!TextUtils.isEmpty(videoUrl)){
+            youTubePlayerSupportFragment.initialize(getString(R.string.google_key),this);
+        }
+        else {
+            getSupportFragmentManager().beginTransaction().hide(youTubePlayerSupportFragment).commit();
+        }
 
 
 
@@ -137,6 +150,63 @@ public class NewsDetailsActivity extends AppCompatActivity
 //        toolbar.addView(view);
     }
 
+    private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener=new YouTubePlayer.PlayerStateChangeListener() {
+        @Override
+        public void onLoading() {
+
+        }
+
+        @Override
+        public void onLoaded(String s) {
+
+        }
+
+        @Override
+        public void onAdStarted() {
+
+        }
+
+        @Override
+        public void onVideoStarted() {
+
+        }
+
+        @Override
+        public void onVideoEnded() {
+
+        }
+
+        @Override
+        public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+        }
+    };
+    private YouTubePlayer.PlaybackEventListener playbackEventListener=new YouTubePlayer.PlaybackEventListener() {
+        @Override
+        public void onPlaying() {
+
+        }
+
+        @Override
+        public void onPaused() {
+
+        }
+
+        @Override
+        public void onStopped() {
+
+        }
+
+        @Override
+        public void onBuffering(boolean b) {
+
+        }
+
+        @Override
+        public void onSeekTo(int i) {
+
+        }
+    };
     @Override
     protected void onPause() {
         if (mAdView != null) {
@@ -430,13 +500,35 @@ public class NewsDetailsActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+    private YouTubePlayer youTubePlayer;
+    private static final int RQS_ErrorDialog = 1;
 
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider,
+                                        YouTubePlayer youTubePlayer, boolean wasRestored) {
+
+         this.youTubePlayer = youTubePlayer;
+
+
+
+        youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
+        youTubePlayer.setPlaybackEventListener(playbackEventListener);
+
+        if (!wasRestored) {
+            youTubePlayer.cueVideo("");
+        }
     }
 
     @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+    public void onInitializationFailure(YouTubePlayer.Provider provider,
+                                        YouTubeInitializationResult youTubeInitializationResult) {
 
+        if (youTubeInitializationResult.isUserRecoverableError()) {
+            youTubeInitializationResult.getErrorDialog(this, RQS_ErrorDialog).show();
+        } else {
+            Toast.makeText(this,
+                    "YouTubePlayer.onInitializationFailure(): " + youTubeInitializationResult.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }
