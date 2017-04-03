@@ -15,7 +15,10 @@
         android:background="@color/white"
         android:layout_width="match_parent">
 
-        <com.mandasur.app.util.MandsaurNewsTextView
+
+
+
+        <TextView
             android:id="@+id/subCategoryTitle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -27,7 +30,7 @@
             android:layout_centerVertical="true"
             />
 
-        <com.mandasur.app.util.MandsaurNewsTextView
+        <TextView
             android:id="@+id/viewAllTv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -70,7 +73,7 @@
         android:background="@drawable/news_list_item_background"
 
         >
-        <com.mandasur.app.util.MandsaurNewsTextView
+        <TextView
         android:id="@+id/newsTitleTv"
          android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,10 +83,10 @@
             android:textColor="@color/white"
             fontPath="fonts/Roboto-Regular.ttf"
             android:layout_above="@+id/newsTimeTv"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
     />
 
-        <com.mandasur.app.util.MandsaurNewsTextView
+        <TextView
         android:id="@+id/newsTimeTv"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -100,7 +103,7 @@
 
             />
 
-        <com.mandasur.app.util.MandsaurNewsTextView
+        <TextView
             android:id="@+id/newsReadCountTv"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"

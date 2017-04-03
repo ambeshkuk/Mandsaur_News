@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
 import okhttp3.MultipartBody;
@@ -93,6 +94,7 @@ public class OkHttpClientUtils {
         if (builder==null){
 
             builder=new Request.Builder();
+
         }
 
 
@@ -105,7 +107,11 @@ public class OkHttpClientUtils {
 
 
         if (okHttpClient==null){
-            okHttpClient=new OkHttpClient();
+            okHttpClient=new OkHttpClient.Builder()
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS).build();
+
         }
 
 

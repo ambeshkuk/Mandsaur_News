@@ -87,6 +87,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -95,31 +96,30 @@
 
         >
 
+        <fragment
+            android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+            android:id="@+id/youtubePlayerFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
 
-            <fragment
-                android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
-                android:id="@+id/youtubePlayerFragment"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="@dimen/metrics_10dp"
-                android:visibility="gone"
-                android:layout_height="wrap_content"/>
-            <com.mandasur.app.util.MandsaurNewsTextView
+
+            <TextView
             android:id="@+id/titleNewsTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="@dimen/size_40sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
                 fontPath="fonts/Roboto-Bold.ttf"
 
             android:gravity="left"
             />
 
-        <com.mandasur.app.util.MandsaurNewsTextView
+        <TextView
             android:id="@+id/dateTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
 
             />
 
-        <com.mandasur.app.util.MandsaurNewsTextView
+        <TextView
             android:id="@+id/consisenewsTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
             android:background="@android:drawable/dialog_holo_light_frame"
             />
 
-        <com.mandasur.app.util.MandsaurNewsTextView
+        <TextView
             android:id="@+id/newsDetailsPart1Tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -170,7 +170,7 @@
                 android:layout_marginTop="@dimen/metrics_1dp"
                 android:background="@color/white"
                 />
-            <com.mandasur.app.util.MandsaurNewsTextView
+            <TextView
                 android:id="@+id/newsDetailsPart2Tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,7 +192,7 @@
                 android:layout_gravity="center_horizontal"
                 ads:adUnitId="@string/addIdHomeScreen">
             </com.google.android.gms.ads.doubleclick.PublisherAdView>
-            <com.mandasur.app.util.MandsaurNewsTextView
+            <TextView
                 android:id="@+id/suggestedNewsTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

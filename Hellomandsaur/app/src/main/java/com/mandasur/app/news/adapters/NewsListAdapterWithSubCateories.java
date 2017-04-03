@@ -162,10 +162,10 @@ private View.OnClickListener onClickListener=new View.OnClickListener() {
 
     public class AdvertisementViewHolder extends RecyclerView.ViewHolder{
 
-        TextView adView;
+        ImageView adView;
         public AdvertisementViewHolder(View itemView) {
             super(itemView);
-            adView= (TextView) itemView.findViewById(R.id.adView);
+            adView= (ImageView) itemView.findViewById(R.id.adView);
         }
     }
 

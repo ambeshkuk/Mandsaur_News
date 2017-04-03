@@ -57,7 +57,7 @@ public class NewsDetailsActivity extends AppCompatActivity
     public static final String VIDEO_URL="video_url";
 
     private ImageView image1,image2;
-    private MandsaurNewsTextView titleNewsTv,dateTv,consisenewsTv,newsDetailsPart1Tv,newsDetailsPart2Tv;
+    private TextView titleNewsTv,dateTv,consisenewsTv,newsDetailsPart1Tv,newsDetailsPart2Tv;
     private FloatingActionButton bookmarkFb,shareFb;
     private CoordinatorLayout newsDetailParent;
     private ProgressBar progressIndicator;
@@ -71,7 +71,7 @@ public class NewsDetailsActivity extends AppCompatActivity
     private PublisherAdView mAdView,bottonAdView,topAdView,rectrangleAdsView;
     private RecyclerView relatedNewsRv,advertiseUsRv;
     private TextView titleTv;
-    MandsaurNewsTextView homeAsUpIcon;
+    TextView homeAsUpIcon;
     private YouTubePlayerSupportFragment youTubePlayerSupportFragment;
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -105,12 +105,12 @@ public class NewsDetailsActivity extends AppCompatActivity
         String videoUrl=getIntent().getStringExtra(VIDEO_URL);
         youTubePlayerSupportFragment= (YouTubePlayerSupportFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.youtubePlayerFragment);
-        if (!TextUtils.isEmpty(videoUrl)){
+//        if (!TextUtils.isEmpty(videoUrl)){
             youTubePlayerSupportFragment.initialize(getString(R.string.google_key),this);
-        }
-        else {
-            getSupportFragmentManager().beginTransaction().hide(youTubePlayerSupportFragment).commit();
-        }
+//        }
+//        else {
+//            getSupportFragmentManager().beginTransaction().hide(youTubePlayerSupportFragment).commit();
+//        }
 
 
 
@@ -270,12 +270,13 @@ public class NewsDetailsActivity extends AppCompatActivity
     private void intiateUI(){
         image1= (ImageView) findViewById(R.id.image1);
         image2= (ImageView) findViewById(R.id.image2);
-        titleNewsTv= (MandsaurNewsTextView) findViewById(R.id.titleNewsTv);
-        dateTv= (MandsaurNewsTextView) findViewById(R.id.dateTv);
+        titleNewsTv= (TextView)
+                findViewById(R.id.titleNewsTv);
+        dateTv= (TextView) findViewById(R.id.dateTv);
 
-        consisenewsTv= (MandsaurNewsTextView) findViewById(R.id.consisenewsTv);
-        newsDetailsPart1Tv= (MandsaurNewsTextView) findViewById(R.id.newsDetailsPart1Tv);
-        newsDetailsPart2Tv= (MandsaurNewsTextView) findViewById(R.id.newsDetailsPart2Tv);
+        consisenewsTv= (TextView) findViewById(R.id.consisenewsTv);
+        newsDetailsPart1Tv= (TextView) findViewById(R.id.newsDetailsPart1Tv);
+        newsDetailsPart2Tv= (TextView) findViewById(R.id.newsDetailsPart2Tv);
         bookmarkFb= (FloatingActionButton) findViewById(R.id.bookmarkFb);
         shareFb= (FloatingActionButton) findViewById(R.id.shareFb);
         newsDetailParent= (CoordinatorLayout) findViewById(R.id.newsDetailParent);
@@ -509,13 +510,14 @@ public class NewsDetailsActivity extends AppCompatActivity
 
          this.youTubePlayer = youTubePlayer;
 
+        youTubePlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
 
 
         youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
         youTubePlayer.setPlaybackEventListener(playbackEventListener);
 
         if (!wasRestored) {
-            youTubePlayer.cueVideo("");
+            youTubePlayer.cueVideo("ko9DAMLDgfk");
         }
     }
 

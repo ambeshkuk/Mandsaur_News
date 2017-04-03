@@ -2,7 +2,7 @@
 <resources>>
     <color name="black">#000</color>
     <color name="black_light">#bb000000</color>
-    <color name="red">#ffb60000</color>
+    <color name="red">#FFDF3032</color>
     <color name="white">#fff4fdff</color>
 
 
@@ -21,7 +21,7 @@
     <color name="black_medium_opacity">#a3000000</color>
 
     <color name="colorGray">#b5000000</color>
-    <color name="orange">#ffb60000</color>
+    <color name="orange">#FFDF3032</color>
 
     <color name="backTransparentBlack">#3f000000</color>
     <color name="backGreen">#ff50ff8c</color>
