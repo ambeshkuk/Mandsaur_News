@@ -33,7 +33,7 @@ public class ShareNewsDetails extends UseCase<ShareNewsDetails.RequestValues,Sha
         Intent sharingIntent= new Intent();
         sharingIntent.setAction(Intent.ACTION_SEND);
         sharingIntent.putExtra(Intent.EXTRA_TEXT, requestValues.getNews().getTitle() + "\n\n"
-                + "http://www.hellomandsaur.com/advertise_with_us.php");
+                + requestValues.getNews().getNewsUrl()!=null?requestValues.getNews().getNewsUrl():"");
         sharingIntent.setType("text/plain");
 
         sharingActivity.startActivity(sharingIntent);

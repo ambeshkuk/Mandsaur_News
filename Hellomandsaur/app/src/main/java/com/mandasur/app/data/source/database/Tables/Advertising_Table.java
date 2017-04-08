@@ -25,7 +25,7 @@ public class Advertising_Table {
 
     private String ADVERTISING_TABLE ="advertising_table";
 
-    private static int currentIndex=0;
+    private static int currentIndex=1;
     private String CURRENT_INDEX="current_index";
 
     public void createUserTableSchema(SQLiteDatabase sqLiteDatabase)
@@ -129,8 +129,16 @@ public class Advertising_Table {
 
         cursor.close();
 
+
+
+
+            currentIndex++;
+                if (currentIndex==getRowCount(sqLiteDatabase)){
+                    currentIndex=1;
+                }
         return ads;
     }
+
 }
 
 

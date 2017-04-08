@@ -26,6 +26,7 @@ import com.mandasur.app.news.NewsDetailsActivity;
 import com.mandasur.app.news.NewsFilterActivity;
 import com.mandasur.app.news.NewsListContract;
 import com.mandasur.app.news.NewsListPresenter;
+import com.mandasur.app.news.NewsVideoActivity;
 import com.mandasur.app.news.adapters.NewsListAdapterWithSubCateories;
 import com.mandasur.app.util.DividerItemDecoration;
 import com.mandasur.app.util.MandsaurAppSharedPref;
@@ -265,7 +266,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         @Override
         public void openNewsItem(String newsId) {
 
-            Intent intent=new Intent(NewsListFragment.this.getActivity(), NewsDetailsActivity.class);
+            Intent intent=new Intent(NewsListFragment.this.getActivity(), NewsVideoActivity.class);
             intent.putExtra(NewsDetailsActivity.NEWS_ID,newsId);
             intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,categoryName);
             startActivity(intent);

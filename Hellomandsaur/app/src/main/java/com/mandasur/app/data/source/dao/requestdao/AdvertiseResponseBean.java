@@ -4,10 +4,15 @@ import com.mandasur.app.data.source.dao.Ads;
 
 import java.util.ArrayList;
 
+
+
+
+
+
 /**
  * Created by ambesh on 02-04-2017.
  */
-public class AdvertiseResponseBean {
+public class AdvertiseResponseBean extends Response {
     private ArrayList<Ads> ads;
 
     public ArrayList<Ads> getAds() {

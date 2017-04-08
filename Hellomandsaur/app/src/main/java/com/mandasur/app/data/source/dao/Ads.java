@@ -1,9 +1,11 @@
 package com.mandasur.app.data.source.dao;
 
+import com.mandasur.app.data.source.dao.requestdao.BaseNews;
+
 /**
  * Created by ambesh on 02-04-2017.
  */
-public class Ads {
+public class Ads extends BaseNews{
 
 
 

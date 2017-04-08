@@ -12,6 +12,7 @@ public class DatabaseNewsDataSource {
 
 
 
+
     private static  MandsaurDataBaseHelper mandsaurDataBaseHelper=null;
 
     public static MandsaurDataBaseHelper getInstance(Context context)

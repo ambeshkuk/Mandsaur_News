@@ -2,7 +2,9 @@ package com.mandasur.app.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mandasur.app.data.source.AdvertisingDataRepository;
 import com.mandasur.app.data.source.NewsDataRepository;
+import com.mandasur.app.data.source.dao.requestdao.AdvertiseResponseBean;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 
 /**
@@ -26,6 +28,8 @@ public class GsonUtil {
 
             gsonBuilder.registerTypeAdapter(NewsFromMainCategoryResponse.class,
                     new NewsDataRepository.NewsListDesireliser());
+            gsonBuilder.registerTypeAdapter(AdvertiseResponseBean.class
+                    ,new AdvertisingDataRepository.AdvertisingSerilizer());
 
             gson=gsonBuilder.create();
 

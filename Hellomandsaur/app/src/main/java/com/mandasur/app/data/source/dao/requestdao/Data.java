@@ -14,13 +14,13 @@ import java.util.ArrayList;
 
 public class Data {
 
-    private ArrayList<News> newsList;
+    private ArrayList<BaseNews> newsList;
 
-    public ArrayList<News> getNewsList() {
+    public ArrayList<BaseNews> getNewsList() {
         return newsList;
     }
 
-    public void setNewsList(ArrayList<News> newsList) {
+    public void setNewsList(ArrayList<BaseNews> newsList) {
         this.newsList = newsList;
     }
 }

@@ -11,9 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.mandasur.app.data.source.AdvertisingDataRepository;
 import com.mandasur.app.data.source.CategoryDataRepository;
+import com.mandasur.app.data.source.dao.requestdao.AdvertiseRequest;
 import com.mandasur.app.data.source.dao.requestdao.CategoryResponseBean;
+import com.mandasur.app.data.source.dao.requestdao.Request;
 import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
 import com.mandasur.app.news.NewsBaseActiivty;
 import com.mandasur.app.util.ActivityUtil;
@@ -104,8 +108,35 @@ public class SplashScrees extends Activity {
         @Override
         protected CategoryResponseBean doInBackground(Void... params) {
 
-
             final CategoryResponseBean[] categoryResponseBean = new CategoryResponseBean[1];
+            AdvertiseRequest advertiseRequest=new AdvertiseRequest();
+            advertiseRequest.put(Request.REQUEST_URL,getString(R.string.baseUrl)
+                    +getString(R.string.advertiseingList));
+            try{
+                Injector.getAdvertisingDataRepository(SplashScrees.this)
+                        .loadAdvertiseMentToDb(new AdvertisingDataRepository.LoadAdvertisinments() {
+                            @Override
+                            public void onAdvertismentsLoaded(boolean advertisementsLoaded) {
+
+
+                                if (!advertisementsLoaded){
+                                    Toast.makeText(SplashScrees.this
+                                            ,"Unable to Load Advertisement",Toast.LENGTH_LONG).show();
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onAdvertisiementsNotVaialbel() {
+
+                            }
+                        },advertiseRequest);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
            categoryDataRepository.
                    loadCategoriesToDb(new CategoryDataRepository.LoadCategoriesCallBack() {
                        @Override

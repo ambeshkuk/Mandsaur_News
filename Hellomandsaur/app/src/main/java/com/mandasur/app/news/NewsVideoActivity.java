@@ -17,6 +17,7 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
+import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
 import com.mandasur.app.news.adapters.AdvertiseWithUsAdapter;
 import com.mandasur.app.news.adapters.RelatedNewsAdapter;
 import com.mandasur.app.util.ActivityUtil;
@@ -47,7 +49,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by ambesh on 11-02-2017.
  */
-public class NewsDetailsActivity extends AppCompatActivity
+public class NewsVideoActivity extends AppCompatActivity
         implements
         NewsDetailContract.NewsDetailView ,
         AppBarLayout.OnOffsetChangedListener,YouTubePlayer.OnInitializedListener{
@@ -56,30 +58,31 @@ public class NewsDetailsActivity extends AppCompatActivity
     public static final String CATEGORY_NAME="category_name";
     public static final String VIDEO_URL="video_url";
 
-    private ImageView image1,image2;
+    private ImageView image2;
     private TextView titleNewsTv,dateTv,consisenewsTv,newsDetailsPart1Tv,newsDetailsPart2Tv;
     private FloatingActionButton bookmarkFb,shareFb;
-    private CoordinatorLayout newsDetailParent;
+
     private ProgressBar progressIndicator;
     private NewsDetail newsDetail;
     private String newsDetailString;
     private  MandsaurDataBaseHelper mandsaurDataBaseHelper;
     private float detailViewTextSize;
 
-    private NewsDetailContract.NewsDetailsPresenter newsDetailPresenter;
+    private NewsVideoPresenter newsDetailPresenter;
     private SeekBar fontSizeSb;
     private PublisherAdView mAdView,bottonAdView,topAdView,rectrangleAdsView;
     private RecyclerView relatedNewsRv,advertiseUsRv;
     private TextView titleTv;
     TextView homeAsUpIcon;
     private YouTubePlayerSupportFragment youTubePlayerSupportFragment;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private LinearLayout newsDetailParent;
     private String newsUrl;
+
 
     private RelatedNewsAdapter.OnNewsItemSelected onNewsItemSelected=new RelatedNewsAdapter.OnNewsItemSelected() {
         @Override
         public void openNewsItem(String newsId) {
-            Intent intent=new Intent(NewsDetailsActivity.this, NewsDetailsActivity.class);
+            Intent intent=new Intent(NewsVideoActivity.this, NewsDetailsActivity.class);
             intent.putExtra(NewsDetailsActivity.NEWS_ID,newsId);
             intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,
                     getIntent().getStringExtra(CATEGORY_NAME));
@@ -96,17 +99,28 @@ public class NewsDetailsActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_news_details);
-        collapsingToolbarLayout= (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        setContentView(R.layout.layout_video_news_detail);
         intialiseAdsOnScreen();
         String newsId=getIntent().getStringExtra(NEWS_ID);
-        ActivityUtil.log(NewsDetailsActivity.class.getSimpleName(),"News Id:"+newsId);
+        ActivityUtil.log(NewsDetailsActivity.class.getSimpleName(), "News Id:" + newsId);
         String categoryName=getIntent().getStringExtra(CATEGORY_NAME);
         String videoUrl=getIntent().getStringExtra(VIDEO_URL);
+        findViewById(R.id.filtericonIv).setVisibility(View.GONE);
+        MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView)findViewById(R.id.homeAsUpIcon);
+        newsDetailParent= (LinearLayout) findViewById(R.id.newsDetailParent);
+        Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
+        TextView titleTv= (TextView) findViewById(R.id.titleTv);
+
+        titleTv.setText(categoryName);
+
+
+        setSupportActionBar(toolbar);
+        homeAsUpIcon.setText(getString(R.string.textArrowIcon));
+        homeAsUpIcon.setOnClickListener(onClickListener);
         youTubePlayerSupportFragment= (YouTubePlayerSupportFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.youtubePlayerFragment);
 //        if (!TextUtils.isEmpty(videoUrl)){
-            youTubePlayerSupportFragment.initialize(getString(R.string.google_key),this);
+        youTubePlayerSupportFragment.initialize(getString(R.string.google_key),this);
 //        }
 //        else {
 //            getSupportFragmentManager().beginTransaction().hide(youTubePlayerSupportFragment).commit();
@@ -114,25 +128,12 @@ public class NewsDetailsActivity extends AppCompatActivity
 
 
 
-        supportPostponeEnterTransition();
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                onBackPressed();
-            }
-        });
 
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
-        collapsingToolbarLayout.setTitle(categoryName);
 
-        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+
+
 
 
         relatedNewsRv= (RecyclerView) findViewById(R.id.relatedNewsRv);
@@ -140,9 +141,10 @@ public class NewsDetailsActivity extends AppCompatActivity
 
 
 
-        newsDetailPresenter= new NewsDetailPresenter(
-                Injector.getNewsDetailsFromServer(this),Injector.getShareNewsDetailsUseCase(this),this,newsId);
-        mandsaurDataBaseHelper  = DatabaseNewsDataSource.getInstance(NewsDetailsActivity.this);
+        newsDetailPresenter= new NewsVideoPresenter(
+                Injector.getNewsDetailsFromServer(this)
+                ,Injector.getShareNewsDetailsUseCase(this),this,newsId);
+        mandsaurDataBaseHelper  = DatabaseNewsDataSource.getInstance(NewsVideoActivity.this);
 
         intiateUI();
 
@@ -268,7 +270,7 @@ public class NewsDetailsActivity extends AppCompatActivity
     }
 
     private void intiateUI(){
-        image1= (ImageView) findViewById(R.id.image1);
+
         image2= (ImageView) findViewById(R.id.image2);
         titleNewsTv= (TextView)
                 findViewById(R.id.titleNewsTv);
@@ -279,7 +281,7 @@ public class NewsDetailsActivity extends AppCompatActivity
         newsDetailsPart2Tv= (TextView) findViewById(R.id.newsDetailsPart2Tv);
         bookmarkFb= (FloatingActionButton) findViewById(R.id.bookmarkFb);
         shareFb= (FloatingActionButton) findViewById(R.id.shareFb);
-        newsDetailParent= (CoordinatorLayout) findViewById(R.id.newsDetailParent);
+
         progressIndicator= (ProgressBar) findViewById(R.id.progressIndicator);
         bookmarkFb= (FloatingActionButton) findViewById(R.id.bookmarkFb);
         shareFb= (FloatingActionButton) findViewById(R.id.shareFb);
@@ -367,7 +369,6 @@ public class NewsDetailsActivity extends AppCompatActivity
                     news.setTitle(Html.fromHtml(newsDetail.getTitle()).toString());
                     news.setDate(newsDetail.getDate());
                     news.setNewsUrl(newsUrl);
-
                     newsDetailPresenter.shareNewsOnSocialMedia(news);
 
                     break;
@@ -394,7 +395,7 @@ public class NewsDetailsActivity extends AppCompatActivity
 
                     relatedNewsRv.
                             setLayoutManager(new
-                                    LinearLayoutManager(NewsDetailsActivity.this
+                                    LinearLayoutManager(NewsVideoActivity.this
                                     , LinearLayoutManager.HORIZONTAL, false));
                     relatedNewsAdapter.setOnNewsItemSelected(onNewsItemSelected);
                     relatedNewsRv.setAdapter(relatedNewsAdapter);
@@ -408,12 +409,12 @@ public class NewsDetailsActivity extends AppCompatActivity
                 AdvertiseWithUsAdapter advertiseWithUsAdapter=new AdvertiseWithUsAdapter(new ArrayList<News>());
 
                 advertiseUsRv.setLayoutManager(new
-                        LinearLayoutManager(NewsDetailsActivity.this
+                        LinearLayoutManager(NewsVideoActivity.this
                         , LinearLayoutManager.HORIZONTAL, false));
                 advertiseUsRv.setAdapter(advertiseWithUsAdapter);
                 if (!newsDetails.isEmpty()){
 
-                     newsDetail=newsDetails.get(0);
+                    newsDetail=newsDetails.get(0);
                     newsUrl=newsDetail.getNewsurl();
                     newsDetailString=newsDetailsFromResponse.getUnderLineJson();
                     if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),newsDetail.getId())){
@@ -427,13 +428,12 @@ public class NewsDetailsActivity extends AppCompatActivity
                     }
 //                    if (!TextUtils.isEmpty(newsDetails.get(0).getImage1())){
 
-                        Picasso.with(this).load(newsDetails.get(0).getImage1()).placeholder(R.drawable.logo).into(image1);
+                    Picasso.with(this).load(newsDetails.get(0).getImage1()).placeholder(R.drawable.logo).into(image2);
 //                    }
-                    Picasso.with(this).load(newsDetails.get(0).getImage2()).placeholder(R.drawable.logo).into(image2);
 
-                        if (!TextUtils.isEmpty(newsDetails.get(0).getTitle())){
-                            titleNewsTv.setText(newsDetails.get(0).getTitle());
-                        }
+                    if (!TextUtils.isEmpty(newsDetails.get(0).getTitle())){
+                        titleNewsTv.setText(newsDetails.get(0).getTitle());
+                    }
                     if (!TextUtils.isEmpty(newsDetails.get(0).getDate())){
                         dateTv.setText(newsDetails.get(0).getDate());
                     }
@@ -510,7 +510,7 @@ public class NewsDetailsActivity extends AppCompatActivity
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                         YouTubePlayer youTubePlayer, boolean wasRestored) {
 
-         this.youTubePlayer = youTubePlayer;
+        this.youTubePlayer = youTubePlayer;
 
         youTubePlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
 

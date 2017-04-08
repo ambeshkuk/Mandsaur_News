@@ -2,11 +2,19 @@ package com.mandasur.app.news.usecase;
 
 import android.support.annotation.NonNull;
 
+import com.mandasur.app.SplashScrees;
 import com.mandasur.app.UseCase;
+import com.mandasur.app.data.source.AdvertisingDataRepository;
 import com.mandasur.app.data.source.SubCategoryDataRepository;
 import com.mandasur.app.data.source.dao.SubCategories;
+import com.mandasur.app.data.source.dao.requestdao.AdvertiseRequest;
 
 import java.util.ArrayList;
+
+
+
+
+
 
 /**
  * Created by ambesh on 11-02-2017.
@@ -14,57 +22,65 @@ import java.util.ArrayList;
 public class GetAdvertisingList extends UseCase<GetAdvertisingList.RequestValues,GetAdvertisingList.ResponseValue>  {
 
 
-     private SubCategoryDataRepository subCategoryDataRepository;
-   public GetAdvertisingList(SubCategoryDataRepository subCategoryDataRepository){
+     private AdvertisingDataRepository advertisingDataRepository;
+    private SplashScrees splashScrees;
+   public GetAdvertisingList(AdvertisingDataRepository
+                                     advertisingDataRepository){
 
-       this.subCategoryDataRepository=subCategoryDataRepository;
+       this.advertisingDataRepository=advertisingDataRepository;
+
    }
     @Override
-    public void executeUseCase(RequestValues requestValues) {
+    public void executeUseCase(final RequestValues requestValues) {
 
-        subCategoryDataRepository.getCategories(new SubCategoryDataRepository.LoadSubCategoriesCallBack() {
-            @Override
-            public void onSubCategroiesLoaded(ArrayList<SubCategories> subCategories) {
-                ResponseValue responseValue=new ResponseValue(subCategories);
-                getUseCaseCallback().onSuccess(responseValue);
-            }
+        advertisingDataRepository
+                .loadAdvertiseMentToDb(new AdvertisingDataRepository.LoadAdvertisinments() {
+                    @Override
+                    public void onAdvertismentsLoaded(boolean advertisementsLoaded) {
 
-            @Override
-            public void onSubCategoriesNotAvaliable() {
-                getUseCaseCallback().onError("");;
+                        ResponseValue responseValue=new ResponseValue();
+                        responseValue.setIsAdvertisementLoaded(advertisementsLoaded);
+                        getUseCaseCallback().onSuccess(responseValue);
+                    }
 
-            }
-        },requestValues.getMainCategoryName());
+                    @Override
+                    public void onAdvertisiementsNotVaialbel() {
+
+                    }
+                },requestValues.getAdvertiseRequest());
 
     }
 
 
     public static final class RequestValues implements UseCase.RequestValues {
 
-        public String getMainCategoryName() {
-            return mainCategoryName;
+        public AdvertiseRequest getAdvertiseRequest() {
+            return advertiseRequest;
         }
 
-        public void setMainCategoryName(String mainCategoryName) {
-            this.mainCategoryName = mainCategoryName;
+        public void setAdvertiseRequest(AdvertiseRequest advertiseRequest) {
+            this.advertiseRequest = advertiseRequest;
         }
 
-        private String mainCategoryName;
+        AdvertiseRequest advertiseRequest;
+
 
 
     }
 
     public static final class ResponseValue implements UseCase.ResponseValue {
 
-        private ArrayList<SubCategories> subCategories;
-
-        public ResponseValue(@NonNull ArrayList<SubCategories> subCategories) {
-            this.subCategories = subCategories;
+        public boolean isAdvertisementLoaded() {
+            return isAdvertisementLoaded;
         }
 
-        public ArrayList<SubCategories> getCategories() {
-            return subCategories;
+        public void setIsAdvertisementLoaded(boolean isAdvertisementLoaded) {
+            this.isAdvertisementLoaded = isAdvertisementLoaded;
         }
+
+        boolean isAdvertisementLoaded=false;
+
+
     }
 }
 

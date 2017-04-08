@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.Html;
 
 import com.google.gson.Gson;
+import com.mandasur.app.data.source.dao.requestdao.BaseNews;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetailsFromResponse;
@@ -60,8 +61,8 @@ public class SavedNewsTable {
         return ifNoNewsIsSaved;
     }
 
-    public ArrayList<News> getSavedNewsList(SQLiteDatabase sqLiteDatabase){
-        ArrayList<News> newsArrayList=new ArrayList<>();
+    public ArrayList<BaseNews> getSavedNewsList(SQLiteDatabase sqLiteDatabase){
+        ArrayList<BaseNews> newsArrayList=new ArrayList<>();
         Gson gson= GsonUtil.getGsonInstance();
 
 

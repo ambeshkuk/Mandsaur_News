@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.mandasur.app.aboutus_contact.AboutUsPresenter;
 import com.mandasur.app.data.source.AboutUsDataRepository;
+import com.mandasur.app.data.source.AdvertisingDataRepository;
 import com.mandasur.app.data.source.CategoryDataRepository;
 import com.mandasur.app.data.source.NewsDataRepository;
 import com.mandasur.app.data.source.SubCategoryDataRepository;
@@ -84,6 +85,12 @@ public class Injector {
 
     public static ShareNewsDetails getShareNewsDetailsUseCase(@NonNull Context activity){
         return new ShareNewsDetails(activity);
+    }
+
+
+    public static AdvertisingDataRepository getAdvertisingDataRepository(@NonNull Context context){
+        return AdvertisingDataRepository.
+                getAdvertisingDataRepositoryInstance(new DatabaseNewsDataSource(), context);
     }
 }
 

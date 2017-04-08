@@ -42,6 +42,8 @@ public class Response {
     public boolean isSuccessful() {
 
 
+
+
         return (status!=null&&status.equals("1"))?true:false;
     }
 

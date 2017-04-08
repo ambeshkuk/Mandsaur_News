@@ -10,7 +10,7 @@ package com.mandasur.app.data.source.dao.requestdao;
 /**
  * Created by ambesh on 13-02-2017.
  */
-public class News {
+public class News extends BaseNews {
 
     public static final String TITLE="title";
     public static final String IMAGE="image";
@@ -23,6 +23,16 @@ public class News {
     private String image;
     private String date;
 
+    public String getNewsUrl() {
+        return newsUrl;
+    }
+
+    public void setNewsUrl(String newsUrl) {
+        this.newsUrl = newsUrl;
+    }
+
+    private String newsUrl;
+
     private String subCatIndicator;
     public String getSubCatIndicator() {
         return subCatIndicator;
@@ -34,15 +44,7 @@ public class News {
 
 
 
-    public boolean isAdvertisedNewsBean() {
-        return isAdvertisedNewsBean;
-    }
 
-    public void setIsAdvertisedNewsBean(boolean isAdvertisedNewsBean) {
-        this.isAdvertisedNewsBean = isAdvertisedNewsBean;
-    }
-
-    private boolean isAdvertisedNewsBean=false;
     public String getSubCategoryName() {
         return subCategoryName;
     }

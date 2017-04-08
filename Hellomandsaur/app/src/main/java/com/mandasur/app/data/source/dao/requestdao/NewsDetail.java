@@ -17,6 +17,15 @@ public static final String FID="id";
     private String id,title,descr
             ,descr2,image1,image2,place,date;
 
+    public String getNewsurl() {
+        return newsurl;
+    }
+
+    public void setNewsurl(String newsurl) {
+        this.newsurl = newsurl;
+    }
+
+    private String newsurl;
     public String getId() {
         return id;
     }

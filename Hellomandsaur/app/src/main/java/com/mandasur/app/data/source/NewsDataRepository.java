@@ -12,6 +12,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.mandasur.app.R;
+import com.mandasur.app.data.source.dao.Ads;
+import com.mandasur.app.data.source.dao.requestdao.BaseNews;
 import com.mandasur.app.data.source.dao.requestdao.Data;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsDetail;
@@ -86,7 +88,9 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
             }
             else{
                 newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
-                ArrayList<News> newsArrayList=mandsaurDataBaseHelper.getSavedNewsTable().getSavedNewsList(mandsaurDataBaseHelper.getSqLiteDatabase());
+                ArrayList<BaseNews> newsArrayList=
+                        mandsaurDataBaseHelper.getSavedNewsTable()
+                                .getSavedNewsList(mandsaurDataBaseHelper.getSqLiteDatabase());
 
                 Data data=new Data();
                 data.setNewsList(newsArrayList);
@@ -299,7 +303,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
             JsonObject jsonObject=json.getAsJsonObject();
 
             Data data=new Data();
-            ArrayList<News> newsArrayList=new ArrayList<>();
+            ArrayList<BaseNews> newsArrayList=new ArrayList<>();
              data.setNewsList(newsArrayList);
 
             if (jsonObject!=null&&jsonObject.isJsonObject()){
@@ -357,7 +361,9 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                 newsArrayList.add(news);
 
                                 if (currentIindexOfoverallList!=0&&((currentIindexOfoverallList%2)==0)){
-                                    News advertisedNews=new News();
+                                    Ads advertisedNews=mandsaurDataBaseHelper
+                                            .getAdvertising_table().
+                                                    getCurrentPriorityAdd(mandsaurDataBaseHelper.getSqLiteDatabase());
                                     advertisedNews.setIsAdvertisedNewsBean(true);
                                     newsArrayList.add(advertisedNews);
 

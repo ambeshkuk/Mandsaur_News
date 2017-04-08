@@ -18,6 +18,7 @@
         <string name="newsDetails">newsdetails.php</string>
         <string name="newsSingleSubCat">news_singleSubcat.php</string>
         <string name="bookMarkedNews">bookmarked</string>
+        <string name="advertiseingList">Adsapi.php</string>
 
         <string name="db_name">mandsaurappdb</string>chr
         <integer name="db_version">1</integer>
@@ -79,6 +80,7 @@
     <string name="title_activity_filtred_news_list">FiltredNewsListActivity</string>
     <string name="title_activity_about_us">AboutUsActivity</string>
     <string name="title_activity_buisness">BuisnessActivity</string>
+    <string name="title_activity_news_video">NewsVideoActivity</string>
 
 
     </resources>
