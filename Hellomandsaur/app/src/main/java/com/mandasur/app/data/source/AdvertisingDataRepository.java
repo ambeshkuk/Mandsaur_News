@@ -96,27 +96,27 @@ public class AdvertisingDataRepository {
 
 
 
-        if (advertiseRequest.get(NewsFromMainCategoryRequest.IS_NETWORK_AVALIBLE)
-                .equals(NewsFromMainCategoryRequest.FALSE)){
-            advertiseResponseBean=new AdvertiseResponseBean();
-            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource
-                    .getMandsaurDataBaseHelper();
-
-            if (mandsaurDataBaseHelper.getAdvertising_table()
-                    .getRowCount(mandsaurDataBaseHelper.getSqLiteDatabase())>0){
-
-
-
-
-                loadCategoriesCallBack.onAdvertismentsLoaded(true);
-
-
-            }
-            else {
-                loadCategoriesCallBack.onAdvertismentsLoaded(false);
-            }
-
-        }
+//        if (advertiseRequest.get(NewsFromMainCategoryRequest.IS_NETWORK_AVALIBLE)
+//                .equals(NewsFromMainCategoryRequest.FALSE)){
+//            advertiseResponseBean=new AdvertiseResponseBean();
+//            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource
+//                    .getMandsaurDataBaseHelper();
+//
+//            if (mandsaurDataBaseHelper.getAdvertising_table()
+//                    .getRowCount(mandsaurDataBaseHelper.getSqLiteDatabase())>0){
+//
+//
+//
+//
+//                loadCategoriesCallBack.onAdvertismentsLoaded(true);
+//
+//
+//            }
+//            else {
+//                loadCategoriesCallBack.onAdvertismentsLoaded(false);
+//            }
+//
+//        }
 
 
 

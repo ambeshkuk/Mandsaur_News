@@ -10,7 +10,7 @@
         <string name="app_name">Hello Mandsaur</string>
 
 
-        <string name="baseUrl">https://newindiapress.com/webApi/</string>
+        <string name="baseUrl">http://hellomandsaur.com/webApi/</string>
         <string name="textRelatedNews">संबंधित </string>
 
         <string name="mainNews">mandsaurNews.php</string>
@@ -81,6 +81,7 @@
     <string name="title_activity_about_us">AboutUsActivity</string>
     <string name="title_activity_buisness">BuisnessActivity</string>
     <string name="title_activity_news_video">NewsVideoActivity</string>
+    <string name="title_activity_advertise_detail">AdvertiseDetailActivity</string>
 
 
     </resources>

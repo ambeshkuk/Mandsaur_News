@@ -17,10 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mandasur.app.R;
+import com.mandasur.app.data.source.dao.Ads;
+import com.mandasur.app.data.source.dao.requestdao.BaseNews;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.data.source.dao.requestdao.NewsFromMainCategoryResponse;
 import com.mandasur.app.data.source.database.DatabaseNewsDataSource;
 import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
+import com.mandasur.app.news.AdvertiseDetailActivity;
 import com.mandasur.app.news.NewsDetailsActivity;
 import com.mandasur.app.news.NewsListContract;
 import com.mandasur.app.news.adapters.NewsListAdapterWithSubCateories;
@@ -59,7 +62,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
     private SwipeRefreshLayout swipeToRefreshLayout;
     private OnFragmentInteractionListener mListener;
     private NewsListAdapterWithSubCateories newsListAdapterWithSubCateories;
-    private ArrayList<News> newsArrayList;
+    private ArrayList<BaseNews> newsArrayList;
     private NewsListContract.NewsListPresenter newsListPresenter;
     private boolean toRefreshCompleteList=false;
     private boolean toLoadMoreNews=false;
@@ -300,7 +303,8 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
         public void onFragmentInteraction(Uri uri);
     }
 
-    private NewsListAdapterWithSubCateories.OnNewsItemSelected onNewsItemSelected=new NewsListAdapterWithSubCateories.OnNewsItemSelected() {
+    private NewsListAdapterWithSubCateories.OnNewsItemSelected
+            onNewsItemSelected=new NewsListAdapterWithSubCateories.OnNewsItemSelected() {
         @Override
         public void openNewsItem(String newsId) {
 
@@ -313,6 +317,20 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
         @Override
         public void onClickOnShareBtn(News news) {
             newsListPresenter.shareNewsOnSocialMedia(news);
+        }
+
+        @Override
+        public void onNewsItemClickListner(Ads ads) {
+            Intent intent=new Intent(FiltredNewsListWithSubCategoryFragment.this.getActivity()
+                    , AdvertiseDetailActivity.class);
+
+
+
+            intent.putExtra(AdvertiseDetailActivity.ADS_URL,ads.getAd_url());
+            intent.putExtra(AdvertiseDetailActivity.ADS_FULL_IMAGE
+                    ,ads.getAd_image_full());
+            intent.putExtra(AdvertiseDetailActivity.ADS_TITLE,ads.getAd_title());
+            FiltredNewsListWithSubCategoryFragment.this.startActivity(intent);
         }
     };
 

@@ -361,11 +361,15 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                 newsArrayList.add(news);
 
                                 if (currentIindexOfoverallList!=0&&((currentIindexOfoverallList%2)==0)){
-                                    Ads advertisedNews=mandsaurDataBaseHelper
-                                            .getAdvertising_table().
-                                                    getCurrentPriorityAdd(mandsaurDataBaseHelper.getSqLiteDatabase());
-                                    advertisedNews.setIsAdvertisedNewsBean(true);
-                                    newsArrayList.add(advertisedNews);
+                                    if (mandsaurDataBaseHelper.getAdvertising_table()
+                                            .getRowCount(mandsaurDataBaseHelper.getSqLiteDatabase())>0){
+                                        Ads advertisedNews=mandsaurDataBaseHelper
+                                                .getAdvertising_table().
+                                                        getCurrentPriorityAdd(mandsaurDataBaseHelper.getSqLiteDatabase());
+                                        advertisedNews.setIsAdvertisedNewsBean(true);
+                                        newsArrayList.add(advertisedNews);
+                                    }
+
 
                                 }
                             }

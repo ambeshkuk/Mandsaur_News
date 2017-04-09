@@ -65,6 +65,13 @@
             android:name=".news.NewsVideoActivity"
             android:label="@string/title_activity_news_video" >
         </activity>
+        <activity
+            android:name=".news.AdvertiseDetailActivity"
+            android:label="@string/title_activity_advertise_detail"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog"
+            >
+        </activity>
     </application>
 
 </manifest>

@@ -128,6 +128,8 @@ public class CategoriesTable {
         cursor.close();
         return categories;
     }
+
+
 }
 
 

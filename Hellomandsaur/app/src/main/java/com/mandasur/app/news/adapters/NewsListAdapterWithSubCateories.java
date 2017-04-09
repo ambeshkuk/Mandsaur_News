@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.mandasur.app.R;
 
+import com.mandasur.app.data.source.dao.Ads;
+import com.mandasur.app.data.source.dao.requestdao.BaseNews;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.news.FiltredNewsListActivity;
 import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
@@ -34,12 +36,13 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
     public interface OnNewsItemSelected{
         public void openNewsItem(String newsId);
         public void onClickOnShareBtn(News news);
+        public void onNewsItemClickListner(Ads ads);
     }
 
 
-    private ArrayList<News> newsArrayList;
+    private ArrayList<BaseNews> newsArrayList;
 
-    public NewsListAdapterWithSubCateories(ArrayList<News> newsArrayList) {
+    public NewsListAdapterWithSubCateories(ArrayList<BaseNews> newsArrayList) {
         this.newsArrayList = newsArrayList;
 
     }
@@ -69,7 +72,7 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
 
     @Override
     public int getItemViewType(int position) {
-        News news=newsArrayList.get(position);
+        BaseNews news=newsArrayList.get(position);
 
         if (news.isAdvertisedNewsBean()){
             return TYPE_ADVERTISEMENT;
@@ -89,7 +92,16 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
         switch (itemType){
             case TYPE_NEWS:
                NewsListViewHolder newsListViewHolder= (NewsListViewHolder) holder;
-                News news=newsArrayList.get(position);
+                News news=null;
+                if ((newsArrayList.get(position) instanceof News)){
+                        news= (News) newsArrayList.get(position);
+                }
+                else {
+                    return;
+                }
+
+
+
 
                 if (news.isSubcategoryStart()){
                     if (!TextUtils.isEmpty(news.getSubCategoryName())&&(!news.getSubCategoryName().equals("news"))){}
@@ -135,8 +147,27 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
                 }
                 break;
             case TYPE_ADVERTISEMENT:
+                Ads ads=null;
+                if ((newsArrayList.get(position) instanceof Ads)){
+                    ads= (Ads) newsArrayList.get(position);
+                }
+                else {
+                    return;
+                }
 
+                AdvertisementViewHolder advertisementViewHolder= (AdvertisementViewHolder) holder;
+                Picasso.with(advertisementViewHolder.adView.getContext()).
+                        load(ads.getAd_image_preview())
+                        .placeholder(R.drawable.no_image_found).into(advertisementViewHolder.adView);
+                advertisementViewHolder.adView.setTag(ads);
+                advertisementViewHolder.adView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        onNewsItemSelected.onNewsItemClickListner((Ads) v.getTag());
+
+                    }
+                });
                 break;
         }
 
