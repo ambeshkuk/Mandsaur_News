@@ -114,14 +114,19 @@ public class CategoriesTable {
 
         while (cursor.moveToNext()){
             Category category=new Category();
-            category.setCategory_indicator(cursor.getString(cursor.
-                    getColumnIndex(Category.CATEGORY_INDICATOR)));
-            category.setCategroyId(categroyid);
-            categroyid++;
-            category.setCategory_icon(cursor.getString(cursor.getColumnIndex(Category.CATEGORY_ICON)));
-            category.setCategory_name(cursor.getString(cursor.getColumnIndex(Category.CATEGORY_NAME)));
-            category.setIsSubCategoryAvailable(cursor.getInt(cursor.getColumnIndex(Category.IS_SUB_CATEGORY_AVAILABLE)));
-            categories.add(category);
+            if (!cursor.getString(cursor.
+                    getColumnIndex(Category.CATEGORY_INDICATOR)).equals("hamara-mandsaur-portal")||!cursor.getString(cursor.
+                    getColumnIndex(Category.CATEGORY_INDICATOR)).equals("business-portal")){
+                category.setCategory_indicator(cursor.getString(cursor.
+                        getColumnIndex(Category.CATEGORY_INDICATOR)));
+                category.setCategroyId(categroyid);
+                categroyid++;
+                category.setCategory_icon(cursor.getString(cursor.getColumnIndex(Category.CATEGORY_ICON)));
+                category.setCategory_name(cursor.getString(cursor.getColumnIndex(Category.CATEGORY_NAME)));
+                category.setIsSubCategoryAvailable(cursor.getInt(cursor.getColumnIndex(Category.IS_SUB_CATEGORY_AVAILABLE)));
+                categories.add(category);
+            }
+
 
         }
 

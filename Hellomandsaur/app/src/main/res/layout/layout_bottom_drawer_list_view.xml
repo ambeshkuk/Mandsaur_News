@@ -43,7 +43,7 @@
         android:id="@+id/advertiseUsTv"
         style="@style/style_row_item"
         android:text="@string/textAdvertiseUs"
-
+        android:visibility="gone"
         />
 
 

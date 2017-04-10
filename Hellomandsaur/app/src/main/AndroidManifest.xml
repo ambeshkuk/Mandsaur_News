@@ -69,7 +69,7 @@
             android:name=".news.AdvertiseDetailActivity"
             android:label="@string/title_activity_advertise_detail"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog"
+            android:theme="@android:style/Theme.Holo.Light.Dialog"
             >
         </activity>
     </application>

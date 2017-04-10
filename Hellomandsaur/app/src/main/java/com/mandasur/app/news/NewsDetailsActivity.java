@@ -102,15 +102,7 @@ public class NewsDetailsActivity extends AppCompatActivity
         String newsId=getIntent().getStringExtra(NEWS_ID);
         ActivityUtil.log(NewsDetailsActivity.class.getSimpleName(),"News Id:"+newsId);
         String categoryName=getIntent().getStringExtra(CATEGORY_NAME);
-        String videoUrl=getIntent().getStringExtra(VIDEO_URL);
-        youTubePlayerSupportFragment= (YouTubePlayerSupportFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.youtubePlayerFragment);
-//        if (!TextUtils.isEmpty(videoUrl)){
-            youTubePlayerSupportFragment.initialize(getString(R.string.google_key),this);
-//        }
-//        else {
-//            getSupportFragmentManager().beginTransaction().hide(youTubePlayerSupportFragment).commit();
-//        }
+
 
 
 
@@ -479,7 +471,14 @@ public class NewsDetailsActivity extends AppCompatActivity
 
     @Override
     public void showErrorMessage(String errorMessage) {
-
+        newsDetailParent.setVisibility(View.VISIBLE);
+        findViewById(R.id.suggestedNewsTv).setVisibility(View.GONE);
+        findViewById(R.id.relatedNewsRv).setVisibility(View.GONE);
+        findViewById(R.id.advertiseUsRv).setVisibility(View.GONE);
+        findViewById(R.id.bookmarkFb).setVisibility(View.GONE);
+        findViewById(R.id.shareFb).setVisibility(View.GONE);
+        findViewById(R.id.bottomBarLv).setVisibility(View.GONE);
+        progressIndicator.setVisibility(View.GONE);
         newsDetailsPart1Tv.setText(errorMessage);
 
     }

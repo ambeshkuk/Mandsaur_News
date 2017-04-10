@@ -12,6 +12,7 @@
 
     <dimen name="metrics_30dp">30dp</dimen>
     <dimen name="metrics_40dp">40dp</dimen>
+    <dimen name="metrics_45dp">45dp</dimen>
     <dimen name="metrics_150dp">150dp</dimen>
     <dimen name="metrics_10dp">10dp</dimen>
     <dimen name="metrics_20dp">20dp</dimen>

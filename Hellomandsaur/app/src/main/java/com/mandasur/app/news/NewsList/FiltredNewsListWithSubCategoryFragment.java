@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
 import com.mandasur.app.news.AdvertiseDetailActivity;
 import com.mandasur.app.news.NewsDetailsActivity;
 import com.mandasur.app.news.NewsListContract;
+import com.mandasur.app.news.NewsVideoActivity;
 import com.mandasur.app.news.adapters.NewsListAdapterWithSubCateories;
 import com.mandasur.app.util.DividerItemDecoration;
 import com.mandasur.app.util.EndlessRecyclerViewScrollListener;
@@ -306,12 +308,21 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
     private NewsListAdapterWithSubCateories.OnNewsItemSelected
             onNewsItemSelected=new NewsListAdapterWithSubCateories.OnNewsItemSelected() {
         @Override
-        public void openNewsItem(String newsId) {
+        public void openNewsItem(News news) {
 
-            Intent intent=new Intent(FiltredNewsListWithSubCategoryFragment.this.getActivity(), NewsDetailsActivity.class);
-            intent.putExtra(NewsDetailsActivity.NEWS_ID,newsId);
-            intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,subCategroyName);
-            startActivity(intent);
+            if (TextUtils.isEmpty(news.getVideo_code())){
+                Intent intent=new Intent(FiltredNewsListWithSubCategoryFragment.this.getActivity(), NewsDetailsActivity.class);
+                intent.putExtra(NewsDetailsActivity.NEWS_ID,news.getId());
+                intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,subCategroyName);
+                startActivity(intent);
+            }
+            else {
+                Intent intent=new Intent(FiltredNewsListWithSubCategoryFragment.this.getActivity(), NewsVideoActivity.class);
+                intent.putExtra(NewsVideoActivity.NEWS_ID,news.getId());
+                intent.putExtra(NewsVideoActivity.VIDEO_URL,news.getVideo_code());
+                intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,subCategroyName);
+                startActivity(intent);
+            }
         }
 
         @Override

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.ContextThemeWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -143,9 +144,9 @@ public final class DialogUtils {
         try {
             AlertDialog.Builder builder = null;
             if (activity.getParent() != null)
-                builder = new AlertDialog.Builder(activity.getParent());
+                builder = new AlertDialog.Builder(activity.getParent(),AlertDialog.THEME_HOLO_LIGHT);
             else
-                builder = new AlertDialog.Builder(activity);
+                builder = new AlertDialog.Builder(activity,AlertDialog.THEME_HOLO_LIGHT);
 
             builder.setCancelable(false);
             builder.setIcon(DIALOG_ICON);

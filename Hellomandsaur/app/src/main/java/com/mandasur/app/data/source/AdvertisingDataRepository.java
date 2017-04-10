@@ -3,6 +3,7 @@ package com.mandasur.app.data.source;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.Html;
+import android.text.TextUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -183,7 +184,7 @@ public class AdvertisingDataRepository {
 
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
 
         return advertiseResponseBean;
@@ -233,11 +234,16 @@ public class AdvertisingDataRepository {
                                             JsonObject adsObject=
                                                     adsElement.getAsJsonObject();
 
-                            ads.setAd_title(adsObject.get("ad_title").getAsString());
-                              ads.setAd_url(adsObject.get("ad_url").getAsString());
+                            ads.setAd_title(!adsObject.has("ad_title")?"":adsObject.get("ad_title").getAsString());
+                            ads.setAd_url(!adsObject.has("ad_url") ? "":adsObject.get("ad_url").getAsString());
 
-                         ads.setAd_image_full(adsObject.get("ad_image_full").getAsString());
-ads.setAd_image_preview(adsObject.get("ad_image_preview").getAsString());
+
+
+
+
+
+                            ads.setAd_image_full(!adsObject.has("ad_image_full")?"":adsObject.get("ad_image_full").getAsString());
+                            ads.setAd_image_preview(!adsObject.has("ad_image_preview")?"":adsObject.get("ad_image_preview").getAsString());
 
 
                                         }
@@ -258,9 +264,9 @@ ads.setAd_image_preview(adsObject.get("ad_image_preview").getAsString());
             if (adses.isEmpty()){
                 advertiseResponseBean.
                         setStatus("0");
-
             }
             else {
+                advertiseResponseBean.setStatus("1");
                 advertiseResponseBean.setAds(adses);
             }
 

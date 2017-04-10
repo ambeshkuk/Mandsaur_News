@@ -2,9 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:padding="@dimen/metrics_10dp"
     android:background="@android:color/transparent"
-    android:layout_height="match_parent">
+    android:layout_height="500dp">
 
 
 
@@ -16,17 +15,20 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         />
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/imagerRl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/background_light"
         >
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/testmajorimage"
-            android:scaleType="centerInside"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/no_image_found"
+            android:scaleType="fitCenter"
             />
         <TextView
             android:layout_gravity="bottom"
@@ -38,9 +40,10 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white"
             android:background="@color/black_medium_opacity"
+
             android:text="smapleText"
             />
-    </RelativeLayout>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/closeIv"

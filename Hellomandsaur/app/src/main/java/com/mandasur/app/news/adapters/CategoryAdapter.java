@@ -73,6 +73,7 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
 
         Category category=categories.get(position);
+
         NewsListFragment newsListFragment=NewsListFragment.
                 newInstance(category.getCategory_indicator(),category.getCategory_name(),category.getIsSubCategoryAvailable());
         newsListFragment.setMainCategory(category.getCategory_name());

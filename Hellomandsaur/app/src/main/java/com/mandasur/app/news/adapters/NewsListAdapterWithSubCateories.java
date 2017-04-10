@@ -18,6 +18,7 @@ import com.mandasur.app.data.source.dao.requestdao.BaseNews;
 import com.mandasur.app.data.source.dao.requestdao.News;
 import com.mandasur.app.news.FiltredNewsListActivity;
 import com.mandasur.app.news.NewsList.FiltredNewsListWithSubCategoryFragment;
+import com.mandasur.app.util.ActivityUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
     private final int TYPE_NEWS=1;
 
     public interface OnNewsItemSelected{
-        public void openNewsItem(String newsId);
+        public void openNewsItem(News newsId);
         public void onClickOnShareBtn(News news);
         public void onNewsItemClickListner(Ads ads);
     }
@@ -125,7 +126,7 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
                 {
                     newsListViewHolder.newsHeader.setVisibility(View.GONE);
                 }
-                newsListViewHolder.newsListBackgroundLl.setTag(news.getId());
+                newsListViewHolder.newsListBackgroundLl.setTag(news);
                 newsListViewHolder.newsListBackgroundLl.setOnClickListener(onClickListener);
                 newsListViewHolder.newsTimeTv.setText(news.getDate());
                 newsListViewHolder.newsTitleTv.setText(news.getTitle());
@@ -148,26 +149,34 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
                 break;
             case TYPE_ADVERTISEMENT:
                 Ads ads=null;
+                ActivityUtil.log(NewsListAdapterWithSubCateories.class.getSimpleName()+" Position>>",position+"");
                 if ((newsArrayList.get(position) instanceof Ads)){
                     ads= (Ads) newsArrayList.get(position);
                 }
                 else {
                     return;
                 }
+                ActivityUtil.log(NewsListAdapterWithSubCateories.class.getSimpleName()+" Ads_Preview_image>>",ads.getAd_image_preview()+"");
 
                 AdvertisementViewHolder advertisementViewHolder= (AdvertisementViewHolder) holder;
-                Picasso.with(advertisementViewHolder.adView.getContext()).
-                        load(ads.getAd_image_preview())
-                        .placeholder(R.drawable.no_image_found).into(advertisementViewHolder.adView);
-                advertisementViewHolder.adView.setTag(ads);
-                advertisementViewHolder.adView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        onNewsItemSelected.onNewsItemClickListner((Ads) v.getTag());
+                if (!TextUtils.isEmpty(ads.getAd_image_preview())) {
+                    {
+                        Picasso.with(advertisementViewHolder.adView.getContext()).
+                                load(ads.getAd_image_preview())
+                                .placeholder(R.drawable.loading_image).into(advertisementViewHolder.adView);
+                        advertisementViewHolder.adView.setTag(ads);
+                        advertisementViewHolder.adView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
+                                onNewsItemSelected.onNewsItemClickListner((Ads) v.getTag());
+
+                            }
+                        });
                     }
-                });
+                }
+
                 break;
         }
 
@@ -180,7 +189,7 @@ private View.OnClickListener onClickListener=new View.OnClickListener() {
     @Override
     public void onClick(View v) {
 
-        String fid= (String) v.getTag();
+        News fid= (News) v.getTag();
         onNewsItemSelected.openNewsItem(fid);
     }
 };

@@ -1,10 +1,12 @@
 package com.mandasur.app.news;
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +38,7 @@ public class AdvertiseDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.layout_advertisement_detail);
+        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -50,24 +53,32 @@ public class AdvertiseDetailActivity extends Activity {
         String ads_url=getIntent().getStringExtra(ADS_URL);
         String ads_full_image=getIntent().getStringExtra(ADS_FULL_IMAGE);
         String ads_title=getIntent().getStringExtra(ADS_TITLE);
-        if (!TextUtils.isEmpty(ads_url)){
-            webView.setVisibility(View.VISIBLE);
-            webView.loadUrl(ads_url);
-            findViewById(R.id.imagerRl).setVisibility(View.GONE);
-
-        }
-        else {
+//        if (!TextUtils.isEmpty(ads_url)&&Patterns.WEB_URL.matcher(ads_url).matches()){
+//            webView.setVisibility(View.VISIBLE);
+//            webView.loadUrl(ads_url);
+//            findViewById(R.id.imagerRl).setVisibility(View.GONE);
+//
+//        }
+//        else {
             webView.setVisibility(View.GONE);
 
             findViewById(R.id.imagerRl).setVisibility(View.VISIBLE);
             ImageView imageView= (ImageView) findViewById(R.id.imageView);
             TextView titleTv= (TextView) findViewById(R.id.titleTv);
             Picasso.with(this).load(ads_full_image)
-                    .placeholder(R.drawable.no_image_found).into(imageView);
+                    .placeholder(R.drawable.loading_image).into(imageView);
             titleTv.setText(ads_title);
-        }
+//        }
+
+        findViewById(R.id.closeIv).setOnClickListener(closeClickListner);
     }
 
+    private View.OnClickListener closeClickListner=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+                finish();
+        }
+    };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

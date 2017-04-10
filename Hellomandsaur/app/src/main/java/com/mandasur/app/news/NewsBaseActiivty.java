@@ -245,7 +245,7 @@ private DrawerAdpater drawerAdpater;
 
         DialogUtils.
                 showConfirmationDialog(this
-                        , "Hello Mandsur App", "क्या आप वाक्य्यी छोड़ना चाहते है"
+                        , "Hello Mandsur App", "क्या आप वाकई छोड़ना चाहते है"
                         , false, -1, "Ok", "Cancel", new DialogResponseInterface() {
                     @Override
                     public void doOnPositiveBtnClick(Activity activity) {

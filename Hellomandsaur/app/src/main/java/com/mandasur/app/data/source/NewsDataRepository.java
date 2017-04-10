@@ -2,6 +2,7 @@ package com.mandasur.app.data.source;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.TextUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -164,7 +165,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
        return newsFromMainCategoryResponse;
     }
 
-    private NewsFromMainCategoryResponse parseJsonAndRerutrnNewsCategoryResponse(String jsonData){
+    private synchronized NewsFromMainCategoryResponse parseJsonAndRerutrnNewsCategoryResponse(String jsonData){
         NewsFromMainCategoryResponse newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
         try {
 
@@ -358,16 +359,22 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                                 if (newsJson.get("image")!=null&&newsJson.get("image").isJsonPrimitive())
                                   news.setImage(newsJson.get("image").getAsString());
 
+                                news.setVideo_code(newsJson.has("video_code")?newsJson.get("video_code").getAsString():"");
                                 newsArrayList.add(news);
 
                                 if (currentIindexOfoverallList!=0&&((currentIindexOfoverallList%2)==0)){
                                     if (mandsaurDataBaseHelper.getAdvertising_table()
                                             .getRowCount(mandsaurDataBaseHelper.getSqLiteDatabase())>0){
+
                                         Ads advertisedNews=mandsaurDataBaseHelper
                                                 .getAdvertising_table().
                                                         getCurrentPriorityAdd(mandsaurDataBaseHelper.getSqLiteDatabase());
-                                        advertisedNews.setIsAdvertisedNewsBean(true);
-                                        newsArrayList.add(advertisedNews);
+                                        if (advertisedNews!=null&&!TextUtils.isEmpty(advertisedNews.getAd_image_preview())){
+                                            advertisedNews.setIsAdvertisedNewsBean(true);
+                                            newsArrayList.add(advertisedNews);
+
+                                        }
+
                                     }
 
 

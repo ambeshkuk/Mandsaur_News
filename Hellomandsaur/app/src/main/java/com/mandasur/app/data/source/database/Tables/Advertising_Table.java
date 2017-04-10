@@ -34,7 +34,7 @@ public class Advertising_Table {
 
 
         String tableCreationQuery = "create table IF NOT EXISTS "
-                + ADVERTISING_TABLE + " (" +CURRENT_INDEX+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"+ Ads.ID
+                + ADVERTISING_TABLE + " (" +CURRENT_INDEX+" INTEGER PRIMARY KEY ,"+ Ads.ID
                 + "  varchar " + " , "+ Ads.AD_IMAGE_FULL + " varchar"
                 +" , "+ Ads.AD_IMAGE_PREVIEW
                 + " varchar"+","+Ads.AD_TITLE+" varchar"+
@@ -54,7 +54,7 @@ public class Advertising_Table {
         sqLiteDatabase.delete(ADVERTISING_TABLE,
                 null,null);
         int adsCount=0;
-
+        currentIndex=1;
         try{
             sqLiteDatabase.beginTransaction();
 
@@ -63,21 +63,23 @@ public class Advertising_Table {
 
 
             String sql = "Insert or Replace into "+ADVERTISING_TABLE
-                    +" ("+Ads.ID
+                    +" ("+CURRENT_INDEX+","+Ads.ID
                     +","+ Ads.AD_URL+","+Ads.AD_TITLE+","+Ads.AD_IMAGE_PREVIEW+
                     ","+Ads.AD_IMAGE_FULL
-                    +") values(?,?,?,?,?)";
+                    +") values(?,?,?,?,?,?)";
 
             SQLiteStatement sqLiteStatement=sqLiteDatabase.compileStatement(sql);
+            int i=1;
             for (Ads ads:adses){
-
-                sqLiteStatement.bindString(1,ads.getId());
-                sqLiteStatement.bindString(2, ads.getAd_url());
-                sqLiteStatement.bindString(3, ads.getAd_title());
-                sqLiteStatement.bindString(4, ads.getAd_image_preview());
-                sqLiteStatement.bindString(5, ads.getAd_image_full());
+                sqLiteStatement.bindLong(1,i);
+                sqLiteStatement.bindString(2,ads.getId());
+                sqLiteStatement.bindString(3, ads.getAd_url());
+                sqLiteStatement.bindString(4, ads.getAd_title());
+                sqLiteStatement.bindString(5, ads.getAd_image_preview());
+                sqLiteStatement.bindString(6, ads.getAd_image_full());
 
                 sqLiteStatement.execute();
+                i++;
                 adsCount++;
 
             }

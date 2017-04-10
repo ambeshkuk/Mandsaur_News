@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -314,12 +315,23 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
     private NewsListAdapterWithSubCateories.OnNewsItemSelected onNewsItemSelected=new
             NewsListAdapterWithSubCateories.OnNewsItemSelected() {
         @Override
-        public void openNewsItem(String newsId) {
+        public void openNewsItem(News news) {
 
-            Intent intent=new Intent(NewsListFragment.this.getActivity(), NewsVideoActivity.class);
-            intent.putExtra(NewsDetailsActivity.NEWS_ID,newsId);
-            intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,categoryName);
-            startActivity(intent);
+
+            if (TextUtils.isEmpty(news.getVideo_code())){
+                Intent intent=new Intent(NewsListFragment.this.getActivity(), NewsDetailsActivity.class);
+                intent.putExtra(NewsDetailsActivity.NEWS_ID,news.getId());
+                intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,categoryName);
+                startActivity(intent);
+            }
+            else {
+                Intent intent=new Intent(NewsListFragment.this.getActivity(), NewsVideoActivity.class);
+                intent.putExtra(NewsVideoActivity.NEWS_ID,news.getId());
+                intent.putExtra(NewsVideoActivity.VIDEO_URL,news.getVideo_code());
+                intent.putExtra(NewsDetailsActivity.CATEGORY_NAME,categoryName);
+                startActivity(intent);
+            }
+
         }
 
         @Override

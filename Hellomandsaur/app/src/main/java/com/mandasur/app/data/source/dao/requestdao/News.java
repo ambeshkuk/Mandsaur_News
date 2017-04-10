@@ -17,12 +17,23 @@ public class News extends BaseNews {
     public static final String DATE="date";
     public static final String ID ="id";
     public static final String SUB_CAT_INDICATOR="sub_cat_indicator";
+    public static final String VIDEO_CODE ="video_code";
+
 
     private String id;
     private String title;
     private String image;
     private String date;
 
+    public String getVideo_code() {
+        return video_code;
+    }
+
+    public void setVideo_code(String video_code) {
+        this.video_code = video_code;
+    }
+
+    private String video_code;
     public String getNewsUrl() {
         return newsUrl;
     }
