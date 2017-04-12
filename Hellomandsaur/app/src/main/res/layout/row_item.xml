@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.mandasur.app.util.MandsaurNewsTextView
+<TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="@dimen/metrics_40dp"
@@ -11,7 +11,7 @@
 
 
 
-            android:background="@drawable/drwaer_layout_list_item"
+            android:background="@drawable/drwaer_layout_list_selector"
         android:id="@+id/categoryNameTv"
 
 

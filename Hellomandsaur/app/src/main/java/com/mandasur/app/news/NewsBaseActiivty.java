@@ -17,13 +17,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
-import com.mandasur.app.aboutus_contact.AboutUsActivity;
+import com.mandasur.app.aboutus_contact.AboutUsAndAdvertiseWithUsActivity;
 import com.mandasur.app.data.source.dao.Category;
 import com.mandasur.app.news.adapters.DrawerAdpater;
 import com.mandasur.app.socailmedia.SocialMediaUtil;
@@ -35,7 +33,6 @@ import com.mandasur.app.util.MandsaurNewsTextView;
 
 import java.util.ArrayList;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
@@ -82,6 +79,12 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         if (baseNewsFragment == null) {
             // Create the fragment
             baseNewsFragment = BaseCategoryFragment.newInstance("", "");
+            categoryTabsAndDrawerPresenter =new CategoryTabsAndDrawerPresenter(Injector.getCategoriesUseCase(this),baseNewsFragment,this);
+
+            ActivityUtil.addFragmentToActivity(R.id.content_frame,
+                    getSupportFragmentManager(), baseNewsFragment, BaseCategoryFragment.class.getSimpleName());
+        }
+        else{
             categoryTabsAndDrawerPresenter =new CategoryTabsAndDrawerPresenter(Injector.getCategoriesUseCase(this),baseNewsFragment,this);
 
             ActivityUtil.addFragmentToActivity(R.id.content_frame,
@@ -207,8 +210,14 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
                     SocialMediaUtil.openYouTubePage(NewsBaseActiivty.this);
                     break;
                 case R.id.aboutUsTv:
-                    Intent aboutUsIntent=new Intent(NewsBaseActiivty.this, AboutUsActivity.class);
+                    Intent aboutUsIntent=new Intent(NewsBaseActiivty.this, AboutUsAndAdvertiseWithUsActivity.class);
+                    aboutUsIntent.putExtra(AboutUsAndAdvertiseWithUsActivity.TYPE_OF_SCREEN,AboutUsAndAdvertiseWithUsActivity.TYPE_ABOUT_US);
                     startActivity(aboutUsIntent);
+                    break;
+                case R.id.advertiseUsTv:
+                    Intent advertiseWithUs=new Intent(NewsBaseActiivty.this, AboutUsAndAdvertiseWithUsActivity.class);
+                    advertiseWithUs.putExtra(AboutUsAndAdvertiseWithUsActivity.TYPE_OF_SCREEN,AboutUsAndAdvertiseWithUsActivity.TYPE_ADVERTISE);
+                    startActivity(advertiseWithUs);
                     break;
             }
         }
@@ -266,6 +275,7 @@ private DrawerAdpater drawerAdpater;
         }
         super.onDestroy();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

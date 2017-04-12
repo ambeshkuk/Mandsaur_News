@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mandasur.app.aboutus_contact.AboutUsActivity">
+    tools:context="com.mandasur.app.aboutus_contact.AboutUsAndAdvertiseWithUsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -37,6 +37,23 @@
         android:textColor="@color/black"
         android:layout_weight="1"
         />
+    <LinearLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="@color/black"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+
+        />
+        </LinearLayout>
     <com.mandasur.app.util.MandsaurNewsTextView
         android:id="@+id/titleNewsTv"
         android:layout_width="match_parent"

@@ -73,7 +73,7 @@
             android:layout_height="match_parent"
             android:dividerHeight="@dimen/metrics_10dp"
             android:divider="@android:color/transparent"
-            android:listSelector="@drawable/drwaer_layout_list_selector"
+            android:listSelector="@color/black"
 
             />
 

@@ -91,7 +91,10 @@ public class BaseCategoryFragment extends Fragment implements DrawerContract.Cat
         newsTl.setOnTabSelectedListener(onTabSelectedListener);
         baseNewsVp= (ViewPager) view.findViewById(R.id.baseNewsVp);
 
-        categoryTabsAndDrawerPresenter.start();
+            categoryTabsAndDrawerPresenter.start();
+
+
+
         baseNewsVp.addOnPageChangeListener(onPageChangeListener);
         return  view;
     }

@@ -54,7 +54,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
         <activity
-            android:name=".aboutus_contact.AboutUsActivity"
+            android:name=".aboutus_contact.AboutUsAndAdvertiseWithUsActivity"
             android:label="@string/title_activity_about_us" >
         </activity>
         <activity

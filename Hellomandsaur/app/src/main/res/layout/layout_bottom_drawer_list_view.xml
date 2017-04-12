@@ -30,6 +30,7 @@
     <com.mandasur.app.util.MandsaurNewsTextView
         android:id="@+id/contactUsTv"
         style="@style/style_row_item"
+        android:visibility="gone"
         android:text="@string/textContactUs"
 
         />
@@ -43,7 +44,6 @@
         android:id="@+id/advertiseUsTv"
         style="@style/style_row_item"
         android:text="@string/textAdvertiseUs"
-        android:visibility="gone"
         />
 
 

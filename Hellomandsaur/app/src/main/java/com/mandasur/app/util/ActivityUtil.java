@@ -25,6 +25,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 
 
 /**
@@ -52,6 +54,13 @@ public class ActivityUtil {
         transaction.commit();
     }
 
+//    private static int getScale(Context context){
+//        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//        int width = display.getWidth();
+//        Double val = new Double(width)/new Double(PIC_WIDTH);
+//        val = val * 100d;
+//        return val.intValue();
+//    }
     public static Typeface getFontAwesomeTypeFace(Context context){
 
 

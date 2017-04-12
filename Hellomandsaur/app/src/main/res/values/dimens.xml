@@ -25,7 +25,7 @@
 
     <dimen name="metrics_100dp">100dp</dimen>
     <dimen name="metrics_140dp">140dp</dimen>
-
+    <dimen name="metrics_2dp">2dp</dimen>
 
 
 
