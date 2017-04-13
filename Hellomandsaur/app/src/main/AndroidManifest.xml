@@ -72,6 +72,9 @@
             android:theme="@android:style/Theme.Holo.Light.Dialog"
             >
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="7b37d4de508be17fafde8764b809fa03fcc8f500" />
     </application>
 
 </manifest>

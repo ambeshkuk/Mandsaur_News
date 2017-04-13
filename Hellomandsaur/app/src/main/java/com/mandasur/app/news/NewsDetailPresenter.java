@@ -44,7 +44,7 @@ public class NewsDetailPresenter implements NewsDetailContract.NewsDetailsPresen
 
         NewsDetailFromIdRequest newsDetailFromIdRequest=new NewsDetailFromIdRequest();
         newsDetailFromIdRequest.put(NewsDetailFromIdRequest.NEWS_ID,newsId);
-        newsDetailFromIdRequest.put(NewsDetailFromIdRequest.NEWS_TYPE,NEWS);
+
         newsDetailFromIdRequest.put(NewsDetailFromIdRequest.REQUEST_URL
                 , newsDetailsActivity.getString(R.string.baseUrl)
                 + newsDetailsActivity.getString(R.string.newsDetails));

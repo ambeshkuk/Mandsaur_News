@@ -5,6 +5,5 @@ package com.mandasur.app.data.source.dao.requestdao;
  */
 public class NewsDetailFromIdRequest extends Request {
 
-    public static final String NEWS_ID="newsID";
-    public static final String NEWS_TYPE="newstype";
+    public static final String NEWS_ID="id";
 }

@@ -46,31 +46,38 @@ public class AboutUsAndAdvertiseWithUsActivity extends ActionBarActivity impleme
         aboutUsTv.getSettings().setUseWideViewPort(true);
 
 
+        aboutUsTv.getSettings().setJavaScriptEnabled(true);
 
 
         aboutUsTv.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 findViewById(R.id.parent).setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
 
-                aboutUsTv.setVisibility(View.GONE);
+                view.setVisibility(View.GONE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
                 findViewById(R.id.parent).setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
-                aboutUsTv.setVisibility(View.VISIBLE);
+                view.setVisibility(View.VISIBLE);
+                super.onPageFinished(view, url);
+
             }
         });
         if(getIntent().getStringExtra(TYPE_OF_SCREEN).equals(TYPE_ABOUT_US)){
-            aboutUsTv.loadUrl("https://hellomandsaur.com/about-us/");
+            aboutUsTv.loadUrl("http://hellomandsaur.com/about-us/");
         }
         else{
-            aboutUsTv.loadUrl("https://hellomandsaur.com/advertise-with-us/");
+            aboutUsTv.loadUrl("http://hellomandsaur.com/advertise-with-us/");
         }
 
 

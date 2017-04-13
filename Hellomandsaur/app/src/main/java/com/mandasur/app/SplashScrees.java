@@ -47,6 +47,7 @@ public class SplashScrees extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_splash_screen);
+
         categoryDataRepository=Injector.getCategoryDataReporsitory(SplashScrees.this);
         progressBar= (ProgressBar) findViewById(R.id.progressBar);
         informationSplash= (TextView) findViewById(R.id.informationSplash);
@@ -157,10 +158,18 @@ public class SplashScrees extends Activity {
 
 
             }
+//            throwException();
           return categoryResponseBean[0];
 
         }
 
+
+
+
+
+        private void throwException(){
+            throw new RuntimeException();
+        }
         @Override
         protected void onPostExecute(CategoryResponseBean categoryResponseBean) {
             super.onPostExecute(categoryResponseBean);

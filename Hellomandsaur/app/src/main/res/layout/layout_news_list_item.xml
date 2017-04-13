@@ -98,7 +98,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="@dimen/metrics_20dp"
+            android:layout_marginBottom="@dimen/metrics_30dp"
 
 
             />
