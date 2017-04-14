@@ -38,6 +38,7 @@ import com.mandasur.app.news.adapters.AdvertiseWithUsAdapter;
 import com.mandasur.app.news.adapters.RelatedNewsAdapter;
 import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.MandsaurNewsTextView;
+import com.mandasur.app.util.WrapContentLinearLayoutManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -100,25 +101,16 @@ public class NewsDetailsActivity extends AppCompatActivity
         collapsingToolbarLayout= (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         intialiseAdsOnScreen();
         String newsId=getIntent().getStringExtra(NEWS_ID);
-        ActivityUtil.log(NewsDetailsActivity.class.getSimpleName(),"News Id:"+newsId);
+        ActivityUtil.log(NewsDetailsActivity.class.getSimpleName(), "News Id:" + newsId);
         String categoryName=getIntent().getStringExtra(CATEGORY_NAME);
 
 
 
 
-        supportPostponeEnterTransition();
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                onBackPressed();
-            }
-        });
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
@@ -386,13 +378,14 @@ public class NewsDetailsActivity extends AppCompatActivity
 
                     relatedNewsRv.
                             setLayoutManager(new
-                                    LinearLayoutManager(NewsDetailsActivity.this
+                                    WrapContentLinearLayoutManager(NewsDetailsActivity.this
                                     , LinearLayoutManager.HORIZONTAL, false));
                     relatedNewsAdapter.setOnNewsItemSelected(onNewsItemSelected);
                     relatedNewsRv.setAdapter(relatedNewsAdapter);
                 }
                 else {
                     relatedNewsRv.setVisibility(View.GONE);
+                    findViewById(R.id.suggestedNewsTv).setVisibility(View.GONE);
                 }
 
 
@@ -400,7 +393,7 @@ public class NewsDetailsActivity extends AppCompatActivity
                 AdvertiseWithUsAdapter advertiseWithUsAdapter=new AdvertiseWithUsAdapter(new ArrayList<News>());
 
                 advertiseUsRv.setLayoutManager(new
-                        LinearLayoutManager(NewsDetailsActivity.this
+                        WrapContentLinearLayoutManager(NewsDetailsActivity.this
                         , LinearLayoutManager.HORIZONTAL, false));
                 advertiseUsRv.setAdapter(advertiseWithUsAdapter);
                 if (!newsDetails.isEmpty()){
@@ -417,11 +410,10 @@ public class NewsDetailsActivity extends AppCompatActivity
                         bookmarkFb.setTag(false);
                         bookmarkFb.setImageResource(R.drawable.icn_read_later);
                     }
-//                    if (!TextUtils.isEmpty(newsDetails.get(0).getImage1())){
 
-                        Picasso.with(this).load(newsDetails.get(0).getImage1()).placeholder(R.drawable.logo).into(image1);
-//                    }
-                    Picasso.with(this).load(newsDetails.get(0).getImage2()).placeholder(R.drawable.logo).into(image2);
+
+                        Picasso.with(this).load(newsDetails.get(0).getImage()).placeholder(R.drawable.logo).into(image1);
+
 
                         if (!TextUtils.isEmpty(newsDetails.get(0).getTitle())){
                             titleNewsTv.setText(newsDetails.get(0).getTitle());
@@ -430,14 +422,10 @@ public class NewsDetailsActivity extends AppCompatActivity
                         dateTv.setText(newsDetails.get(0).getDate());
                     }
                     if (!TextUtils.isEmpty(newsDetails.get(0).getDescr())){
-                        newsDetailsPart1Tv.setText(newsDetails.get(0).getDescr());
+                        newsDetailsPart1Tv.setText(Html.fromHtml(newsDetails.get(0).getDescr()));
                     }
 
-                    if (!TextUtils.isEmpty(newsDetails.get(0).getDescr2())){
 
-                        Picasso.with(this).load(newsDetails.get(0).getImage2()).placeholder(R.drawable.logo).into(image2);
-                        newsDetailsPart2Tv.setText(newsDetails.get(0).getDescr2());
-                    }
                 }
             }
 

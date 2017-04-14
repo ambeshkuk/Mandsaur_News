@@ -95,7 +95,7 @@ public class CategoriesDataSource  {
 
 
     public ArrayList<Category> getAllCategroiesFromDb(){
-            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getInstance(context);
       return   mandsaurDataBaseHelper.getCategoriesTable().getCategoriesFromDb(mandsaurDataBaseHelper.getSqLiteDatabase(),context);
     }
 

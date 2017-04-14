@@ -40,6 +40,7 @@ import com.mandasur.app.news.adapters.AdvertiseWithUsAdapter;
 import com.mandasur.app.news.adapters.RelatedNewsAdapter;
 import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.MandsaurNewsTextView;
+import com.mandasur.app.util.WrapContentLinearLayoutManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -108,15 +109,10 @@ public class NewsVideoActivity extends AppCompatActivity
         findViewById(R.id.filtericonIv).setVisibility(View.GONE);
         MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView)findViewById(R.id.homeAsUpIcon);
         newsDetailParent= (LinearLayout) findViewById(R.id.newsDetailParent);
-        Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
-        TextView titleTv= (TextView) findViewById(R.id.titleTv);
-
-        titleTv.setText(categoryName);
-
+        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        homeAsUpIcon.setText(getString(R.string.textArrowIcon));
-        homeAsUpIcon.setOnClickListener(onClickListener);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         youTubePlayerSupportFragment= (YouTubePlayerSupportFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.youtubePlayerFragment);
 //        if (!TextUtils.isEmpty(videoUrl)){
@@ -395,12 +391,13 @@ public class NewsVideoActivity extends AppCompatActivity
 
                     relatedNewsRv.
                             setLayoutManager(new
-                                    LinearLayoutManager(NewsVideoActivity.this
+                                    WrapContentLinearLayoutManager(NewsVideoActivity.this
                                     , LinearLayoutManager.HORIZONTAL, false));
                     relatedNewsAdapter.setOnNewsItemSelected(onNewsItemSelected);
                     relatedNewsRv.setAdapter(relatedNewsAdapter);
                 }
                 else {
+                    findViewById(R.id.suggestedNewsTv).setVisibility(View.GONE);
                     relatedNewsRv.setVisibility(View.GONE);
                 }
 
@@ -409,7 +406,7 @@ public class NewsVideoActivity extends AppCompatActivity
                 AdvertiseWithUsAdapter advertiseWithUsAdapter=new AdvertiseWithUsAdapter(new ArrayList<News>());
 
                 advertiseUsRv.setLayoutManager(new
-                        LinearLayoutManager(NewsVideoActivity.this
+                        WrapContentLinearLayoutManager(NewsVideoActivity.this
                         , LinearLayoutManager.HORIZONTAL, false));
                 advertiseUsRv.setAdapter(advertiseWithUsAdapter);
                 if (!newsDetails.isEmpty()){
@@ -428,7 +425,7 @@ public class NewsVideoActivity extends AppCompatActivity
                     }
 //                    if (!TextUtils.isEmpty(newsDetails.get(0).getImage1())){
 
-                    Picasso.with(this).load(newsDetails.get(0).getImage1()).placeholder(R.drawable.logo).into(image2);
+                       Picasso.with(this).load(newsDetails.get(0).getImage()).placeholder(R.drawable.logo).into(image2);
 //                    }
 
                     if (!TextUtils.isEmpty(newsDetails.get(0).getTitle())){
@@ -438,14 +435,10 @@ public class NewsVideoActivity extends AppCompatActivity
                         dateTv.setText(newsDetails.get(0).getDate());
                     }
                     if (!TextUtils.isEmpty(newsDetails.get(0).getDescr())){
-                        newsDetailsPart1Tv.setText(newsDetails.get(0).getDescr());
+                        newsDetailsPart1Tv.setText(Html.fromHtml(newsDetails.get(0).getDescr()));
                     }
 
-                    if (!TextUtils.isEmpty(newsDetails.get(0).getDescr2())){
 
-                        Picasso.with(this).load(newsDetails.get(0).getImage2()).placeholder(R.drawable.logo).into(image2);
-                        newsDetailsPart2Tv.setText(newsDetails.get(0).getDescr2());
-                    }
                 }
             }
 

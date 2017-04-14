@@ -118,7 +118,12 @@ public class AboutUsAndAdvertiseWithUsActivity extends ActionBarActivity impleme
             }
         });
         TextView titleTv= (TextView) findViewById(R.id.titleTv);
-        titleTv.setText(getString(R.string.textAboutus));
+        if(getIntent().getStringExtra(TYPE_OF_SCREEN).equals(TYPE_ABOUT_US)){
+            titleTv.setText(getString(R.string.textAboutUs));
+        }
+        else{
+            titleTv.setText(getString(R.string.textAdvertiseUs));
+        }
         findViewById(R.id.filtericonIv).setVisibility(View.GONE);
         aboutUsPresenter=  new AboutUsPresenter(Injector.getAboutUsContent(this),this);
 

@@ -166,6 +166,7 @@
                 android:scaleType="centerCrop"
                 android:layout_marginTop="@dimen/metrics_1dp"
                 android:background="@color/white"
+                android:visibility="gone"
                 />
             <TextView
                 android:id="@+id/newsDetailsPart2Tv"
@@ -177,7 +178,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black"
                 android:gravity="left"
-
+                android:visibility="gone"
                 fontPath="fonts/Roboto-Light.ttf"
                 />
             <com.google.android.gms.ads.doubleclick.PublisherAdView

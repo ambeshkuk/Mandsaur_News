@@ -9,13 +9,13 @@ public static final String FID="id";
     public static final String DESCR="descr";
     public static final String DESCR2="descr2";
 
-    public static final String IMAGE1="image1";
-    public static final String IMAGE2="image2";
+    public static final String IMAGE="image";
+
     public static final String PLACE="place";
     public static final String DATE="date";
 
     private String id,title,descr
-            ,descr2,image1,image2,place,date;
+            ,descr2,place,date;
 
     public String getNewsurl() {
         return newsurl;
@@ -58,9 +58,6 @@ public static final String FID="id";
         this.descr2 = descr2;
     }
 
-    public String getImage1() {
-        return image1;
-    }
 
     public String getImage() {
         return image;
@@ -72,17 +69,9 @@ public static final String FID="id";
 
     private String image;
 
-    public void setImage1(String image1) {
-        this.image1 = image1;
-    }
 
-    public String getImage2() {
-        return image2;
-    }
 
-    public void setImage2(String image2) {
-        this.image2 = image2;
-    }
+
 
     public String getPlace() {
         return place;

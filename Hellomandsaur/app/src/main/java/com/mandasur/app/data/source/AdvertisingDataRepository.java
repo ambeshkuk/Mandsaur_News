@@ -135,7 +135,11 @@ public class AdvertisingDataRepository {
 
                     advertiseResponseBean=
                             parseJsonAndRerutrnAdvertiseResponse(responseBody);
-                    MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+
+
+
+
+                    MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getInstance(context);
                     if (advertiseResponseBean.isSuccessful()){
 
                         mandsaurDataBaseHelper.
@@ -199,8 +203,7 @@ public class AdvertisingDataRepository {
         public AdvertiseResponseBean deserialize(JsonElement json, Type typeOfT
                 , JsonDeserializationContext context) throws JsonParseException {
             AdvertiseResponseBean advertiseResponseBean=new AdvertiseResponseBean();
-            MandsaurDataBaseHelper mandsaurDataBaseHelper
-                    =databaseNewsDataSource.getMandsaurDataBaseHelper();
+
             ArrayList<Ads> adses=new ArrayList<>();
             JsonObject jsonObject=json.getAsJsonObject();
             if (jsonObject!=null&&jsonObject.isJsonObject()){

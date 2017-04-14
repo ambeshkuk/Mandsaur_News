@@ -38,6 +38,7 @@ import com.mandasur.app.news.adapters.NewsListAdapterWithSubCateories;
 import com.mandasur.app.util.DividerItemDecoration;
 import com.mandasur.app.util.EndlessRecyclerViewScrollListener;
 import com.mandasur.app.util.MandsaurAppSharedPref;
+import com.mandasur.app.util.WrapContentLinearLayoutManager;
 
 import java.util.ArrayList;
 
@@ -246,8 +247,8 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
 
 
             newsListAdapterWithSubCateories.setOnNewsItemSelected(onNewsItemSelected);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getActivity()));
+            WrapContentLinearLayoutManager linearLayoutManager=new WrapContentLinearLayoutManager(getActivity());
 
             endlessRecyclerViewScrollListener=new EndlessRecyclerViewScrollListener(linearLayoutManager) {
                 @Override

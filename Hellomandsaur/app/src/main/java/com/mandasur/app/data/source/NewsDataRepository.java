@@ -56,11 +56,13 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
     private ErrorMessageHandler errorHandler;
     private Context context;
+    private static MandsaurDataBaseHelper mandsaurDataBaseHelper;
     public NewsDataRepository(RemoteNewsDataSource remoteNewsDataSource
             ,DatabaseNewsDataSource databaseNewsDataSource,Context context){
 
         this.remoteNewsDataSource=remoteNewsDataSource;
         this.databaseNewsDataSource=databaseNewsDataSource;
+        this.mandsaurDataBaseHelper=databaseNewsDataSource.getInstance(context);
 
 
 
@@ -80,7 +82,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
 
         if (request.get(NewsDetailFromIdRequest.REQUEST_URL).equals(context.getString(R.string.bookMarkedNews))){
-            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getInstance(context);
 
             if (mandsaurDataBaseHelper.getSavedNewsTable().isSavedNewsEmpty(mandsaurDataBaseHelper.getSqLiteDatabase())){
             newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
@@ -107,7 +109,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
         if (request.get(NewsFromMainCategoryRequest.IS_NETWORK_AVALIBLE).equals(NewsFromMainCategoryRequest.FALSE)){
             newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
-            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getInstance(context);
             String mainCategory=request.get(NewsFromMainCategoryRequest.MAIN_CAT);
             if (!mandsaurDataBaseHelper.getCachedNewsTable()
                     .isNewsTableEmpty(mandsaurDataBaseHelper.getSqLiteDatabase()
@@ -140,7 +142,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
                     ActivityUtil.log(NewsDataRepository.class.getSimpleName(),"API Reponse>>"+responseBody);
                     newsFromMainCategoryResponse=
                             parseJsonAndRerutrnNewsCategoryResponse(responseBody);
-                    MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+                    MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getInstance(context);
                     if (newsFromMainCategoryResponse.isSuccessful()){
                         String mainCategory=request.get(NewsFromMainCategoryRequest.MAIN_CAT);
                         mandsaurDataBaseHelper.getCachedNewsTable().
@@ -218,7 +220,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
     public NewsDetailsFromResponse getNewsDetailsFromId(NewsDetailFromIdRequest request) {
         NewsDetailsFromResponse newsDetailsFromResponse=new NewsDetailsFromResponse();
 
-        MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+        MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getInstance(context);
 
         if (mandsaurDataBaseHelper.getSavedNewsTable().isNewsAlreadySaved(mandsaurDataBaseHelper.getSqLiteDatabase(),request.get(NewsDetailFromIdRequest.NEWS_ID))){
 
@@ -300,7 +302,7 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
         @Override
         public NewsFromMainCategoryResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             NewsFromMainCategoryResponse newsFromMainCategoryResponse=new NewsFromMainCategoryResponse();
-            MandsaurDataBaseHelper mandsaurDataBaseHelper=databaseNewsDataSource.getMandsaurDataBaseHelper();
+
             JsonObject jsonObject=json.getAsJsonObject();
 
             Data data=new Data();

@@ -116,6 +116,7 @@ public class NewsListPresenter implements NewsListContract.NewsListPresenter {
                    .getSubCategoriesTable().
                            getStringArrayIfSelectedSubCategory(DatabaseNewsDataSource.getInstance(newsListFragment.getContext())
                                    .getSqLiteDatabase(),categroyName));
+           newsFromMainCategoryRequest.put(NewsFromMainCategoryRequest.PAGE_NO,pageNumber+"");
        }
 
 
