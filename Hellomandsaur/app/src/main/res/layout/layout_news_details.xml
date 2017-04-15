@@ -209,7 +209,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ads:adSize="SMART_BANNER"
-                ads:adUnitId="@string/addIdHomeScreen">
+                ads:adUnitId="@string/addIdNewsDetail">
             </com.google.android.gms.ads.doubleclick.PublisherAdView>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/relatedNewsRv"
@@ -225,7 +225,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ads:adSize="SMART_BANNER"
-                ads:adUnitId="@string/addIdHomeScreen">
+                ads:adUnitId="@string/addIdNewsDetail">
             </com.google.android.gms.ads.doubleclick.PublisherAdView>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/advertiseUsRv"

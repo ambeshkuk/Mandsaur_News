@@ -19,11 +19,11 @@ public class MandsaurAppSharedPref {
 
     private static String CATEGORY_INDICATOR="category_indicator";
     public static void setCategoryName(Context context,String categroyName){
-        SharedPreferences sharedPreferences=context.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putString(CATEGORY_NAME,categroyName);
-        editor.commit();
+//        SharedPreferences sharedPreferences=context.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+//
+//        SharedPreferences.Editor editor=sharedPreferences.edit();
+//        editor.putString(CATEGORY_NAME,categroyName);
+//        editor.commit();
 
     }
 

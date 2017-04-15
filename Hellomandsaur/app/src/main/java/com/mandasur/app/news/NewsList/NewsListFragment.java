@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mandasur.app.BaseView;
+import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Ads;
 import com.mandasur.app.data.source.dao.Category;
@@ -133,6 +134,13 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         swipeToRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.swipeToRefreshLayout);
         swipeToRefreshLayout.setOnRefreshListener(onRefreshListener);
         loadMoreProgress= (ProgressBar) view.findViewById(R.id.loadMoreProgress);
+        if (newsListPresenter==null){
+            new NewsListPresenter
+                    (Injector.getNewsListByCategory(getActivity())
+                            ,Injector.getShareNewsDetailsUseCase(getActivity()),
+                            this,mainCategory);
+
+        }
         newsListPresenter.start();
 
 
@@ -155,9 +163,10 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
-            MandsaurAppSharedPref.setCategoryName(getActivity(),mainCategory);
+            MandsaurAppSharedPref.setCategoryName(getContext(),mainCategory);
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -174,6 +183,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         @Override
         public void onRefresh() {
             toRefreshCompleteList=true;
+            endlessRecyclerViewScrollListener.resetState();
             newsListPresenter.fetchNewsFromServerBasedOnFiltre("");
 
         }
@@ -227,43 +237,58 @@ public class NewsListFragment extends Fragment implements NewsListContract.NewsL
         if (newsFromMainCategoryResponse!=null&&newsFromMainCategoryResponse.getData()!=null){
             networkNotAvalibleTv.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
+            loadMoreProgress.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             swipeToRefreshLayout.setVisibility(View.VISIBLE);
 
 
             if (newsListAdapterWithSubCateories!=null){
 
-                newsArrayList.clear();
+
+
+
+
+                int lastSelectedPosition=0;
+                if (!toLoadMoreNews){
+                    newsArrayList.clear();
+
+                }
+                else{
+                    toLoadMoreNews=false;
+                    lastSelectedPosition=newsListAdapterWithSubCateories.getItemCount();
+                }
+
                 newsArrayList.addAll(newsFromMainCategoryResponse.getData().getNewsList());
-                newsListAdapterWithSubCateories.notifyDataSetChanged();
+                newsListAdapterWithSubCateories.notifyItemRangeInserted(lastSelectedPosition, newsArrayList.size()-1);
                 swipeToRefreshLayout.setRefreshing(false);
             }
             else {
                 newsArrayList=newsFromMainCategoryResponse.getData().getNewsList();
                 newsListAdapterWithSubCateories =
                 new NewsListAdapterWithSubCateories(newsArrayList);
-            }
 
+                newsListAdapterWithSubCateories.setOnNewsItemSelected(onNewsItemSelected);
+                WrapContentLinearLayoutManager linearLayoutManager=new WrapContentLinearLayoutManager(getActivity());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                endlessRecyclerViewScrollListener=new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        toLoadMoreNews=true;
+                        newsListPresenter.setPageNumber(page);
+                        newsListPresenter.fetchNewsFromServerBasedOnFiltre("");
+                    }
+                };
 
-
-            newsListAdapterWithSubCateories.setOnNewsItemSelected(onNewsItemSelected);
-            recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getActivity()));
-            WrapContentLinearLayoutManager linearLayoutManager=new WrapContentLinearLayoutManager(getActivity());
-
-            endlessRecyclerViewScrollListener=new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                    toLoadMoreNews=true;
-                    newsListPresenter.setPageNumber(page);
-                    newsListPresenter.fetchNewsFromServerBasedOnFiltre("");
+                if (subCatAvalaible==Category.SUBCATEGORY_UN_AVAIALBLE){
+                    recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
                 }
-            };
 
-            if (subCatAvalaible== Category.SUBCATEGORY_UN_AVAIALBLE){
-                recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
+                recyclerView.setAdapter(newsListAdapterWithSubCateories);
             }
 
-            recyclerView.setAdapter(newsListAdapterWithSubCateories);
+
+
+
 
         }
         else {

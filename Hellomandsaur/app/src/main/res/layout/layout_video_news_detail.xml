@@ -45,7 +45,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             >
-        <android.support.v4.widget.NestedScrollView
+        <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -144,7 +144,7 @@
                     android:layout_alignParentBottom="true"
                     ads:adSize="LARGE_BANNER"
                     android:layout_gravity="center_horizontal"
-                    ads:adUnitId="@string/addIdHomeScreen">
+                    ads:adUnitId="@string/addIdNewsDetail">
                 </com.google.android.gms.ads.doubleclick.PublisherAdView>
                 <TextView
                     android:id="@+id/suggestedNewsTv"
@@ -165,7 +165,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     ads:adSize="SMART_BANNER"
-                    ads:adUnitId="@string/addIdHomeScreen">
+                    ads:adUnitId="@string/addIdNewsDetail">
                 </com.google.android.gms.ads.doubleclick.PublisherAdView>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/relatedNewsRv"
@@ -196,7 +196,7 @@
 
 
 
-        </android.support.v4.widget.NestedScrollView>
+        </ScrollView>
 
             <LinearLayout
                 android:orientation="vertical"

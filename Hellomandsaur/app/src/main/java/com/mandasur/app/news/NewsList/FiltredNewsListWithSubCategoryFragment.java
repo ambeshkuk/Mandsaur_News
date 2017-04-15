@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.data.source.dao.Ads;
 import com.mandasur.app.data.source.dao.requestdao.BaseNews;
@@ -27,6 +28,7 @@ import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
 import com.mandasur.app.news.AdvertiseDetailActivity;
 import com.mandasur.app.news.NewsDetailsActivity;
 import com.mandasur.app.news.NewsListContract;
+import com.mandasur.app.news.NewsListPresenter;
 import com.mandasur.app.news.NewsVideoActivity;
 import com.mandasur.app.news.adapters.NewsListAdapterWithSubCateories;
 import com.mandasur.app.util.DividerItemDecoration;
@@ -126,6 +128,12 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
         subCategroyName=mandsaurDataBaseHelper.getSubCategoriesTable().
                 getSubCategoryNameFromSubCategroyIndicator(mandsaurDataBaseHelper
                         .getSqLiteDatabase(),subCategory);
+        if (newsListPresenter==null){
+            new NewsListPresenter
+                    (Injector.getNewsListByCategory(getActivity())
+                            ,Injector.getShareNewsDetailsUseCase(getActivity()),
+                            this,subCategory);
+        }
         newsListPresenter.fetchNewsFromServerBasedOnFiltre(subCategory);
 
         return view;
@@ -239,6 +247,7 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
                 WrapContentLinearLayoutManager linearLayoutManager=new WrapContentLinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(linearLayoutManager);
                 recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider_item_shape));
+
                 endlessRecyclerViewScrollListener=new EndlessRecyclerViewScrollListener(linearLayoutManager) {
                     @Override
                     public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -247,7 +256,15 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
                         newsListPresenter.fetchNewsFromServerBasedOnFiltre(subCategory);
                     }
                 };
-                recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
+
+
+
+
+
+                if (!(newsArrayList.size()<=endlessRecyclerViewScrollListener.visibleThreshold)){
+                    recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
+                }
+
                 recyclerView.setAdapter(newsListAdapterWithSubCateories);
 
             }

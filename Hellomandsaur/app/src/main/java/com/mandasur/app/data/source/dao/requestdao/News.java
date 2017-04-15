@@ -24,6 +24,7 @@ public class News extends BaseNews {
     private String title;
     private String image;
     private String date;
+    private String views;
 
     public String getVideo_code() {
         return video_code;
@@ -110,6 +111,12 @@ public class News extends BaseNews {
     }
 
 
+    public String getViews() {
+        return views;
+    }
 
+    public void setViews(String views) {
+        this.views = views;
+    }
 }
 

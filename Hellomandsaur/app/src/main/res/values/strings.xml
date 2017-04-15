@@ -19,7 +19,7 @@
         <string name="newsSingleSubCat">news_singleSubcat.php</string>
         <string name="bookMarkedNews">bookmarked</string>
         <string name="advertiseingList">Adsapi.php</string>
-
+        <string name="pushNotificationAPI">pushNotify.php</string>
         <string name="db_name">mandsaurappdb</string>chr
         <integer name="db_version">1</integer>
         <string name="hello_world">Hello </string>

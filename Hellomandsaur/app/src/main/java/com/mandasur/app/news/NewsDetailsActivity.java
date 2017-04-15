@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,8 +51,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class NewsDetailsActivity extends AppCompatActivity
         implements
-        NewsDetailContract.NewsDetailView ,
-        AppBarLayout.OnOffsetChangedListener,YouTubePlayer.OnInitializedListener{
+        NewsDetailContract.NewsDetailView
+        ,YouTubePlayer.OnInitializedListener{
 
     public static final String NEWS_ID="newsId";
     public static final String CATEGORY_NAME="category_name";
@@ -195,6 +196,9 @@ public class NewsDetailsActivity extends AppCompatActivity
     protected void onPause() {
         if (mAdView != null) {
             mAdView.pause();
+            rectrangleAdsView.pause();
+            topAdView.pause();
+            bottonAdView.pause();
         }
         super.onPause();
     }
@@ -216,6 +220,12 @@ public class NewsDetailsActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
         return super.onOptionsItemSelected(item);
 
     }
@@ -242,6 +252,9 @@ public class NewsDetailsActivity extends AppCompatActivity
         super.onResume();
         if (mAdView != null) {
             mAdView.resume();
+            rectrangleAdsView.resume();
+            topAdView.resume();
+            bottonAdView.resume();
         }
         detailViewTextSize=newsDetailsPart1Tv.getTextSize();
 
@@ -477,18 +490,7 @@ public class NewsDetailsActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
 
-        if (i==0){
-
-
-
-            homeAsUpIcon.setTextColor(getResources().getColor(R.color.white));
-            titleTv.setTextColor(getResources().getColor(R.color.white));
-        }
-
-    }
 
     private YouTubePlayer youTubePlayer;
     private static final int RQS_ErrorDialog = 1;

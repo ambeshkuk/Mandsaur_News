@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,9 @@ public class AboutUsAndAdvertiseWithUsActivity extends ActionBarActivity impleme
     public static final String TYPE_OF_SCREEN="type_of_screen";
     public static final String TYPE_ADVERTISE="Advertise";
     public static final String TYPE_ABOUT_US="AboutUs";
+    public static final String TYPE_HUMARA_MANDSAUR="HumaraMandsaur";
+    public static final String TYPE_BUISNESS="Buisness";
+
     private AboutUsPresenter aboutUsPresenter;
     private MandsaurNewsTextView homeAsUpIcon;
     private WebView aboutUsTv;
@@ -48,6 +52,31 @@ public class AboutUsAndAdvertiseWithUsActivity extends ActionBarActivity impleme
 
         aboutUsTv.getSettings().setJavaScriptEnabled(true);
 
+        titleNewsTv= (TextView) findViewById(R.id.titleNewsTv);
+        emailTv= (TextView) findViewById(R.id.emailTv);
+        emailTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent();
+                emailIntent.setData(Uri.parse("mailto:"));
+                emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@hellomandsaur.com"});
+
+
+                startActivity(Intent.createChooser(emailIntent, "Send Email"));
+            }
+        });
+        titleNewsTv.
+                setText(getString(R.string.textContactUs) + ":" +
+                        getString(R.string.brijeshNo));
+        titleNewsTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + getString(R.string.brijeshNo)));
+                startActivity(intent);
+            }
+        });
 
         aboutUsTv.setWebViewClient(new WebViewClient(){
             @Override
@@ -76,38 +105,25 @@ public class AboutUsAndAdvertiseWithUsActivity extends ActionBarActivity impleme
         if(getIntent().getStringExtra(TYPE_OF_SCREEN).equals(TYPE_ABOUT_US)){
             aboutUsTv.loadUrl("http://hellomandsaur.com/about-us/");
         }
-        else{
+        else if (getIntent().getStringExtra(TYPE_OF_SCREEN).equals(TYPE_ADVERTISE)){
             aboutUsTv.loadUrl("http://hellomandsaur.com/advertise-with-us/");
+        }
+        else if (getIntent().getStringExtra(TYPE_OF_SCREEN).equals(TYPE_HUMARA_MANDSAUR)){
+            aboutUsTv.loadUrl("http://hellomandsaur.com/city/");
+            titleNewsTv.setVisibility(View.GONE);
+            emailTv.setVisibility(View.GONE);
+
+        }
+        else{
+            aboutUsTv.loadUrl("http://hellomandsaur.com/business/");
+            titleNewsTv.setVisibility(View.GONE);
+            emailTv.setVisibility(View.GONE);
         }
 
 
 
 //
-        titleNewsTv= (TextView) findViewById(R.id.titleNewsTv);
-        emailTv= (TextView) findViewById(R.id.emailTv);
-        emailTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent emailIntent=new Intent();
-                emailIntent.setData(Uri.parse("mailto:"));
-                emailIntent.setType("text/plain");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@hellomandsaur.com"});
 
-
-                startActivity(Intent.createChooser(emailIntent, "Send Email"));
-            }
-        });
-        titleNewsTv.
-                setText(getString(R.string.textContactUs) + ":" +
-                        getString(R.string.brijeshNo));
-        titleNewsTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + getString(R.string.brijeshNo)));
-                startActivity(intent);
-            }
-        });
 
         homeAsUpIcon  = (MandsaurNewsTextView) findViewById(R.id.homeAsUpIcon);
         homeAsUpIcon.setText(getString(R.string.textArrowIcon));
@@ -121,9 +137,16 @@ public class AboutUsAndAdvertiseWithUsActivity extends ActionBarActivity impleme
         if(getIntent().getStringExtra(TYPE_OF_SCREEN).equals(TYPE_ABOUT_US)){
             titleTv.setText(getString(R.string.textAboutUs));
         }
-        else{
+        else if (getIntent().getStringExtra(TYPE_OF_SCREEN).equals(TYPE_ADVERTISE)){
             titleTv.setText(getString(R.string.textAdvertiseUs));
         }
+        else if (getIntent().getStringExtra(TYPE_OF_SCREEN).equals(TYPE_HUMARA_MANDSAUR)){
+            titleTv.setText(getString(R.string.textHumaraMandsaur));
+        }
+        else if (getIntent().getStringExtra(TYPE_OF_SCREEN).equals(TYPE_BUISNESS)){
+            titleTv.setText(getString(R.string.textBuisnessPortal));
+        }
+
         findViewById(R.id.filtericonIv).setVisibility(View.GONE);
         aboutUsPresenter=  new AboutUsPresenter(Injector.getAboutUsContent(this),this);
 
@@ -166,5 +189,21 @@ public class AboutUsAndAdvertiseWithUsActivity extends ActionBarActivity impleme
     @Override
     public void setPresenter(AboutUsViewAndPresenterContract.AboutUsPresenter presenter) {
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_BACK:
+                    if (aboutUsTv.canGoBack()) {
+                        aboutUsTv.goBack();
+                    } else {
+                        finish();
+                    }
+                    return true;
+            }
+
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

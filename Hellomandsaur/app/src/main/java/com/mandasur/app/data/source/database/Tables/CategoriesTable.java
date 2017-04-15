@@ -117,7 +117,7 @@ public class CategoriesTable {
         while (cursor.moveToNext()){
             Category category=new Category();
             if (!cursor.getString(cursor.
-                    getColumnIndex(Category.CATEGORY_INDICATOR)).equals("hamara-mandsaur-portal")||!cursor.getString(cursor.
+                    getColumnIndex(Category.CATEGORY_INDICATOR)).equals("hamara-mandsaur-portal")&&!cursor.getString(cursor.
                     getColumnIndex(Category.CATEGORY_INDICATOR)).equals("business-portal")){
                 category.setCategory_indicator(cursor.getString(cursor.
                         getColumnIndex(Category.CATEGORY_INDICATOR)));

@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +55,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class NewsVideoActivity extends AppCompatActivity
         implements
         NewsDetailContract.NewsDetailView ,
-        AppBarLayout.OnOffsetChangedListener,YouTubePlayer.OnInitializedListener{
+        YouTubePlayer.OnInitializedListener{
 
     public static final String NEWS_ID="newsId";
     public static final String CATEGORY_NAME="category_name";
@@ -96,23 +98,32 @@ public class NewsVideoActivity extends AppCompatActivity
         }
     };
     private  String videoUrl;
+    private ScrollView scrollView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_video_news_detail);
+        scrollView= (ScrollView) findViewById(R.id.scrollView);
+
         intialiseAdsOnScreen();
         String newsId=getIntent().getStringExtra(NEWS_ID);
         ActivityUtil.log(NewsDetailsActivity.class.getSimpleName(), "News Id:" + newsId);
         String categoryName=getIntent().getStringExtra(CATEGORY_NAME);
         videoUrl=getIntent().getStringExtra(VIDEO_URL);
         findViewById(R.id.filtericonIv).setVisibility(View.GONE);
-        MandsaurNewsTextView homeAsUpIcon= (MandsaurNewsTextView)findViewById(R.id.homeAsUpIcon);
+
+        homeAsUpIcon= (MandsaurNewsTextView)findViewById(R.id.homeAsUpIcon);
         newsDetailParent= (LinearLayout) findViewById(R.id.newsDetailParent);
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        homeAsUpIcon.setText(getString(R.string.textArrowIcon));
+        homeAsUpIcon.setOnClickListener(onClickListener);
+
+        findViewById(R.id.filtericonIv).setVisibility(View.GONE);
+        TextView titleTv= (TextView) findViewById(R.id.titleTv);
+        titleTv.setText(categoryName);
+
         youTubePlayerSupportFragment= (YouTubePlayerSupportFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.youtubePlayerFragment);
 //        if (!TextUtils.isEmpty(videoUrl)){
@@ -151,11 +162,12 @@ public class NewsVideoActivity extends AppCompatActivity
     private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener=new YouTubePlayer.PlayerStateChangeListener() {
         @Override
         public void onLoading() {
-
+//            scrollView.fullScroll(ScrollView.FOCUS_UP);
         }
 
         @Override
         public void onLoaded(String s) {
+
 
         }
 
@@ -209,6 +221,9 @@ public class NewsVideoActivity extends AppCompatActivity
     protected void onPause() {
         if (mAdView != null) {
             mAdView.pause();
+            rectrangleAdsView.pause();
+            topAdView.pause();
+            bottonAdView.pause();
         }
         super.onPause();
     }
@@ -256,6 +271,9 @@ public class NewsVideoActivity extends AppCompatActivity
         super.onResume();
         if (mAdView != null) {
             mAdView.resume();
+            rectrangleAdsView.resume();
+            topAdView.resume();
+            bottonAdView.resume();
         }
         detailViewTextSize=newsDetailsPart1Tv.getTextSize();
 
@@ -491,18 +509,7 @@ public class NewsVideoActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
 
-        if (i==0){
-
-
-
-            homeAsUpIcon.setTextColor(getResources().getColor(R.color.white));
-            titleTv.setTextColor(getResources().getColor(R.color.white));
-        }
-
-    }
 
     private YouTubePlayer youTubePlayer;
     private static final int RQS_ErrorDialog = 1;

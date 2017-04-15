@@ -133,11 +133,12 @@ public class Advertising_Table {
 
 
 
-
-            currentIndex++;
-                if (currentIndex==getRowCount(sqLiteDatabase)){
+                    currentIndex++;
+                if (currentIndex>=getRowCount(sqLiteDatabase)){
                     currentIndex=1;
                 }
+
+
         return ads;
     }
 

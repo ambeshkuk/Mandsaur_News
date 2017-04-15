@@ -1,6 +1,7 @@
 package com.mandasur.app.news;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,16 +52,19 @@ public class AdvertiseDetailActivity extends Activity {
         lp.width = (displaymetrics.widthPixels*90)/100;
         WebView webView= (WebView) findViewById(R.id.webView);
 
+
         String ads_url=getIntent().getStringExtra(ADS_URL);
         String ads_full_image=getIntent().getStringExtra(ADS_FULL_IMAGE);
         String ads_title=getIntent().getStringExtra(ADS_TITLE);
-//        if (!TextUtils.isEmpty(ads_url)&&Patterns.WEB_URL.matcher(ads_url).matches()){
-//            webView.setVisibility(View.VISIBLE);
-//            webView.loadUrl(ads_url);
-//            findViewById(R.id.imagerRl).setVisibility(View.GONE);
-//
-//        }
-//        else {
+        if (!TextUtils.isEmpty(ads_url)&&Patterns.WEB_URL.matcher(ads_url).matches()){
+            webView.setVisibility(View.VISIBLE);
+            webView.setWebViewClient(webViewClient);
+            webView.loadUrl(ads_url);
+
+            findViewById(R.id.imagerRl).setVisibility(View.GONE);
+
+        }
+        else {
             webView.setVisibility(View.GONE);
 
             findViewById(R.id.imagerRl).setVisibility(View.VISIBLE);
@@ -68,7 +73,7 @@ public class AdvertiseDetailActivity extends Activity {
             Picasso.with(this).load(ads_full_image)
                     .placeholder(R.drawable.loading_image).into(imageView);
             titleTv.setText(ads_title);
-//        }
+        }
 
         findViewById(R.id.closeIv).setOnClickListener(closeClickListner);
     }
@@ -86,6 +91,26 @@ public class AdvertiseDetailActivity extends Activity {
         return true;
     }
 
+    private WebViewClient webViewClient= new WebViewClient(){
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+
+            view.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+
+            findViewById(R.id.progressBar).setVisibility(View.GONE);
+            view.setVisibility(View.VISIBLE);
+            super.onPageFinished(view, url);
+
+        }
+    };
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

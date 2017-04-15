@@ -75,9 +75,16 @@ public class CategoryAdapter extends FragmentStatePagerAdapter {
         Category category=categories.get(position);
 
         NewsListFragment newsListFragment=NewsListFragment.
-                newInstance(category.getCategory_indicator(),category.getCategory_name(),category.getIsSubCategoryAvailable());
-        newsListFragment.setMainCategory(category.getCategory_name());
-        NewsListContract.NewsListPresenter newsListPresenter=new NewsListPresenter(Injector.getNewsListByCategory(context),Injector.getShareNewsDetailsUseCase(context),
+
+                newInstance(category.getCategory_indicator()
+                        ,category.getCategory_name()
+                        ,category.getIsSubCategoryAvailable());
+        newsListFragment
+                .setMainCategory(category.getCategory_name());
+
+        NewsListContract.NewsListPresenter
+                newsListPresenter=
+                new NewsListPresenter(Injector.getNewsListByCategory(context),Injector.getShareNewsDetailsUseCase(context),
                 newsListFragment,category.getCategory_indicator());
 
 

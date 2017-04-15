@@ -358,6 +358,11 @@ public class NewsDataRepository implements NewsAppDataSourceInterface{
 
 
                                 news.setTitle(Html.fromHtml(newsJson.get("title").getAsString()).toString());
+                                if (newsJson.get("views")!=null&&newsJson.get("views").isJsonPrimitive()){
+                                    news.setViews(newsJson.get("views").getAsString());
+                                }
+
+
                                 if (newsJson.get("image")!=null&&newsJson.get("image").isJsonPrimitive())
                                   news.setImage(newsJson.get("image").getAsString());
 

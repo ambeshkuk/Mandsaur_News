@@ -1,10 +1,13 @@
 package com.mandasur.app.news;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,8 @@ import android.widget.ListView;
 
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.mandasur.app.Config;
 import com.mandasur.app.Injector;
 import com.mandasur.app.R;
 import com.mandasur.app.aboutus_contact.AboutUsAndAdvertiseWithUsActivity;
@@ -30,6 +35,7 @@ import com.mandasur.app.util.DialogResponseInterface;
 import com.mandasur.app.util.DialogUtils;
 import com.mandasur.app.util.MandsaurAppSharedPref;
 import com.mandasur.app.util.MandsaurNewsTextView;
+import com.mandasur.app.util.NotificationUtils;
 
 import java.util.ArrayList;
 
@@ -93,11 +99,37 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
 
 
 
+        registerBroadcastReciver();
 
     }
 
+
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+    private void registerBroadcastReciver() {
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                // checking for type intent filter
+                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+                    // gcm successfully registered
+                    // now subscribe to `global` topic to receive app wide notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_NEWS);
+
+
+
+                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+
+
+                }
+            }
+        };
+    }
+
     private MandsaurNewsTextView aboutUsTv,contactUsTv,privacyPolicyTv
-            ,advertiseUsTv,siteMapTv,facebookTv,twitterTv,googleTv,youtubeTv;
+            ,advertiseUsTv,siteMapTv,facebookTv,twitterTv,googleTv,youtubeTv,humaraMandsurTv,buisnessTv;
     private void intializeTheFooterView(){
         aboutUsTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.aboutUsTv);
         contactUsTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.contactUsTv);
@@ -108,7 +140,8 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         twitterTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.twitterTv);
         googleTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.googleTv);
         youtubeTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.youtubeTv);
-
+        humaraMandsurTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.humaraMandsurTv);
+        buisnessTv= (MandsaurNewsTextView) footerViewDrawerLayout.findViewById(R.id.buisnessTv);
 
 
         aboutUsTv.setOnClickListener(onClickListener);
@@ -120,6 +153,10 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         twitterTv.setOnClickListener(onClickListener);
         googleTv.setOnClickListener(onClickListener);
         youtubeTv.setOnClickListener(onClickListener);
+        humaraMandsurTv.setOnClickListener(onClickListener);
+        buisnessTv.setOnClickListener(onClickListener);
+
+        advertiseUsTv.setOnClickListener(onClickListener);
 
     }
 
@@ -140,6 +177,9 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
         if (mAdView != null) {
             mAdView.pause();
         }
+        LocalBroadcastManager.getInstance(this)
+                .unregisterReceiver(mRegistrationBroadcastReceiver);
+
         super.onPause();
     }
 
@@ -150,6 +190,16 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
             mAdView.resume();
             mAdView.resume();
         }
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+
+        // clear the notification area when the app is opened
+        NotificationUtils.clearNotifications(getApplicationContext());
         ActivityUtil.log(NewsBaseActiivty.class.getSimpleName(), toolbar.getHeight() + "");
     }
 
@@ -218,6 +268,20 @@ public class NewsBaseActiivty extends AppCompatActivity implements DrawerContrac
                     Intent advertiseWithUs=new Intent(NewsBaseActiivty.this, AboutUsAndAdvertiseWithUsActivity.class);
                     advertiseWithUs.putExtra(AboutUsAndAdvertiseWithUsActivity.TYPE_OF_SCREEN,AboutUsAndAdvertiseWithUsActivity.TYPE_ADVERTISE);
                     startActivity(advertiseWithUs);
+                    break;
+                case R.id.humaraMandsurTv:
+                    Intent humaraMandsaur=new Intent(NewsBaseActiivty.this, AboutUsAndAdvertiseWithUsActivity.class);
+                    humaraMandsaur.
+                            putExtra(AboutUsAndAdvertiseWithUsActivity.TYPE_OF_SCREEN
+                                    , AboutUsAndAdvertiseWithUsActivity.TYPE_HUMARA_MANDSAUR);
+                    startActivity(humaraMandsaur);
+                    break;
+                case R.id.buisnessTv:
+                    Intent businsess=new Intent(NewsBaseActiivty.this, AboutUsAndAdvertiseWithUsActivity.class);
+                    businsess.
+                            putExtra(AboutUsAndAdvertiseWithUsActivity.TYPE_OF_SCREEN
+                                    ,AboutUsAndAdvertiseWithUsActivity.TYPE_BUISNESS);
+                    startActivity(businsess);
                     break;
             }
         }

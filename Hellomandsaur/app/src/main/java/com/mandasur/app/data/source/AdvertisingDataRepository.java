@@ -212,53 +212,23 @@ public class AdvertisingDataRepository {
                     JsonElement  jsonElement=jsonObject.get(elementEntry.getKey());
                     if (jsonElement!=null&&jsonElement.isJsonArray()){
                         JsonArray jsonArray=jsonElement.getAsJsonArray();
-                        for (JsonElement advertisementJsonElement:jsonArray){
-                            Ads ads=new Ads();
-                            if (advertisementJsonElement.isJsonObject()){
-                                JsonObject advertisemetnJsonObject=advertisementJsonElement
+                        for (JsonElement advertisementJsonElement:jsonArray) {
+                            Ads ads = new Ads();
+                            if (advertisementJsonElement.isJsonObject()) {
+                                JsonObject advertisemetnJsonObject = advertisementJsonElement
                                         .getAsJsonObject();
                                 ads.setId(advertisemetnJsonObject.get("id").getAsString());
 
-                                JsonElement
-                                        adContentElement=advertisemetnJsonObject.
-                                        get("ad_content");
-
-                                if (adContentElement!=null&&adContentElement.isJsonObject()){
-
-                                    JsonObject adContentObject=adContentElement.getAsJsonObject();
-
-                                    JsonElement adsArrayElement=adContentObject.get("ads");
+                                ads.setAd_title(!advertisemetnJsonObject.has("title") ? "" : advertisemetnJsonObject.get("title").getAsString());
+                                ads.setAd_url(!advertisemetnJsonObject.has("ad_url") ? "" : advertisemetnJsonObject.get("ad_url").getAsString());
 
 
-                                    if (adsArrayElement!=null&&adsArrayElement.isJsonArray()){
-                                        JsonArray adsArrayObject=adsArrayElement.getAsJsonArray();
-
-                                        for (JsonElement adsElement:adsArrayObject){
-                                            JsonObject adsObject=
-                                                    adsElement.getAsJsonObject();
-
-                            ads.setAd_title(!adsObject.has("ad_title")?"":adsObject.get("ad_title").getAsString());
-                            ads.setAd_url(!adsObject.has("ad_url") ? "":adsObject.get("ad_url").getAsString());
+                                ads.setAd_image_full(!advertisemetnJsonObject.has("ad_image_full") ? "" : advertisemetnJsonObject.get("ad_image_full").getAsString());
+                                ads.setAd_image_preview(!advertisemetnJsonObject.has("ad_image_preview") ? "" : advertisemetnJsonObject.get("ad_image_preview").getAsString());
 
 
-
-
-
-
-                            ads.setAd_image_full(!adsObject.has("ad_image_full")?"":adsObject.get("ad_image_full").getAsString());
-                            ads.setAd_image_preview(!adsObject.has("ad_image_preview")?"":adsObject.get("ad_image_preview").getAsString());
-
-
-                                        }
-
-
-                                    }
-
-
-
-                                }
+                                adses.add(ads);
                             }
-                            adses.add(ads);
                         }
                     }
                 }
