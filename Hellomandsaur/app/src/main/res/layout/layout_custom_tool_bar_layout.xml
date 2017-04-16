@@ -16,6 +16,7 @@
         android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:padding="@dimen/metrics_5dp"
+        android:layout_marginRight="@dimen/metrics_10dp"
         android:layout_gravity="center_vertical"
         android:text="@string/textDrawerlayout"
         />

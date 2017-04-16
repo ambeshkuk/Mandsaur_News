@@ -97,7 +97,7 @@ public class SavedNewsTable {
             String newsDetailResponseBean="";
 
         Cursor cursor=sqLiteDatabase.query(NEWS_TABLE
-                ,null,NewsDetail.FID+"='"+newsId+"'",null,null,null,null);
+                ,null,NEWS_ID+"='"+newsId+"'",null,null,null,null);
 
         while (cursor.moveToFirst()){
 

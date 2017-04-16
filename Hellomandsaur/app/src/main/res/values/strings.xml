@@ -27,7 +27,7 @@
         <string name="imgdesc">imgdesc</string>
         <string name="really_long_string">"I'm not committing not to run. I'm not committing to anything. I learned a long time ago, fate has a strange way of intervening,'' the departing US Vice-President said. </string>
 
-
+        <string name="textIcon">&#xf06e;</string>
         <string name="textAboutUs">About Us</string>
         <string name="textPuraDekiye">पूरा देखिए </string>
         <string-array name="titles">
@@ -39,6 +39,7 @@
             <item>About Us</item>
         </string-array>
 
+        <string name="textViews">व्यूज: 0</string>
         <array name="icons">
             <item>@drawable/bin</item>
             <item>@drawable/compose</item>

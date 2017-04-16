@@ -3,7 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="@dimen/metrics_40dp"
-        android:padding="@dimen/metrics_10dp"
+
+
+
+
+
+        android:padding="@dimen/metrics_5dp"
 
         android:textColor="@color/drawer_layout_list_item"
 

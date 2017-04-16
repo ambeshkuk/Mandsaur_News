@@ -67,10 +67,10 @@ public class NewsDetailsActivity extends AppCompatActivity
     private String newsDetailString;
     private  MandsaurDataBaseHelper mandsaurDataBaseHelper;
     private float detailViewTextSize;
-
+    private TextView viewsTv;
     private NewsDetailContract.NewsDetailsPresenter newsDetailPresenter;
     private SeekBar fontSizeSb;
-    private PublisherAdView mAdView,bottonAdView,topAdView,rectrangleAdsView;
+    private PublisherAdView mAdView;
     private RecyclerView relatedNewsRv,advertiseUsRv;
     private TextView titleTv;
     TextView homeAsUpIcon;
@@ -196,9 +196,8 @@ public class NewsDetailsActivity extends AppCompatActivity
     protected void onPause() {
         if (mAdView != null) {
             mAdView.pause();
-            rectrangleAdsView.pause();
-            topAdView.pause();
-            bottonAdView.pause();
+
+
         }
         super.onPause();
     }
@@ -206,16 +205,11 @@ public class NewsDetailsActivity extends AppCompatActivity
 
     private void intialiseAdsOnScreen(){
         mAdView = (PublisherAdView) findViewById(R.id.adView);
-        rectrangleAdsView= (PublisherAdView) findViewById(R.id.rectrangleAdsView);
-        topAdView= (PublisherAdView) findViewById(R.id.topAdView);
 
-        bottonAdView= (PublisherAdView) findViewById(R.id.bottonAdView);
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .build();
         mAdView.loadAd(adRequest);
-        rectrangleAdsView.loadAd(adRequest);
-        topAdView.loadAd(adRequest);
-        bottonAdView.loadAd(adRequest);
+
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -240,9 +234,8 @@ public class NewsDetailsActivity extends AppCompatActivity
     protected void onDestroy() {
         if (mAdView != null) {
             mAdView.destroy();
-            rectrangleAdsView.destroy();
-            topAdView.destroy();
-            bottonAdView.destroy();
+
+
         }
         super.onDestroy();
     }
@@ -252,9 +245,7 @@ public class NewsDetailsActivity extends AppCompatActivity
         super.onResume();
         if (mAdView != null) {
             mAdView.resume();
-            rectrangleAdsView.resume();
-            topAdView.resume();
-            bottonAdView.resume();
+
         }
         detailViewTextSize=newsDetailsPart1Tv.getTextSize();
 
@@ -270,7 +261,7 @@ public class NewsDetailsActivity extends AppCompatActivity
         titleNewsTv= (TextView)
                 findViewById(R.id.titleNewsTv);
         dateTv= (TextView) findViewById(R.id.dateTv);
-
+        viewsTv= (TextView) findViewById(R.id.viewsTv);
         consisenewsTv= (TextView) findViewById(R.id.consisenewsTv);
         newsDetailsPart1Tv= (TextView) findViewById(R.id.newsDetailsPart1Tv);
         newsDetailsPart2Tv= (TextView) findViewById(R.id.newsDetailsPart2Tv);
@@ -437,7 +428,9 @@ public class NewsDetailsActivity extends AppCompatActivity
                     if (!TextUtils.isEmpty(newsDetails.get(0).getDescr())){
                         newsDetailsPart1Tv.setText(Html.fromHtml(newsDetails.get(0).getDescr()));
                     }
-
+                    if (!TextUtils.isEmpty(newsDetails.get(0).getViews())){
+                        viewsTv.setText(viewsTv.getText().toString().replace("0",newsDetails.get(0).getViews()));
+                    }
 
                 }
             }

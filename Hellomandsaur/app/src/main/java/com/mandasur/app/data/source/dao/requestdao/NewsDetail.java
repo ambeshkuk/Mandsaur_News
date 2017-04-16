@@ -26,6 +26,16 @@ public static final String FID="id";
     }
 
     private String newsurl;
+
+    public String getViews() {
+        return views;
+    }
+
+    public void setViews(String views) {
+        this.views = views;
+    }
+
+    private String views;
     public String getId() {
         return id;
     }

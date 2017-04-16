@@ -3,6 +3,7 @@ package com.mandasur.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Bundle;
@@ -19,10 +20,14 @@ import com.mandasur.app.data.source.dao.requestdao.AdvertiseRequest;
 import com.mandasur.app.data.source.dao.requestdao.CategoryResponseBean;
 import com.mandasur.app.data.source.dao.requestdao.Request;
 import com.mandasur.app.data.source.database.MandsaurDataBaseHelper;
+import com.mandasur.app.data.source.remote.OkHttpClientUtils;
 import com.mandasur.app.news.NewsBaseActiivty;
 import com.mandasur.app.util.ActivityUtil;
 import com.mandasur.app.util.DialogUtils;
 
+import java.util.HashMap;
+
+import okhttp3.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SplashScrees extends Activity {
@@ -159,6 +164,27 @@ public class SplashScrees extends Activity {
 
             }
 //            throwException();
+
+            if (!SplashScrees.this.getSharedPreferences(Config.SHARED_PREF, 0).getBoolean("isTokenUpdated",false)){
+                HashMap<String,String> request=new HashMap<>();
+                request.put("id",SplashScrees.this.getSharedPreferences(Config.SHARED_PREF, 0).getString("regId",""));
+                Response response= OkHttpClientUtils.perfromHttpRequestForPostRequest(request, getString(R.string.baseUrl) + getString(R.string.pushNotificationAPI));
+                if (response!=null){
+                    if (response.isSuccessful()){
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putBoolean("isTokenUpdated", true);
+                        editor.commit();
+
+                    }
+                    else{
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putBoolean("isTokenUpdated", false);
+                        editor.commit();
+                    }
+                }
+            }
           return categoryResponseBean[0];
 
         }

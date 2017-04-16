@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-
     >
     <RelativeLayout
         android:id="@+id/newsHeader"
@@ -49,6 +48,8 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:foreground="?android:selectableItemBackground"
+    android:descendantFocusability="beforeDescendants"
 
     android:layout_height="@dimen/metrics_200dp">
 
@@ -66,18 +67,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/newsListBackgroundLl"
+        android:background="@drawable/news_list_item_background"
 
 
         android:padding="@dimen/metrics_10dp"
 
-        android:background="@drawable/news_list_item_background"
 
         >
         <TextView
         android:id="@+id/newsTitleTv"
          android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/metrics_20dp"
+        android:layout_marginBottom="@dimen/metrics_10dp"
         android:maxLines="2"
         android:ellipsize="end"
             android:textColor="@color/white"
@@ -98,7 +99,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="@dimen/metrics_30dp"
+            android:layout_marginBottom="@dimen/metrics_5dp"
 
 
             />
@@ -111,27 +112,26 @@
             android:ellipsize="end"
             android:textColor="@color/white"
             fontPath="fonts/Roboto-Regular.ttf"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/metrics_20dp"
+            android:layout_marginBottom="@dimen/metrics_5dp"
             android:text="0"
             android:layout_alignParentRight="true"
             />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.mandasur.app.util.MandsaurNewsTextView
 
-            android:id="@+id/shareFb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/metrics_20dp"
-            android:clickable="true"
-            android:src="@drawable/icn_share"
-            android:visibility="invisible"
-            app:layout_anchor="@id/newsListBackgroundLl"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/textIcon"
+            android:textColor="@color/white"
+            android:layout_marginRight="@dimen/metrics_5dp"
 
-            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/metrics_5dp"
+
             android:layout_toLeftOf="@+id/newsReadCountTv"
-            app:backgroundTint="@color/red"
+            android:layout_alignParentBottom="true"
 
             />
     </RelativeLayout>

@@ -225,18 +225,27 @@ public class FiltredNewsListWithSubCategoryFragment extends Fragment implements 
             loadMoreProgress.setVisibility(View.GONE);
             if (newsListAdapterWithSubCateories!=null){
                 int lastSelectedPosition=0;
-                if (!toLoadMoreNews){
+                if (toRefreshCompleteList){
                     newsArrayList.clear();
-
+                    toRefreshCompleteList=false;
+                    newsArrayList.addAll(newsFromMainCategoryResponse.getData().getNewsList());
+                    newsListAdapterWithSubCateories.notifyDataSetChanged();
                 }
                 else{
-                    toLoadMoreNews=false;
-                    lastSelectedPosition=newsListAdapterWithSubCateories.getItemCount();
+                    if (!toLoadMoreNews){
+                        newsArrayList.clear();
+
+                    }
+                    else{
+                        toLoadMoreNews=false;
+                        lastSelectedPosition=newsListAdapterWithSubCateories.getItemCount();
+                    }
+
+                    newsArrayList.addAll(newsFromMainCategoryResponse.getData().getNewsList());
+                    newsListAdapterWithSubCateories.notifyItemRangeInserted(lastSelectedPosition, newsArrayList.size()-1);
+                    swipeToRefreshLayout.setRefreshing(false);
                 }
 
-                newsArrayList.addAll(newsFromMainCategoryResponse.getData().getNewsList());
-                newsListAdapterWithSubCateories.notifyItemRangeInserted(lastSelectedPosition, newsArrayList.size()-1);
-                swipeToRefreshLayout.setRefreshing(false);
             }
             else {
                 newsArrayList=newsFromMainCategoryResponse.getData().getNewsList();

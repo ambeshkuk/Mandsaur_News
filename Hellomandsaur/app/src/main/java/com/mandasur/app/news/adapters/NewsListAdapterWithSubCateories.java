@@ -132,7 +132,6 @@ public class NewsListAdapterWithSubCateories extends RecyclerView.Adapter<Recycl
                 newsListViewHolder.newsTitleTv.setText(news.getTitle());
                 newsListViewHolder.newsReadCountTv.setText(TextUtils.
                         isEmpty(news.getViews())?"0":news.getViews());
-                newsListViewHolder.shareFb.setTag(news);
 //                newsListViewHolder.shareFb.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -215,7 +214,6 @@ private View.OnClickListener onClickListener=new View.OnClickListener() {
         TextView subCategoryTitle,viewAllTv,newsTitleTv,newsTimeTv;
         ImageView newsImageIv;
         RelativeLayout newsHeader,newsListBackgroundLl;
-        FloatingActionButton shareFb;
         TextView newsReadCountTv;
 
         public NewsListViewHolder(View itemView) {
@@ -231,7 +229,6 @@ private View.OnClickListener onClickListener=new View.OnClickListener() {
             newsTimeTv= (TextView) itemView.findViewById(R.id.newsTimeTv);
             newsImageIv= (ImageView) itemView.findViewById(R.id.newsImageIv);
             newsHeader= (RelativeLayout) itemView.findViewById(R.id.newsHeader);
-            shareFb= (FloatingActionButton) itemView.findViewById(R.id.shareFb);
             newsListBackgroundLl= (RelativeLayout) itemView.findViewById(R.id.newsListBackgroundLl);
         }
     }

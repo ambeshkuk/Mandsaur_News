@@ -47,24 +47,24 @@ public class AdvertiseWithUsAdapter extends RecyclerView.Adapter<AdvertiseWithUs
 
             switch (position){
                 case 0:
-                    holder.advertisementImageIv.setImageResource(R.drawable.advertise_with_us_image_first);
+                    holder.advertisementImageIv.setImageResource(R.drawable.advertise_with_us);
                     break;
                 case 1:
                     holder.advertisementImageIv
-                            .setImageResource(R.drawable.advertise_with_us_image2);
+                            .setImageResource(R.drawable.advertise_with_us_image3);
 
                     break;
                 case 2:
                     holder.advertisementImageIv
-                            .setImageResource(R.drawable.advertise_with_us_image3);
+                            .setImageResource(R.drawable.advertise_with_us);
                     break;
                 case 3:
                     holder.advertisementImageIv
-                            .setImageResource(R.drawable.advertise_with_us_image_first);
+                            .setImageResource(R.drawable.advertise_with_us_image3);
                     break;
                 case 4:
                     holder.advertisementImageIv
-                            .setImageResource(R.drawable.advertise_with_us_image2);
+                            .setImageResource(R.drawable.advertise_with_us);
                     break;
                 case 5:
                     holder.advertisementImageIv

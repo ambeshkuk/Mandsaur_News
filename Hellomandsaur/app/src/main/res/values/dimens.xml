@@ -21,6 +21,7 @@
     <dimen name="metrics_50dp">50dp</dimen>
     <dimen name="metrics_80dp">80dp</dimen>
     <dimen name="metrics_200dp">200dp</dimen>
+    <dimen name="metrics_250dp">250dp</dimen>
     <dimen name="metrics_1dp">1dp</dimen>
 
     <dimen name="metrics_100dp">100dp</dimen>

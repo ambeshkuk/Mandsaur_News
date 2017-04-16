@@ -13,6 +13,8 @@ import com.mandasur.app.data.source.remote.OkHttpClientUtils;
 
 import java.util.HashMap;
 
+import okhttp3.Response;
+
 /**
  * Created by ambesh on 15-04-2017.
  */
@@ -34,7 +36,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Notify UI that registration has completed, so the progress indicator can be hidden.
         Intent registrationComplete = new Intent(Config.REGISTRATION_COMPLETE);
         registrationComplete.putExtra("token", refreshedToken);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
+
+
     }
 
     private void sendRegistrationToServer(final String token) {
@@ -42,7 +45,22 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Log.e(TAG, "sendRegistrationToServer: " + token);
         HashMap<String,String> request=new HashMap<>();
         request.put("id",token);
-        OkHttpClientUtils.perfromHttpRequestForPostRequest(request,getString(R.string.baseUrl)+getString(R.string.pushNotificationAPI));
+       Response response= OkHttpClientUtils.perfromHttpRequestForPostRequest(request, getString(R.string.baseUrl) + getString(R.string.pushNotificationAPI));
+        if (response!=null){
+            if (response.isSuccessful()){
+                SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isTokenUpdated", true);
+                editor.commit();
+
+            }
+            else{
+                SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isTokenUpdated", false);
+                editor.commit();
+            }
+        }
 
     }
 
@@ -51,6 +69,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("regId", token);
         editor.commit();
+
     }
 
 }

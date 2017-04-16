@@ -15,6 +15,7 @@ public class MandsaurNewsTextView extends TextView {
     }
 
     public MandsaurNewsTextView(Context context, AttributeSet attrs) {
+
         super(context, attrs);
     }
 

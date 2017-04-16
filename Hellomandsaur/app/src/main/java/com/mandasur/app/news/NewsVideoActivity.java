@@ -73,13 +73,14 @@ public class NewsVideoActivity extends AppCompatActivity
 
     private NewsVideoPresenter newsDetailPresenter;
     private SeekBar fontSizeSb;
-    private PublisherAdView mAdView,bottonAdView,topAdView,rectrangleAdsView;
+    private PublisherAdView mAdView;
     private RecyclerView relatedNewsRv,advertiseUsRv;
     private TextView titleTv;
     TextView homeAsUpIcon;
     private YouTubePlayerSupportFragment youTubePlayerSupportFragment;
     private LinearLayout newsDetailParent;
     private String newsUrl;
+    private TextView viewsTv;
 
 
     private RelatedNewsAdapter.OnNewsItemSelected onNewsItemSelected=new RelatedNewsAdapter.OnNewsItemSelected() {
@@ -99,6 +100,7 @@ public class NewsVideoActivity extends AppCompatActivity
     };
     private  String videoUrl;
     private ScrollView scrollView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -152,22 +154,21 @@ public class NewsVideoActivity extends AppCompatActivity
                 Injector.getNewsDetailsFromServer(this)
                 ,Injector.getShareNewsDetailsUseCase(this),this,newsId);
         mandsaurDataBaseHelper  = DatabaseNewsDataSource.getInstance(NewsVideoActivity.this);
-
         intiateUI();
 
         fetchNewsDetsil();
+
 //        toolbar.addView(view);
     }
 
     private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener=new YouTubePlayer.PlayerStateChangeListener() {
         @Override
         public void onLoading() {
-//            scrollView.fullScroll(ScrollView.FOCUS_UP);
+
         }
 
         @Override
         public void onLoaded(String s) {
-
 
         }
 
@@ -189,6 +190,50 @@ public class NewsVideoActivity extends AppCompatActivity
         @Override
         public void onError(YouTubePlayer.ErrorReason errorReason) {
 
+            String errorMessage = null;
+            switch (errorReason){
+                case NOT_PLAYABLE:
+                    errorMessage="NOT_PLAYABLE";
+                    break;
+                case NETWORK_ERROR:
+                    errorMessage="NETWORK_ERROR";
+                    break;
+                case UNAUTHORIZED_OVERLAY:
+                    errorMessage="UNAUTHORIZED_OVERLAY";
+                    break;
+                case PLAYER_VIEW_TOO_SMALL:
+                    errorMessage="PLAYER_VIEW_TOO_SMALL";
+                    break;
+                case PLAYER_VIEW_NOT_VISIBLE:
+                    errorMessage="PLAYER_VIEW_NOT_VISIBLE";
+                    break;
+                case EMPTY_PLAYLIST:
+                    errorMessage="EMPTY_PLAYLIST";
+                    break;
+                case AUTOPLAY_DISABLED:
+                    errorMessage="AUTOPLAY_DISABLED";
+                    break;
+                case USER_DECLINED_RESTRICTED_CONTENT:
+                    errorMessage="USER_DECLINED_RESTRICTED_CONTENT";
+                    break;
+                case USER_DECLINED_HIGH_BANDWIDTH:
+                    errorMessage="USER_DECLINED_HIGH_BANDWIDTH";
+                    break;
+                case UNEXPECTED_SERVICE_DISCONNECTION:
+                    errorMessage="UNEXPECTED_SERVICE_DISCONNECTION";
+                    break;
+
+                case INTERNAL_ERROR:
+                    errorMessage="INTERNAL_ERROR";
+                    break;
+                case UNKNOWN:
+                    errorMessage="UNKNOWN";
+                    break;
+
+
+
+            }
+            Toast.makeText(NewsVideoActivity.this,"Some error occurred "+errorMessage,Toast.LENGTH_LONG).show();
         }
     };
     private YouTubePlayer.PlaybackEventListener playbackEventListener=new YouTubePlayer.PlaybackEventListener() {
@@ -221,26 +266,29 @@ public class NewsVideoActivity extends AppCompatActivity
     protected void onPause() {
         if (mAdView != null) {
             mAdView.pause();
-            rectrangleAdsView.pause();
-            topAdView.pause();
-            bottonAdView.pause();
+
+
         }
         super.onPause();
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RQS_ErrorDialog) {
+            // Retry initialization if user performed a recovery action
+            youTubePlayerSupportFragment.initialize(getString(R.string.google_key), this);
+        }
+    }
+
     private void intialiseAdsOnScreen(){
         mAdView = (PublisherAdView) findViewById(R.id.adView);
-        rectrangleAdsView= (PublisherAdView) findViewById(R.id.rectrangleAdsView);
-        topAdView= (PublisherAdView) findViewById(R.id.topAdView);
 
-        bottonAdView= (PublisherAdView) findViewById(R.id.bottonAdView);
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .build();
         mAdView.loadAd(adRequest);
-        rectrangleAdsView.loadAd(adRequest);
-        topAdView.loadAd(adRequest);
-        bottonAdView.loadAd(adRequest);
+
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -259,23 +307,24 @@ public class NewsVideoActivity extends AppCompatActivity
     protected void onDestroy() {
         if (mAdView != null) {
             mAdView.destroy();
-            rectrangleAdsView.destroy();
-            topAdView.destroy();
-            bottonAdView.destroy();
+
+
         }
+        youTubePlayerSupportFragment.onDestroy();
         super.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        scrollView.fullScroll(ScrollView.FOCUS_UP);
         if (mAdView != null) {
             mAdView.resume();
-            rectrangleAdsView.resume();
-            topAdView.resume();
-            bottonAdView.resume();
+
+
         }
         detailViewTextSize=newsDetailsPart1Tv.getTextSize();
+
 
     }
 
@@ -304,6 +353,7 @@ public class NewsVideoActivity extends AppCompatActivity
         advertiseUsRv= (RecyclerView) findViewById(R.id.advertiseUsRv);
 
         fontSizeSb= (SeekBar) findViewById(R.id.fontSizeSb);
+        viewsTv= (TextView) findViewById(R.id.viewsTv);
         fontSizeSb.setOnSeekBarChangeListener(onSeekBarChangeListener);
 
         bookmarkFb.setOnClickListener(onClickListener);
@@ -455,7 +505,9 @@ public class NewsVideoActivity extends AppCompatActivity
                     if (!TextUtils.isEmpty(newsDetails.get(0).getDescr())){
                         newsDetailsPart1Tv.setText(Html.fromHtml(newsDetails.get(0).getDescr()));
                     }
-
+                    if (!TextUtils.isEmpty(newsDetails.get(0).getViews())){
+                        viewsTv.setText(viewsTv.getText().toString().replace("0", newsDetails.get(0).getViews()));
+                    }
 
                 }
             }

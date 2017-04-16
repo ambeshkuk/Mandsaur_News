@@ -78,15 +78,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorGray"
                     android:layout_marginTop="@dimen/metrics_10dp"
                     android:gravity="left"
-                    fontPath="fonts/Roboto-Regular.ttf"
+                    fontPath="fonts/Roboto-Bold.ttf"
 
 
 
                     />
+                <TextView
+                    android:id="@+id/viewsTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorGray"
+                    android:layout_marginTop="@dimen/metrics_10dp"
+                    android:gravity="left"
+                    android:text="@string/textViews"
 
+
+                    fontPath="fonts/Roboto-Bold.ttf"
+
+
+
+                    />
                 <TextView
                     android:id="@+id/consisenewsTv"
                     android:layout_width="match_parent"
@@ -120,8 +135,9 @@
                     android:id="@+id/image2"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/metrics_200dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:layout_marginTop="@dimen/metrics_1dp"
+
                     android:background="@color/white"
                     />
                 <TextView
@@ -144,6 +160,7 @@
                     android:layout_alignParentBottom="true"
                     ads:adSize="LARGE_BANNER"
                     android:layout_gravity="center_horizontal"
+                    android:visibility="gone"
                     ads:adUnitId="@string/addIdNewsDetail">
                 </com.google.android.gms.ads.doubleclick.PublisherAdView>
                 <TextView
@@ -160,13 +177,7 @@
 
                     fontPath="fonts/Roboto-Bold.ttf"
                     />
-                <com.google.android.gms.ads.doubleclick.PublisherAdView
-                    android:id="@+id/topAdView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ads:adSize="SMART_BANNER"
-                    ads:adUnitId="@string/addIdNewsDetail">
-                </com.google.android.gms.ads.doubleclick.PublisherAdView>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/relatedNewsRv"
                     android:layout_width="match_parent"
@@ -176,13 +187,7 @@
                     android:background="@android:color/transparent"
 
                     />
-                <com.google.android.gms.ads.doubleclick.PublisherAdView
-                    android:id="@+id/bottonAdView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ads:adSize="SMART_BANNER"
-                    ads:adUnitId="@string/addIdHomeScreen">
-                </com.google.android.gms.ads.doubleclick.PublisherAdView>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/advertiseUsRv"
                     android:layout_width="match_parent"
@@ -273,6 +278,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/addIdHomeScreen">
+        ads:adUnitId="@string/addIdNewsDetail">
     </com.google.android.gms.ads.doubleclick.PublisherAdView>
 </RelativeLayout>

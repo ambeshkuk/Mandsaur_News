@@ -29,6 +29,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SplashScrees"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +40,7 @@
         <activity
             android:name=".news.FiltredNewsListActivity"
             android:label="@string/title_activity_filtred_news_list"
+            android:screenOrientation="portrait"
             android:parentActivityName=".news.NewsBaseActiivty" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -51,17 +53,21 @@
 
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".aboutus_contact.AboutUsAndAdvertiseWithUsActivity"
             android:label="@string/title_activity_about_us" >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".news.buisness.BuisnessActivity"
             android:label="@string/title_activity_buisness" >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".news.NewsVideoActivity"
             android:label="@string/title_activity_news_video" >
         </activity>

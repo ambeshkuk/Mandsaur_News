@@ -80,6 +80,10 @@ public class CategoriesDataSource  {
                     categoryResponseBean.setStatus("0");
                     categoryResponseBean.setMsg(errorHandler.getApiErrorMessage(0));
                 }
+                catch (Exception e){
+                    categoryResponseBean.setStatus("0");
+                    categoryResponseBean.setMsg(errorHandler.getApiErrorMessage(0));
+                }
             }
             else {
 
